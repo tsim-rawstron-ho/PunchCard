@@ -6,6 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
+import com.squareup.timessquare.CalendarPickerView;
+import java.util.Calendar;
+import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -36,7 +41,12 @@ public class ScheduleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
-        return rootView;
+      CalendarView calendar = (CalendarView)rootView.findViewById(R.id.calendarView);
+      calendar.setShownWeekCount(1);
+      calendar.setFirstDayOfWeek(2);
+      calendar.setSelectedDateVerticalBar(R.color.material_blue_grey_800);
+
+       return rootView;
     }
 
     @Override
