@@ -27,3 +27,14 @@ large companies produce, however we want to produce a more simplistic user-inter
 * The user can see they're tracked by location to make sure they're at the place of business. 
 * Animation.
 * 3D animation via pre-rendered sprite-reel or 3D engine.
+
+## Wire-Frames and Mock-Ups ##
+![Wireframe](https://raw.githubusercontent.com/tsim-rawstron-ho/PunchCard/master/app/tmp/wireframes/home1.jpg)
+
+![Wireframe](https://raw.githubusercontent.com/tsim-rawstron-ho/PunchCard/master/app/tmp/wireframes/home2.jpg)
+
+![Wireframe](https://raw.githubusercontent.com/tsim-rawstron-ho/PunchCard/master/app/tmp/wireframes/home3.jpg)
+
+![Wireframe](https://raw.githubusercontent.com/tsim-rawstron-ho/PunchCard/master/app/tmp/wireframes/schedule.jpg)
+
+![Wireframe](https://raw.githubusercontent.com/tsim-rawstron-ho/PunchCard/master/app/tmp/wireframes/profile_flow.jpg)
