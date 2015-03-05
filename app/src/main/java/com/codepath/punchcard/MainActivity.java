@@ -1,4 +1,4 @@
-package com.codepath.timecard;
+package com.codepath.punchcard;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

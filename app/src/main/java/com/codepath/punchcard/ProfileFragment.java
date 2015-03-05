@@ -1,4 +1,4 @@
-package com.codepath.timecard;
+package com.codepath.punchcard;
 
 import android.app.Activity;
 import android.os.Bundle;
