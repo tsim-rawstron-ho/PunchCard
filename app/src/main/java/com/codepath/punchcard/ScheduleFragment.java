@@ -1,55 +1,77 @@
 package com.codepath.punchcard;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import com.squareup.timessquare.CalendarPickerView;
-import java.util.Calendar;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.codepath.punchcard.models.Weather;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import java.text.DateFormat;
 import java.util.Date;
-import org.joda.time.DateTime;
+import java.util.Locale;
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class ScheduleFragment extends Fragment {
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
-     */
-    private static final String ARG_SECTION_NUMBER = "section_number";
+  private static final String ARG_SECTION_NUMBER = "section_number";
+  private TextView weatherIcon;
+  private Typeface weatherFont;
 
-    /**
-     * Returns a new instance of this fragment for the given section
-     * number.
-     */
-    public static ScheduleFragment newInstance(int sectionNumber) {
-        ScheduleFragment fragment = new ScheduleFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        fragment.setArguments(args);
-        return fragment;
-    }
+  public static ScheduleFragment newInstance(int sectionNumber) {
+      ScheduleFragment fragment = new ScheduleFragment();
+      Bundle args = new Bundle();
+      args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+      fragment.setArguments(args);
+      return fragment;
+  }
 
-    public ScheduleFragment() {
-    }
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    weatherFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/weather.ttf");
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
-      CalendarView calendar = (CalendarView)rootView.findViewById(R.id.calendarView);
-      calendar.setShownWeekCount(1);
-      calendar.setFirstDayOfWeek(2);
-      calendar.setSelectedDateVerticalBar(R.color.material_blue_grey_800);
+    AsyncHttpClient client = new AsyncHttpClient();
+    client.get("http://api.openweathermap.org/data/2.5/weather?q=San%20Francisco,%20CA&units=metric", new JsonHttpResponseHandler(){
+      @Override public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+        Weather weather = Weather.fromJSON(response, getActivity());
+        weatherIcon.setText(weather.getIcon() + "  " + (weather.getTemp()));
+      }
+    });
 
-       return rootView;
-    }
+  }
 
-    @Override
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
+    setupCalendar(rootView);
+    weatherIcon = (TextView)rootView.findViewById(R.id.weather_icon);
+    weatherIcon.setTypeface(weatherFont);
+    return rootView;
+  }
+
+  private void setupCalendar(View rootView) {
+    CalendarView calendar = (CalendarView)rootView.findViewById(R.id.calendarView);
+    calendar.setSelectedWeekBackgroundColor(getResources().getColor(R.color.blue));
+    calendar.setUnfocusedMonthDateColor(getResources().getColor(R.color.transparent));
+    calendar.setWeekSeparatorLineColor(getResources().getColor(R.color.transparent));
+    calendar.setSelectedDateVerticalBar(R.color.darkblue);
+    calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+      @Override
+      public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
+        Toast.makeText(getActivity().getApplicationContext(), (month + 1)+ "/" + day  + "/" + year,
+            Toast.LENGTH_SHORT).show();
+      }
+    });
+  }
+
+  @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(
