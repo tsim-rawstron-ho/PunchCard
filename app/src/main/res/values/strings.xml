@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TimeCard</string>
+    <string name="app_name">PunchCard</string>
     <string name="title_activity_main">MainActivity</string>
 
     <string name="title_section1">Section 1</string>
