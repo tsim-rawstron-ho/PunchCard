@@ -21,7 +21,18 @@
       android:layout_centerHorizontal="true"
       android:layout_marginTop="10dp"
       android:layout_below="@+id/calendarView"
+      android:text="22.08 C Fri, Mar 13"
       android:textAppearance="?android:attr/textAppearanceSmall"
       android:textSize="20sp"
       />
+  <ListView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/shifts_list"
+      android:layout_below="@+id/weather_icon"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="25dp"
+      />
+
+
 </RelativeLayout>

@@ -9,13 +9,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.codepath.punchcard.adapters.ShiftAdapter;
+import com.codepath.punchcard.models.Shift;
 import com.codepath.punchcard.models.Weather;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -25,6 +34,9 @@ public class ScheduleFragment extends Fragment {
   private static final String ARG_SECTION_NUMBER = "section_number";
   private TextView weatherIcon;
   private Typeface weatherFont;
+  private Weather weather;
+  private ListView shiftListView;
+  private ShiftAdapter shiftAdapter;
 
   public static ScheduleFragment newInstance(int sectionNumber) {
       ScheduleFragment fragment = new ScheduleFragment();
@@ -39,13 +51,17 @@ public class ScheduleFragment extends Fragment {
     weatherFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/weather.ttf");
 
     AsyncHttpClient client = new AsyncHttpClient();
-    client.get("http://api.openweathermap.org/data/2.5/weather?q=San%20Francisco,%20CA&units=metric", new JsonHttpResponseHandler(){
-      @Override public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-        Weather weather = Weather.fromJSON(response, getActivity());
-        weatherIcon.setText(weather.getIcon() + "  " + (weather.getTemp()));
-      }
-    });
-
+    try {
+      client.get(String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric",
+          URLEncoder.encode("San Francisco, CA", "UTF8")), new JsonHttpResponseHandler(){
+        @Override public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+          weather = Weather.fromJSON(response, getActivity());
+          weatherIcon.setText(weather.getIcon() + "  " + (weather.getTemp()));
+        }
+      });
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,9 +69,34 @@ public class ScheduleFragment extends Fragment {
     setupCalendar(rootView);
     weatherIcon = (TextView)rootView.findViewById(R.id.weather_icon);
     weatherIcon.setTypeface(weatherFont);
+    setupShiftList(rootView);
     return rootView;
   }
 
+  private void setupShiftList(View rootView) {
+    Shift shift1 = new Shift();
+    Shift shift2 = new Shift();
+    List<Shift> shifts = new ArrayList<Shift>();
+    shifts.add(shift1);
+    shifts.add(shift2);
+
+    shiftListView = (ListView) rootView.findViewById(R.id.shifts_list);
+    shiftAdapter = new ShiftAdapter(getActivity(), shifts);
+    shiftListView.setAdapter(shiftAdapter);
+  }
+
+  private Date parseDate(String dateString) {
+    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+    Date d = null;
+    try {
+      d = formatter.parse(dateString);
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return d;
+  }
+  
   private void setupCalendar(View rootView) {
     CalendarView calendar = (CalendarView)rootView.findViewById(R.id.calendarView);
     calendar.setSelectedWeekBackgroundColor(getResources().getColor(R.color.blue));
@@ -65,8 +106,10 @@ public class ScheduleFragment extends Fragment {
     calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
       @Override
       public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
-        Toast.makeText(getActivity().getApplicationContext(), (month + 1)+ "/" + day  + "/" + year,
-            Toast.LENGTH_SHORT).show();
+        Date selectedDate = parseDate((month + 1) + "/" + day + "/" + year);
+        DateFormat df = new SimpleDateFormat("EEE, MMM d", Locale.US);
+        String now = df.format(selectedDate);
+        weatherIcon.setText(weather.getIcon() + "  " + (weather.getTemp()) + "   " + now);
       }
     });
   }
