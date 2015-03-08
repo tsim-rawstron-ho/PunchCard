@@ -23,6 +23,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -81,7 +82,7 @@ public class ScheduleFragment extends Fragment {
     shifts.add(shift2);
 
     shiftListView = (ListView) rootView.findViewById(R.id.shifts_list);
-    shiftAdapter = new ShiftAdapter(getActivity(), shifts);
+    shiftAdapter = new ShiftAdapter<>(getActivity(), android.R.layout.simple_list_item_1, shifts);
     shiftListView.setAdapter(shiftAdapter);
   }
 
@@ -106,12 +107,20 @@ public class ScheduleFragment extends Fragment {
     calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
       @Override
       public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
-        Date selectedDate = parseDate((month + 1) + "/" + day + "/" + year);
-        DateFormat df = new SimpleDateFormat("EEE, MMM d", Locale.US);
-        String now = df.format(selectedDate);
-        weatherIcon.setText(weather.getIcon() + "  " + (weather.getTemp()) + "   " + now);
+        weatherIcon.setText(weather.getIcon() + "  " + (weather.getTemp()) + "   " + getSelectedDateString(year, month, day));
       }
     });
+  }
+
+  private String getSelectedDateString(int year, int month, int day) {
+    Date selectedDate = parseDate((month + 1) + "/" + day + "/" + year);
+    Date date = new Date();
+    if (year % 100 == date.getYear() % 100 && month == date.getMonth() && day == date.getDay() + 1) {
+      return "Today";
+    } else {
+      DateFormat df = new SimpleDateFormat("EEE, MMM d", Locale.US);
+      return df.format(selectedDate);
+    }
   }
 
   @Override

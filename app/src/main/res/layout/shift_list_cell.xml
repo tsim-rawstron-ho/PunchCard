@@ -1,7 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:padding="10dp"
+    >
   <ImageView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
@@ -11,10 +15,11 @@
   <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="New Text"
+      android:text="Harris, Alvin, Ash"
       android:id="@+id/textView"
       android:layout_alignParentTop="true"
       android:layout_toRightOf="@+id/imageView"
+      android:layout_margin="5dp"
       />
 
   <TextClock
@@ -24,13 +29,21 @@
       android:layout_below="@+id/textView"
       android:layout_alignLeft="@+id/textView"
       />
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="-"
+      android:id="@+id/hypen"
+      android:layout_marginLeft="15dp"
+      android:layout_marginRight="15dp"
+      android:layout_alignBottom="@+id/textClock"
+      android:layout_toRightOf="@+id/textClock"
+      />
   <TextClock
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:id="@+id/textClock2"
-      android:layout_marginLeft="34dp"
-      android:layout_marginStart="34dp"
       android:layout_alignBottom="@+id/textClock"
-      android:layout_toRightOf="@+id/textClock"
+      android:layout_toRightOf="@+id/hypen"
       />
 </RelativeLayout>
