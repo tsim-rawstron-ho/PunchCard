@@ -12,17 +12,17 @@ import java.util.List;
 /**
  * Created by harris on 3/7/15.
  */
-public class ShiftAdapter extends ArrayAdapter<Shift> {
+public class ShiftAdapter<T> extends ArrayAdapter<Shift> {
   public ShiftAdapter(Context context, List<Shift> shifts) {
     super(context, android.R.layout.simple_list_item_1, shifts);
   }
 
-  @Override public View getView(int position, View convertView, ViewGroup parent) {
-    Shift shift = getItem(position);
-    if (convertView == null) {
-      convertView = LayoutInflater.from(getContext()).inflate(R.layout.shift_cell, parent, true);
-    } 
-    
-    return super.getView(position, convertView, parent);
-  }
+  //@Override public View getView(int position, View convertView, ViewGroup parent) {
+  //  Shift shift = getItem(position);
+  //  if (convertView == null) {
+  //    convertView = LayoutInflater.from(getContext()).inflate(R.layout.shift_cell, parent, true);
+  //  }
+  //
+  //  return convertView;
+  //}
 }
