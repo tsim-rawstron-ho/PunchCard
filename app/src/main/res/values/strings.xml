@@ -30,5 +30,15 @@
   <string name="weather_drizzle">&#xf01c;</string>
 
   <string name="place_not_found">Sorry, no weather data found.</string>
+    <string name="slide_to">Slide to</string>
+    <string name="pause_shift">Pause Shift</string>
+    <string name="shift_details">Shift Details</string>
+    <string name="time_place_holder">00:00:00</string>
+    <string name="end">End</string>
+    <string name="start">Start</string>
+    <string name="slide_to_end">Slide to End</string>
+    <string name="slide_to_start">Slide to Start</string>
+    <string name="shift_ended">Shift Ended</string>
+    <string name="resume_shift">Resume Shift</string>
 
 </resources>

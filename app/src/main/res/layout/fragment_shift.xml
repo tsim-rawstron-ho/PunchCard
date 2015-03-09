@@ -2,10 +2,122 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.codepath.punchcard.PlaceholderFragment">
+    
+    <RelativeLayout android:id="@+id/rlControls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
 
+        <RelativeLayout android:id="@+id/rlHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout android:id="@+id/rlStartShift"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                
+                <ImageView android:src="@android:drawable/sym_def_app_icon"
+                    android:layout_margin="15dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:id="@+id/imageView2" />
+
+                <TextView android:id="@+id/tvStartsIn"
+                    android:text="Shift starts in 16 minutes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/imageView2"
+                    android:layout_toEndOf="@+id/imageView2"
+                    android:layout_marginTop="19dp"
+                    android:padding="10dp" />
+
+                <TextView android:id="@+id/tvWeather"
+                    android:text="Weather: Sunny"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvStartsIn"
+                    android:layout_toRightOf="@+id/imageView2"
+                    android:padding="10dp" />
+
+                <TextView android:id="@+id/tvNote"
+                    android:text="Please bring sunscreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvWeather"
+                    android:layout_toRightOf="@+id/imageView2"
+                    android:padding="10dp" />
+                
+            </RelativeLayout>
+            
+            <RelativeLayout android:id="@+id/rlInProgres"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/time_place_holder"
+                    android:textSize="@dimen/h1"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
+
+                <Button android:id="@+id/btnDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/shift_details"
+                    android:layout_marginLeft="19dp"
+                    android:layout_marginStart="19dp"
+                    android:layout_below="@+id/tvTime"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <ToggleButton android:id="@+id/btnPause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pause_shift"
+                    android:textOn="@string/resume_shift"
+                    android:textOff="@string/pause_shift"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_alignBottom="@+id/btnDetails"
+                    android:layout_toRightOf="@+id/btnDetails"
+                    android:layout_toEndOf="@+id/btnDetails" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <Button android:id="@+id/btnStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rlHeader"
+            android:text="Start Shift"
+            android:layout_centerHorizontal="true" />
+
+        <Button android:id="@+id/btnEnd"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rlHeader"
+            android:text="End Shift"
+            android:layout_centerHorizontal="true" />
+        
+        <TextView android:id="@+id/tvEndShift"
+            android:gravity="center"
+            android:text="@string/shift_ended"
+            android:layout_below="@id/rlHeader"
+            android:visibility="gone"
+            android:textSize="@dimen/h1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    
     <com.google.android.gms.maps.MapView android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="300sp"
+        android:layout_below="@id/rlControls"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
