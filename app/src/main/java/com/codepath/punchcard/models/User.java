@@ -1,11 +1,13 @@
 package com.codepath.punchcard.models;
 
 import android.util.Log;
+
 import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
 import java.util.ArrayList;
 import java.util.List;
 
