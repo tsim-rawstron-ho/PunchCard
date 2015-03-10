@@ -41,8 +41,8 @@ public class SignUpActivity extends ActionBarActivity {
         user.setUsername(etEmail.getText().toString());
         user.setPassword(etPassword.getText().toString());
         user.setEmail(etEmail.getText().toString());
-        user.put("first_name", etFirstName.getText().toString());
-        user.put("last_name", etLastName.getText().toString());
+        user.put("firstName", etFirstName.getText().toString());
+        user.put("lastName", etLastName.getText().toString());
 
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
