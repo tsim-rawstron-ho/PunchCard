@@ -2,6 +2,7 @@ package com.codepath.punchcard.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+
 import java.util.Date;
 
 /**
@@ -10,19 +11,39 @@ import java.util.Date;
 
 @ParseClassName("Shift")
 public class Shift extends ParseObject {
-  public Date getStartTime() {
-    return getDate("startTime");
-  }
 
-  public Date getEndTime() {
-    return getDate("endTime");
-  }
+    private static final String INSTRUCTION = "instruction";
+    private static final String COMPANY = "company";
+    
+    public Company getCompany() {
+        return (Company) getParseObject(COMPANY);
+    }
+    
+    public void setCompany(Company company) {
+        put(COMPANY, company);
+    }
 
-  public void setStartTime(Date startTime) {
-    put("startTime", startTime);
-  }
+    public String getInstruction() {
+        return getString(INSTRUCTION);
+    }
+    
+    public void setInstruction(String instruction) {
+        put(INSTRUCTION, instruction);
+    }
+    
+    public Date getStartTime() {
+        return getDate("startTime");
+    }
 
-  public void setEndTime(Date endTime) {
-    put("endTime", endTime);
-  }
+    public Date getEndTime() {
+        return getDate("endTime");
+    }
+
+    public void setStartTime(Date startTime) {
+        put("startTime", startTime);
+    }
+
+    public void setEndTime(Date endTime) {
+        put("endTime", endTime);
+    }
 }

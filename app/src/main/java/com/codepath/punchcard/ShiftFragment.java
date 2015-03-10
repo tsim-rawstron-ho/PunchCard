@@ -118,7 +118,7 @@ public class ShiftFragment extends Fragment implements LocationListener {
 
     private void startShift() {
         ShiftSession s = new ShiftSession();
-        s.setCompanyName("Harris Co.");
+//        s.setCompany("Harris Co.");
     }
 
     private void pauseShift() {

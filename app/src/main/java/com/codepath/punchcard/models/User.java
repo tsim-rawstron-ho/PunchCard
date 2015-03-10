@@ -26,7 +26,7 @@ public class User extends ParseObject {
   public String getName() {
     return getString("name");
   }
-  
+
   public void getShifts() {
     ParseQuery<UsersShift> query = ParseQuery.getQuery(UsersShift.class);
     query.orderByAscending("startTime");

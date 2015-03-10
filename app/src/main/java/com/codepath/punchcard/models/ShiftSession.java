@@ -2,6 +2,8 @@ package com.codepath.punchcard.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
+
 import java.util.Date;
 
 @ParseClassName("ShiftSession")
@@ -24,26 +26,26 @@ public class ShiftSession extends ParseObject {
         }
     }
 
-    private static final String USER_ID = "userId";
-    private static final String COMPANY_NAME = "companyName";
+    private static final String USER = "user";
+    private static final String COMPANY = "company";
     private static final String START_TIME = "startTime";
     private static final String END_TIME = "endTime";
     private static final String TYPE = "type";
     
-    public void setCompanyName(String name) {
-        put(COMPANY_NAME, name);
+    public void setCompany(Company company) {
+        put(COMPANY, company);
     }
     
-    public String getCompanyName() {
-        return getString(COMPANY_NAME);
+    public Company getCompany() {
+        return (Company) getParseObject(COMPANY);
     }
 
-    public void setUserId(long id) {
-        put(USER_ID, id);
+    public void setUser(ParseUser user) {
+        put(USER, user);
     }
     
-    public long getUserId() {
-        return getLong(USER_ID);
+    public ParseUser getUser() {
+        return (ParseUser) getParseObject(USER);
     }
     
     public void setType(SessionType type) {
