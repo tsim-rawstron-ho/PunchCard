@@ -3,6 +3,7 @@ package com.codepath.punchcard;
 import android.app.Application;
 
 import android.widget.Toast;
+import com.codepath.punchcard.helpers.FixtureHelper;
 import com.codepath.punchcard.models.Shift;
 import com.codepath.punchcard.models.User;
 import com.codepath.punchcard.models.UsersShift;
@@ -23,30 +24,6 @@ public class PunchCardApplication extends Application {
     ParseObject.registerSubclass(Shift.class);
     ParseObject.registerSubclass(UsersShift.class);
     Parse.initialize(this, APPLICATION_ID, CLIENT_KEY);
-    setupFixtureData();
-  }
-
-  private void setupFixtureData() {
-    User user = new User();
-    user.setName("Ash");
-    Shift shift = new Shift();
-    shift.setStartTime(new Date());
-    shift.setEndTime(new Date());
-    try {
-      user.save();
-      shift.save();
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-
-    UsersShift usersShift = new UsersShift();
-    usersShift.setUser(user);
-    usersShift.setShift(shift);
-
-    try {
-      usersShift.save();
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
+    FixtureHelper.setupFixtureData();
   }
 }

@@ -8,14 +8,14 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by harris on 3/8/15.
  */
-@ParseClassName("User")
-public class User extends ParseObject {
+public class User extends ParseUser {
   private final List<Shift> shifts;
   public User() {
     super();
