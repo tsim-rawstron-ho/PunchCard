@@ -3,6 +3,8 @@ package com.codepath.punchcard.models;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
+import java.io.Serializable;
+
 /**
  * Created by harris on 3/8/15.
  */

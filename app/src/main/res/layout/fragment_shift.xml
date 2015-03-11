@@ -1,7 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.codepath.punchcard.PlaceholderFragment">
+    tools:context="com.codepath.punchcard.PlaceholderFragment"
+    xmlns:su="http://schemas.android.com/apk/res-auto"
+    >
     
     <RelativeLayout android:id="@+id/rlControls"
         android:layout_width="match_parent"
@@ -110,6 +112,17 @@
             android:layout_below="@id/rlHeader"
             android:text="@string/end_shift"
             android:layout_centerHorizontal="true" />
+
+        <com.codepath.punchcard.SlideToUnlock
+            android:visibility="gone"
+            android:id="@+id/slidetounlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_centerInParent="true"
+            su:text="Slide to Start"
+            su:thumb="@drawable/slidetounlock_thumb"
+            />
     </RelativeLayout>
     
     <com.google.android.gms.maps.MapView android:id="@+id/map"
