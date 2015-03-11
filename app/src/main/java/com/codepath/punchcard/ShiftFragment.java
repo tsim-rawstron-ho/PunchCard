@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import com.codepath.punchcard.helpers.DateHelper;
+import com.codepath.punchcard.models.Shift;
 import com.codepath.punchcard.models.ShiftSession;
 import com.codepath.punchcard.models.UsersShift;
 import com.google.android.gms.maps.CameraUpdate;
@@ -29,6 +30,8 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +49,9 @@ public class ShiftFragment extends Fragment implements LocationListener {
     private ShiftSession workSession;
     private ShiftSession breakSession;
     private TextView tvTime;
+    private long shiftSeconds;
+    private long shiftSecondsPassed;
+    private boolean shiftPaused;
 
     public static ShiftFragment newInstance(int sectionNumber) {
         ShiftFragment fragment = new ShiftFragment();
@@ -69,7 +75,7 @@ public class ShiftFragment extends Fragment implements LocationListener {
         btnStart = (Button) rootView.findViewById(R.id.btnStart);
         btnEnd = (Button) rootView.findViewById(R.id.btnEnd);
         rlStartShift = rootView.findViewById(R.id.rlNextShift);
-        rlInProgres = rootView.findViewById(R.id.rlInProgres);
+        rlInProgres = rootView.findViewById(R.id.rlInProgress);
 
         mapView = (MapView) rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
@@ -124,6 +130,16 @@ public class ShiftFragment extends Fragment implements LocationListener {
             public void done(List<UsersShift> usersShifts, ParseException e) {
                 shifts = usersShifts;
                 currentShift = shifts.get(0);
+
+                shiftSeconds = 10000;
+                shiftSecondsPassed = 0;
+
+                final Shift shift = currentShift.getShift();
+//                final Date startTime = shift.getStartTime();
+//                final long shiftDiff = currentShift.getShift().getEndTime().getTime() - currentShift.getShift().getStartTime().getTime();
+//                final long shiftSeconds = shiftDiff / 1000;
+//                final long shiftMinutes = shiftSeconds / 60;
+
                 showNextShift(currentShift);
             }
         });
@@ -137,8 +153,16 @@ public class ShiftFragment extends Fragment implements LocationListener {
     private Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
-            workSeconds ++;
-            tvTime.setText("time: " + workSeconds);
+            if (!shiftPaused) {
+                workSeconds ++;
+                float workSecondsFl = new Long(workSeconds).floatValue();
+                float workMinutesFl = workSecondsFl / 60;
+                DecimalFormat decimalFormat = new DecimalFormat();
+                decimalFormat.setMaximumFractionDigits(2);
+
+//                final String[] split = decimalFormat.format(workMinutesFl).split("\\.");
+                tvTime.setText(decimalFormat.format(workMinutesFl).replace(".", ":"));
+            }
             timerHandler.postDelayed(this, 1000);
         }
     };
@@ -151,11 +175,13 @@ public class ShiftFragment extends Fragment implements LocationListener {
     }
 
     private void startShift() {
+        shiftPaused = false;
         workSession = createNewWorkShift();
         saveSession(workSession);
     }
 
     private void pauseShift() {
+        shiftPaused = true;
         final Date timeToUTC = getUtcNowDate();
         breakSession = new ShiftSession();
         breakSession.setType(ShiftSession.SessionType.BREAK);
@@ -167,6 +193,7 @@ public class ShiftFragment extends Fragment implements LocationListener {
     }
 
     private void resumeShift() {
+        shiftPaused = false;
         workSession = createNewWorkShift();
         breakSession.setEndTime(getUtcNowDate());
         saveSession(workSession);
@@ -174,6 +201,7 @@ public class ShiftFragment extends Fragment implements LocationListener {
     }
 
     private void endShift() {
+        shiftPaused = true;
         workSession.setEndTime(getUtcNowDate());
         saveSession(workSession);
     }
@@ -253,16 +281,13 @@ public class ShiftFragment extends Fragment implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-
     }
 }
