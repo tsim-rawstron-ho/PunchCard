@@ -20,7 +20,7 @@ public class User extends ParseUser {
   public User() {
     super();
     shifts = new ArrayList<Shift>();
-    getShifts();
+    //getShifts();
   }
 
   public String getName() {
