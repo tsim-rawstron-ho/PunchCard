@@ -5,30 +5,31 @@
     
     <RelativeLayout android:id="@+id/rlControls"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <RelativeLayout android:id="@+id/rlHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <RelativeLayout android:id="@+id/rlStartShift"
+            <RelativeLayout android:id="@+id/rlNextShift"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 
-                <ImageView android:src="@android:drawable/sym_def_app_icon"
+                <ImageView android:id="@+id/ivClock"
+                    android:src="@android:drawable/sym_def_app_icon"
                     android:layout_margin="15dp"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:id="@+id/imageView2" />
+                    />
 
                 <TextView android:id="@+id/tvStartsIn"
                     android:text="Shift starts in 16 minutes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/imageView2"
-                    android:layout_toEndOf="@+id/imageView2"
+                    android:layout_toRightOf="@id/ivClock"
+                    android:layout_toEndOf="@id/ivClock"
                     android:layout_marginTop="19dp"
                     android:padding="10dp" />
 
@@ -36,8 +37,9 @@
                     android:text="Weather: Sunny"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvStartsIn"
-                    android:layout_toRightOf="@+id/imageView2"
+                    android:layout_below="@id/tvStartsIn"
+                    android:layout_toRightOf="@id/ivClock"
+                    android:layout_toEndOf="@id/ivClock"
                     android:padding="10dp" />
 
                 <TextView android:id="@+id/tvNote"
@@ -45,9 +47,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvWeather"
-                    android:layout_toRightOf="@+id/imageView2"
+                    android:layout_toRightOf="@id/ivClock"
+                    android:layout_toEndOf="@id/ivClock"
                     android:padding="10dp" />
-                
             </RelativeLayout>
             
             <RelativeLayout android:id="@+id/rlInProgres"
@@ -64,36 +66,41 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true" />
 
-                <Button android:id="@+id/btnDetails"
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/shift_details"
-                    android:layout_marginLeft="19dp"
-                    android:layout_marginStart="19dp"
                     android:layout_below="@+id/tvTime"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_centerHorizontal="true">
 
-                <ToggleButton android:id="@+id/btnPause"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/pause_shift"
-                    android:textOn="@string/resume_shift"
-                    android:textOff="@string/pause_shift"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_alignBottom="@+id/btnDetails"
-                    android:layout_toRightOf="@+id/btnDetails"
-                    android:layout_toEndOf="@+id/btnDetails" />
+                    <Button android:id="@+id/btnDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/shift_details"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
 
+                    <ToggleButton android:id="@+id/btnPause"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pause_shift"
+                        android:textOn="@string/resume_shift"
+                        android:textOff="@string/pause_shift"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_alignBottom="@+id/btnDetails"
+                        android:layout_toRightOf="@+id/btnDetails"
+                        android:layout_toEndOf="@+id/btnDetails" />
+                </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
 
         <Button android:id="@+id/btnStart"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/rlHeader"
-            android:text="Start Shift"
+            android:text="@string/start_shift"
             android:layout_centerHorizontal="true" />
 
         <Button android:id="@+id/btnEnd"
@@ -101,17 +108,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/rlHeader"
-            android:text="End Shift"
+            android:text="@string/end_shift"
             android:layout_centerHorizontal="true" />
-        
-        <TextView android:id="@+id/tvEndShift"
-            android:gravity="center"
-            android:text="@string/shift_ended"
-            android:layout_below="@id/rlHeader"
-            android:visibility="gone"
-            android:textSize="@dimen/h1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
     </RelativeLayout>
     
     <com.google.android.gms.maps.MapView android:id="@+id/map"

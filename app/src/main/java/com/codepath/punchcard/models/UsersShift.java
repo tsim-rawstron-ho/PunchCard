@@ -18,4 +18,8 @@ public class UsersShift extends ParseObject {
   public Shift getShift() {
     return (Shift) get("shift");
   }
+
+    public void setComplete(boolean v) {
+        put("complete", v);
+    }
 }

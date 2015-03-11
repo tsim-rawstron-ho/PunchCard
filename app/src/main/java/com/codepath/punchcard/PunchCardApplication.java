@@ -3,7 +3,9 @@ package com.codepath.punchcard;
 import android.app.Application;
 
 import com.codepath.punchcard.helpers.FixtureHelper;
+import com.codepath.punchcard.models.Company;
 import com.codepath.punchcard.models.Shift;
+import com.codepath.punchcard.models.ShiftSession;
 import com.codepath.punchcard.models.User;
 import com.codepath.punchcard.models.UsersShift;
 import com.parse.Parse;
@@ -19,6 +21,8 @@ public class PunchCardApplication extends Application {
     ParseObject.registerSubclass(User.class);
     ParseObject.registerSubclass(Shift.class);
     ParseObject.registerSubclass(UsersShift.class);
+    ParseObject.registerSubclass(Company.class);
+    ParseObject.registerSubclass(ShiftSession.class);
     Parse.initialize(this, APPLICATION_ID, CLIENT_KEY);
     FixtureHelper.setupFixtureData();
   }
