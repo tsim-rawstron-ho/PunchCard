@@ -7,7 +7,7 @@ import com.parse.ParseObject;
  * Created by harris on 3/8/15.
  */
 @ParseClassName("UsersShift")
-public class UsersShift extends ParseObject {
+public class UsersShift extends ParseObject implements Serializable {
   public void setUser(User user) {
     put("user", user);
   }

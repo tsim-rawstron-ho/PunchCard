@@ -21,10 +21,10 @@ public class FixtureHelper {
           query.findInBackground(new FindCallback<UsersShift>() {
             public void done(final List<UsersShift> allUserShifts, ParseException e) {
               try {
-                deleteAllShiftsAndSignups(allUserShifts, allShifts);
+                //deleteAllShiftsAndSignups(allUserShifts, allShifts);
                 createNewShiftsAndSignups("speed.mating@gmail.com");
-                createNewShiftsAndSignups("alvinzho@gmail.com");
-                createNewShiftsAndSignups("ash@edmodo.com");
+                //createNewShiftsAndSignups("alvinzho@gmail.com");
+                //createNewShiftsAndSignups("ash@edmodo.com");
               } catch (ParseException e1) {
                 e1.printStackTrace();
               }
