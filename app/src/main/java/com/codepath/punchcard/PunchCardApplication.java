@@ -2,16 +2,12 @@ package com.codepath.punchcard;
 
 import android.app.Application;
 
-import android.widget.Toast;
 import com.codepath.punchcard.helpers.FixtureHelper;
 import com.codepath.punchcard.models.Shift;
 import com.codepath.punchcard.models.User;
 import com.codepath.punchcard.models.UsersShift;
 import com.parse.Parse;
-import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.SaveCallback;
-import java.util.Date;
 
 public class PunchCardApplication extends Application {
   public static final String APPLICATION_ID = "4VYyIOXcu48JChNmqMfLnO5fcIs7jaqOLDPsrqs5";
