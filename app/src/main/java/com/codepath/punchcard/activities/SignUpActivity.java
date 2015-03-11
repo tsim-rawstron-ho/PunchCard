@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.codepath.punchcard.MainActivity;
 import com.codepath.punchcard.R;
+import com.codepath.punchcard.models.User;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -36,10 +37,10 @@ public class SignUpActivity extends ActionBarActivity {
         EditText etEmail = (EditText) findViewById(R.id.etEmail);
         EditText etPassword = (EditText) findViewById(R.id.etPassword);
 
-        ParseUser user = new ParseUser();
+        User user = new User();
         user.setUsername(etEmail.getText().toString());
         user.setPassword(etPassword.getText().toString());
-
+        user.setEmail(etEmail.getText().toString());
         user.put("firstName", etFirstName.getText().toString());
         user.put("lastName", etLastName.getText().toString());
 
