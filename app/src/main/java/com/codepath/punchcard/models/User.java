@@ -3,19 +3,18 @@ package com.codepath.punchcard.models;
 import android.util.Log;
 
 import com.parse.FindCallback;
-import com.parse.ParseClassName;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
-
 import com.parse.ParseUser;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by harris on 3/8/15.
  */
-public class User extends ParseUser {
+public class User extends ParseUser implements Serializable {
   private final List<Shift> shifts;
   public User() {
     super();
@@ -25,6 +24,14 @@ public class User extends ParseUser {
 
   public String getName() {
     return getString("name");
+  }
+
+  public String getFirstName() {
+      return getString("firstName");
+  }
+
+  public String getLastName() {
+      return getString("lastName");
   }
   
   public void getShifts() {
