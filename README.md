@@ -3,7 +3,10 @@
 
 A small industry accounting app. Our app is the employee-facing application that allows users to clock-in,
 and out from shift-work(E.G. shifts in a bar, or coffee-house). This is similar to other applications which 
-large companies produce, however we want to produce a more simplistic user-interface that's enjoyable to use. 
+large companies produce, however we want to produce a more simplistic user-interface that's enjoyable to use.
+
+## Rough Walk Through 1 ##
+![Wireframe](https://raw.githubusercontent.com/tsim-rawstron-ho/PunchCard/master/walkthrough1.gif)
 
 ## User Stories ##
 ### User ###
