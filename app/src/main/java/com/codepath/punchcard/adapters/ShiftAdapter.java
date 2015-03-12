@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+
 import com.codepath.punchcard.R;
 import com.codepath.punchcard.models.Shift;
+
 import java.util.List;
 
 /**
@@ -14,8 +16,11 @@ import java.util.List;
  */
 public class ShiftAdapter<T> extends ArrayAdapter<Shift> {
 
-  public ShiftAdapter(Context context, int resource, List<Shift> objects) {
-    super(context, resource, objects);
+    private final Context context;
+
+    public ShiftAdapter(Context context, int resource, List<Shift> objects) {
+      super(context, resource, objects);
+      this.context = context;
   }
 
   @Override public View getView(int position, View convertView, ViewGroup parent) {
