@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import com.codepath.punchcard.MainActivity;
 import com.codepath.punchcard.R;
 import com.codepath.punchcard.models.Shift;
 
@@ -29,14 +28,6 @@ public class ShiftAdapter<T> extends ArrayAdapter<Shift> {
     if (convertView == null) {
       convertView = LayoutInflater.from(getContext()).inflate(R.layout.shift_list_cell, parent, false);
     }
-
-      convertView.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              // KLUGE::
-              ((MainActivity) context).startShift();
-          }
-      });
 
     return convertView;
   }
