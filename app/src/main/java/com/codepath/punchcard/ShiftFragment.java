@@ -35,25 +35,26 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
-public class ShiftFragment extends Fragment implements LocationListener {
-    private static final String ARG_SECTION_NUMBER = "section_number";
-    private GoogleMap googleMap;
-    private MapView mapView;
-    private Button btnStart;
-    private Button btnEnd;
-    private View rlStartShift;
-    private View rlInProgres;
-    private ToggleButton tglPause;
-    private List<UsersShift> shifts;
-    private UsersShift currentShift;
-    private ShiftSession workSession;
-    private ShiftSession breakSession;
-    private TextView tvTime;
-    private long shiftSeconds;
-    private long shiftSecondsPassed;
-    private boolean shiftPaused;
+public class ShiftFragment extends Fragment implements LocationListener,
+  SlideToUnlock.OnUnlockListener {
+  private static final String ARG_SECTION_NUMBER = "section_number";
+  private GoogleMap googleMap;
+  private MapView mapView;
+  private Button btnEnd;
+  private View rlStartShift;
+  private View rlInProgres;
+  private ToggleButton tglPause;
+  private List<UsersShift> shifts;
+  private UsersShift currentShift;
+  private ShiftSession workSession;
+  private ShiftSession breakSession;
+  private TextView tvTime;
+  private long shiftSeconds;
+  private long shiftSecondsPassed;
+  private boolean shiftPaused;
+  private SlideToUnlock slideToUnlock;
 
-    public static ShiftFragment newInstance(int sectionNumber) {
+  public static ShiftFragment newInstance(int sectionNumber) {
         ShiftFragment fragment = new ShiftFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -72,7 +73,8 @@ public class ShiftFragment extends Fragment implements LocationListener {
 
         tvTime = (TextView) rootView.findViewById(R.id.tvTime);
         tglPause = (ToggleButton) rootView.findViewById(R.id.btnPause);
-        btnStart = (Button) rootView.findViewById(R.id.btnStart);
+        slideToUnlock = (SlideToUnlock) rootView.findViewById(R.id.slidetounlock);
+      //btnStart = (Button) rootView.findViewById(R.id.btnStart);
         btnEnd = (Button) rootView.findViewById(R.id.btnEnd);
         rlStartShift = rootView.findViewById(R.id.rlNextShift);
         rlInProgres = rootView.findViewById(R.id.rlInProgress);
@@ -82,14 +84,7 @@ public class ShiftFragment extends Fragment implements LocationListener {
         googleMap = mapView.getMap();
 
         // Event listeners:
-        btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCurrentShift();
-                startShift();
-            }
-        });
-        
+        slideToUnlock.setOnUnlockListener(this);
         btnEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,14 +226,14 @@ public class ShiftFragment extends Fragment implements LocationListener {
     }
 
     private void showNextShift() {
-        btnStart.setVisibility(View.VISIBLE);
+        slideToUnlock.setVisibility(View.VISIBLE);
         rlStartShift.setVisibility(View.VISIBLE);
         btnEnd.setVisibility(View.GONE);
         rlInProgres.setVisibility(View.GONE);
     }
 
     private void showCurrentShift() {
-        btnStart.setVisibility(View.GONE);
+        slideToUnlock.setVisibility(View.GONE);
         rlStartShift.setVisibility(View.GONE);
         btnEnd.setVisibility(View.VISIBLE);
         rlInProgres.setVisibility(View.VISIBLE);
@@ -290,4 +285,9 @@ public class ShiftFragment extends Fragment implements LocationListener {
     @Override
     public void onProviderDisabled(String provider) {
     }
+
+  @Override public void onUnlock() {
+    showCurrentShift();
+    startShift();
+  }
 }
