@@ -53,6 +53,7 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
     private long elaspedShiftTime;
     private long shiftStartTime;
     private long pauseTime;
+    private boolean shiftInProgress = false;
 
     public static ShiftFragment newInstance(int sectionNumber) {
         ShiftFragment fragment = new ShiftFragment();
@@ -92,7 +93,9 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
             public void onClick(View v) {
                 endShift();
                 showNextShift();
-                startShift();
+                if (!shiftInProgress) {
+                    startShift();
+                }
             }
         });
         
@@ -141,6 +144,17 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
         return rootView;
     }
 
+    @Override
+    public void onUnlock() {
+        if (!shiftInProgress) {
+            startShift();
+            showCurrentShift();
+        } else {
+            endShift();
+            showNextShift();
+        }
+    }
+
     public void getShifts(ParseUser user, FindCallback<UsersShift> callback) {
         ParseQuery<UsersShift> query = ParseQuery.getQuery(UsersShift.class);
         query.orderByAscending("startTime");
@@ -149,6 +163,7 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
     }
 
     private void startShift() {
+        shiftInProgress = true;
         shiftStartTime = SystemClock.elapsedRealtime();
         chronometer.setBase(shiftStartTime);
         chronometer.start();
@@ -179,6 +194,8 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
     }
 
     private void endShift() {
+        shiftInProgress = false;
+        slideToUnlock.setLabelText(getString(R.string.start_shift));
         workSession.setEndTime(getUtcNowDate());
         saveSession(workSession);
     }
@@ -208,16 +225,16 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
     }
 
     private void showNextShift() {
-        slideToUnlock.setVisibility(View.VISIBLE);
+        slideToUnlock.setLabelText(getString(R.string.start_shift));
+        slideToUnlock.reset();
         rlStartShift.setVisibility(View.VISIBLE);
-        btnEnd.setVisibility(View.GONE);
         rlInProgres.setVisibility(View.GONE);
     }
 
     private void showCurrentShift() {
-        slideToUnlock.setVisibility(View.GONE);
+        slideToUnlock.setLabelText(getString(R.string.end_shift));
+        slideToUnlock.reset();
         rlStartShift.setVisibility(View.GONE);
-        btnEnd.setVisibility(View.VISIBLE);
         rlInProgres.setVisibility(View.VISIBLE);
     }
 
@@ -267,9 +284,4 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
     @Override
     public void onProviderDisabled(String provider) {
     }
-
-  @Override public void onUnlock() {
-    showCurrentShift();
-    startShift();
-  }
 }

@@ -144,4 +144,8 @@ public class SlideToUnlock extends RelativeLayout {
     }
   }
 
+    public void setLabelText(String v) {
+        label.setText(v);
+    }
+
 }
