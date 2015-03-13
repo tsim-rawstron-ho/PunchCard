@@ -59,19 +59,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView android:id="@+id/tvTime"
+                <Chronometer android:id="@+id/chronometer"
+                    android:textSize="@dimen/h1"
+                    android:text="@string/time_place_holder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/time_place_holder"
-                    android:textSize="@dimen/h1"
-                    android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true" />
 
-                <RelativeLayout
+                <RelativeLayout android:layout_below="@id/chronometer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvTime"
                     android:layout_centerHorizontal="true">
 
                     <Button android:id="@+id/btnDetails"
