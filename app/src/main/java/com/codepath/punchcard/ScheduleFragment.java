@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
@@ -66,12 +69,18 @@ public class ScheduleFragment extends Fragment {
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    setHasOptionsMenu(true);
     View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
     setupCalendar(rootView);
     weatherIcon = (TextView)rootView.findViewById(R.id.weather_icon);
     weatherIcon.setTypeface(weatherFont);
     setupShiftList(rootView);
     return rootView;
+  }
+
+  @Override public void onPrepareOptionsMenu(Menu menu) {
+    super.onPrepareOptionsMenu(menu);
+    menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
   }
 
   private void setupShiftList(View rootView) {

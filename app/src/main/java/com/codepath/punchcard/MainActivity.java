@@ -113,6 +113,9 @@ public class MainActivity extends ActionBarActivity
         } else if (id == R.id.action_logout) {
             ParseUser.getCurrentUser().logOut();
             startActivity(new Intent(this, LoginActivity.class));
+        } else if (id == R.id.action_create_shift) {
+          Intent intent = new Intent(this, CreateNewShiftActivity.class);
+          startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
