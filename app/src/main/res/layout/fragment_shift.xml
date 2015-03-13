@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content">
                 
                 <ImageView android:id="@+id/ivClock"
-                    android:src="@android:drawable/sym_def_app_icon"
+                    android:src="@drawable/clock"
                     android:layout_margin="15dp"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
