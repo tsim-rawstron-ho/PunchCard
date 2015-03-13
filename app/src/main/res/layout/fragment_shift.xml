@@ -94,13 +94,6 @@
             </RelativeLayout>
         </RelativeLayout>
 
-        <Button android:id="@+id/btnStart"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/rlHeader"
-            android:text="@string/start_shift"
-            android:layout_centerHorizontal="true" />
 
         <Button android:id="@+id/btnEnd"
             android:visibility="gone"
@@ -111,12 +104,12 @@
             android:layout_centerHorizontal="true" />
 
         <com.codepath.punchcard.SlideToUnlock
-            android:visibility="gone"
             android:id="@+id/slidetounlock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:layout_centerInParent="true"
+            android:layout_below="@id/rlHeader"
+            android:layout_centerHorizontal="true"
             su:text="Slide to Start"
             su:thumb="@drawable/slidetounlock_thumb"
             />
