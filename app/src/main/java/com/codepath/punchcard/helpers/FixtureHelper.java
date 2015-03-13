@@ -32,8 +32,8 @@ public class FixtureHelper {
           });
         }
       });
-
   }
+  
 
   private static void createNewShiftsAndSignups(String name) throws ParseException {
     ParseQuery<User> query = ParseQuery.getQuery("_User");

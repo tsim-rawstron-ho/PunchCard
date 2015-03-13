@@ -43,6 +43,7 @@ public class SignUpActivity extends ActionBarActivity {
         user.setEmail(etEmail.getText().toString());
         user.put("firstName", etFirstName.getText().toString());
         user.put("lastName", etLastName.getText().toString());
+        user.put("role", "manager");
 
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {

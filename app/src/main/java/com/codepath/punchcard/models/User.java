@@ -19,7 +19,6 @@ public class User extends ParseUser implements Serializable {
   public User() {
     super();
     shifts = new ArrayList<Shift>();
-    //getShifts();
   }
 
   public String getName() {
@@ -34,6 +33,14 @@ public class User extends ParseUser implements Serializable {
       return getString("lastName");
   }
   
+  public String getRole() {
+    return getString("role");
+  }
+  
+  public boolean canCreateShift() { 
+    return getRole().equals("manager");
+  }
+
   public void getShifts() {
     ParseQuery<UsersShift> query = ParseQuery.getQuery(UsersShift.class);
     query.orderByAscending("startTime");
