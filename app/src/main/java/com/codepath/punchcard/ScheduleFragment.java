@@ -17,9 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.codepath.punchcard.adapters.ShiftAdapter;
 import com.codepath.punchcard.models.Shift;
+import com.codepath.punchcard.models.User;
 import com.codepath.punchcard.models.Weather;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.parse.ParseUser;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;
@@ -80,7 +82,10 @@ public class ScheduleFragment extends Fragment {
 
   @Override public void onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
-    menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    User currentUser = (User) ParseUser.getCurrentUser();
+    if (currentUser.canCreateShift()) {
+      menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
   }
 
   private void setupShiftList(View rootView) {
