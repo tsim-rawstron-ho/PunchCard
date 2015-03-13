@@ -1,11 +1,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:fontawesometext="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:background="@color/punch_card_blue"
-    tools:context="com.codepath.punchcard.activities.LoginActivity">
+    tools:context="com.codepath.punchcard.activities.LoginActivity"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,6 +19,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="100dp"
+        android:layout_margin="20dp"
+        android:padding="20dp"
+
         android:id="@+id/rlLogin"
         android:background="#66000000">
         <TextView
@@ -32,8 +41,6 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="40dp"
             android:hint="Email-Address"
             android:textColorHint="@color/light_grey"/>
@@ -45,36 +52,28 @@
             android:inputType="textPassword"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
             android:layout_below="@+id/etEmail"
             android:hint="Password"
             android:textColorHint="@color/light_grey"/>
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:text="Login"
-            android:onClick="onLogin"
-            android:background="@color/darkblue"
-            android:layout_below="@+id/etPassword"
-            android:layout_centerHorizontal="true" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btnLogin"
-            android:layout_marginTop="10dp"
-            android:text="I forgot my password"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:textColor="@color/darkblue"/>
+
+
+      <com.beardedhen.androidbootstrap.BootstrapButton
+          android:id="@+id/btnLogin"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="20dp"
+          android:layout_marginBottom="20dp"
+          android:text="Login"
+          android:onClick="onLogin"
+          android:background="@color/darkblue"
+          android:layout_below="@+id/etPassword"
+          android:layout_centerHorizontal="true" />
+
     </RelativeLayout>
 
-    <Button
+
+  <com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/btnSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,6 +81,8 @@
         android:onClick="onSignUp"
         android:background="@color/darkblue"
         android:layout_margin="20dp"
+        bootstrap:bb_icon_right="fa-android"
+        bootstrap:bb_type="success"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/rlLogin"
         android:layout_alignEnd="@+id/rlLogin"
