@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "PunchCard": {
+            "applicationId": "4VYyIOXcu48JChNmqMfLnO5fcIs7jaqOLDPsrqs5", 
+            "masterKey": "PwyeaMsXbcboVG0JJgMdJxHIJjlnEeS62mo2hHkj"
+        }, 
+        "_default": {
+            "link": "PunchCard"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.3.5"
+    }
+}
