@@ -53,7 +53,6 @@ public class SettingsAdapter<T> extends ArrayAdapter<Pair<String, Object>> {
         Date shiftDate = (Date) item.second;
         value.setText(DateHelper.formateDate(shiftDate));
         break;
-
       case 2:
         Date startTime = (Date) item.second;
         value.setText(DateHelper.formateTime(startTime));
