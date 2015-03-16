@@ -4,18 +4,16 @@ import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.codepath.punchcard.adapters.ShiftAdapter;
+import com.codepath.punchcard.helpers.DateHelper;
 import com.codepath.punchcard.models.Shift;
 import com.codepath.punchcard.models.User;
 import com.codepath.punchcard.models.Weather;
@@ -24,16 +22,9 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.parse.ParseUser;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import org.apache.http.Header;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ScheduleFragment extends Fragment {
@@ -100,18 +91,6 @@ public class ScheduleFragment extends Fragment {
     shiftListView.setAdapter(shiftAdapter);
   }
 
-  private Date parseDate(String dateString) {
-    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
-    Date d = null;
-    try {
-      d = formatter.parse(dateString);
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    return d;
-  }
-  
   private void setupCalendar(View rootView) {
     CalendarView calendar = (CalendarView)rootView.findViewById(R.id.calendarView);
     calendar.setSelectedWeekBackgroundColor(getResources().getColor(R.color.blue));
@@ -122,24 +101,13 @@ public class ScheduleFragment extends Fragment {
       @Override
       public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
         if (weather == null) {
-          weatherIcon.setText(getSelectedDateString(year, month, day));
+          weatherIcon.setText(DateHelper.getSelectedDateString(year, month, day));
         } else {
-          weatherIcon.setText(weather.getIcon() + "  " + (weather.getTemp()) + "   " + getSelectedDateString(year,
-                  month, day));
+          weatherIcon.setText(weather.getIcon() + "  " + (weather.getTemp()) + "   " + DateHelper.getSelectedDateString(
+              year, month, day));
         }
       }
     });
-  }
-
-  private String getSelectedDateString(int year, int month, int day) {
-    Date selectedDate = parseDate((month + 1) + "/" + day + "/" + year);
-    Date date = new Date();
-    if (year % 100 == date.getYear() % 100 && month == date.getMonth() && day == date.getDay() + 1) {
-      return "Today";
-    } else {
-      DateFormat df = new SimpleDateFormat("EEE, MMM d", Locale.US);
-      return df.format(selectedDate);
-    }
   }
 
   @Override
