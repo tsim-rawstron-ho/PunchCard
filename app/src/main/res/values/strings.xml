@@ -39,5 +39,15 @@
     <string name="start_shift">Start Shift</string>
     <string name="end_shift">End Shift</string>
     <string name="title_activity_create_new_shift">CreateNewShiftActivity</string>
+    <string name="image">image</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
+    <string-array name="roles">
+        <item>manager</item>
+        <item>employee</item>
+    </string-array>
 
 </resources>

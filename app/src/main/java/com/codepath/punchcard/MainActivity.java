@@ -11,10 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.codepath.punchcard.activities.LoginActivity;
+import com.codepath.punchcard.fragments.UpdateProfileFragment;
 import com.parse.ParseUser;
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, UpdateProfileFragment.OnFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -117,7 +118,10 @@ public class MainActivity extends ActionBarActivity
           Intent intent = new Intent(this, CreateNewShiftActivity.class);
           startActivity(intent);
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onProfileUpdated(String firstName, String lastName, String username) {
     }
 }
