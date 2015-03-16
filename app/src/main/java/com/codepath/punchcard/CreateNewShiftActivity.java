@@ -1,16 +1,37 @@
 package com.codepath.punchcard;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
+import org.joda.time.DateTime;
 
-public class CreateNewShiftActivity extends ActionBarActivity {
+public class CreateNewShiftActivity extends ActionBarActivity implements CalendarDatePickerDialog.OnDateSetListener {
+  private Button button;
+  private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_create_new_shift);
+
+    button = (Button) findViewById(R.id.button);
+
+    button.setText("Set Date");
+    button.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        FragmentManager fm = getSupportFragmentManager();
+        DateTime now = DateTime.now();
+        CalendarDatePickerDialog calendarDatePickerDialog =
+            CalendarDatePickerDialog.newInstance(CreateNewShiftActivity.this, now.getYear(),
+                now.getMonthOfYear() - 1, now.getDayOfMonth());
+        calendarDatePickerDialog.show(fm, FRAG_TAG_DATE_PICKER);
+      }
+    });
   }
 
   @Override
@@ -33,5 +54,10 @@ public class CreateNewShiftActivity extends ActionBarActivity {
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public void onDateSet(CalendarDatePickerDialog calendarDatePickerDialog, int i, int i1, int i2) {
+
   }
 }
