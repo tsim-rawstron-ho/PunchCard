@@ -15,6 +15,7 @@ import java.util.List;
  * Created by harris on 3/8/15.
  */
 public class User extends ParseUser implements Serializable {
+  public static final String PROFILE_IMAGE = "profileImage";
   private final List<Shift> shifts;
   public User() {
     super();

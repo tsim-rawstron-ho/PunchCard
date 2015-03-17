@@ -35,7 +35,6 @@ public class ProfileFragment extends Fragment implements UpdateProfileFragment.O
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     public static final int SELECT_IMAGE_REQUEST_CODE = 200;
-    private static final String PROFILE_IMAGE = "profileImage";
     private TextView tvName;
     private TextView tvEmail;
     private ImageView ivProfileImage;
@@ -65,13 +64,15 @@ public class ProfileFragment extends Fragment implements UpdateProfileFragment.O
         View ivEdit = v.findViewById(R.id.ivEdit);
 
         final ParseUser parseUser = ParseUser.getCurrentUser();
-        final ParseFile profileImageFile = parseUser.getParseFile(PROFILE_IMAGE);
+        final ParseFile profileImageFile = parseUser.getParseFile(User.PROFILE_IMAGE);
         User user = (User) parseUser;
         String username = user.getUsername();
         String firstName = user.getFirstName();
         String lastName = user.getLastName();
         updateProfileInfoViews(username, firstName, lastName);
-        Picasso.with(getActivity()).load(profileImageFile.getUrl()).into(ivProfileImage);
+        if (profileImageFile != null) {
+            Picasso.with(getActivity()).load(profileImageFile.getUrl()).into(ivProfileImage);
+        }
 
         ProfilePagerAdapter profilePagerAdapter = new ProfilePagerAdapter(getChildFragmentManager());
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) v.findViewById(R.id.tabs);

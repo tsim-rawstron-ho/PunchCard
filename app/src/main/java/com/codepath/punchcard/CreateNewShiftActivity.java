@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.codepath.punchcard.adapters.SettingsAdapter;
+import com.codepath.punchcard.fragments.EmployeePickerFragment;
 import com.codepath.punchcard.helpers.DateHelper;
 import com.codepath.punchcard.models.Shift;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
@@ -33,6 +34,7 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
   private Shift shift;
   private static final String FRAG_TAG_START_TIME_PICKER = "startTimePickerDialogFragment";
   private static final String FRAG_TAG_END_TIME_PICKER = "endTimePickerDialogFragment";
+  public static final String FRAG_TAG_EMPLOYEE_PICKER = "employDialogFragment";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -45,19 +47,20 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
     reloadData();
     settingsList.setAdapter(settingsAdapter);
     settingsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
       @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         DateTime now = DateTime.now();
 
         switch (position) {
           case 0:
-            // not implemented yet
+            EmployeePickerFragment employeePickerFragment = EmployeePickerFragment.newInstance();
+            employeePickerFragment.show(getSupportFragmentManager(), FRAG_TAG_EMPLOYEE_PICKER);
             break;
           case 1:
-            FragmentManager fm = getSupportFragmentManager();
             CalendarDatePickerDialog calendarDatePickerDialog =
                 CalendarDatePickerDialog.newInstance(CreateNewShiftActivity.this, now.getYear(),
                     now.getMonthOfYear() - 1, now.getDayOfMonth());
-            calendarDatePickerDialog.show(fm, FRAG_TAG_DATE_PICKER);
+            calendarDatePickerDialog.show(getSupportFragmentManager(), FRAG_TAG_DATE_PICKER);
             break;
           case 2:
           case 3:
