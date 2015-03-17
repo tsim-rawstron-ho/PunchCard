@@ -12,17 +12,10 @@ Mailgun.initialize('sandbox11a24636c5a8432f8bd3e81fc2173c45.mailgun.org',
 
 var generateTempPassword = function() {
 	return Math.random().toString(36).slice(-8);
-}
+};
 
-Parse.Cloud.define("add_employee", function(request, response) {
-	// var company = request.params.company;
-	var email = request.params.email;
-	var firstName = request.params.firstName;
-	var lastName = request.params.lastName;
-	// Todo: Get the manager info from manager user id
-	var managerFirstName = request.params.managerFirstName;
-	var managerLastName = request.params.managerLastName;
-	// Create new employee 
+var createEmployeeHelper = function(firstName, lastName, email, manager, response) {
+    // Create new employee 
 	var User = Parse.Object.extend("User");
 	var employee = new User();
 	var password = generateTempPassword();
@@ -30,35 +23,57 @@ Parse.Cloud.define("add_employee", function(request, response) {
 	employee.set("lastName", lastName);
 	employee.set("username", email);
 	employee.set("password", password);
-
+	employee.set("role", "employee");
+	employee.set("company", manager.get("company"));
 	employee.save(null, {
-	  success: function(employee) {
-	    // Execute any logic that should take place after the object is saved.
-	    alert('New object created with objectId: ' + employee.id);
-	    	// Send a sign up email
-		Mailgun.sendEmail({
-		  to: email,
-		  from: "Mailgun@CloudCode.com",
-		  subject: "Hello from PunchCard",
-		  text: managerFirstName + " " + managerLastName + " has invited to join PunchCard." 
-		  		+ "Please login to your account using " + email + " with the temporary password: " 
-		  		+ password
-		}, {
-		  success: function(httpResponse) {
-		    console.log(httpResponse);
-		    response.success("Email sent!");
-		  },
-		  error: function(httpResponse) {
-		    console.error(httpResponse);
-		    response.error("Uh oh, something went wrong");
+	  	success: function(employee) {
+		    // Execute any logic that should take place after the object is saved.
+		    alert('New object created with objectId: ' + employee.id);
+		    	// Send a sign up email
+			Mailgun.sendEmail({
+			  to: email,
+			  from: "Mailgun@CloudCode.com",
+			  subject: "Hello from PunchCard",
+			  text: manager.get("firstName") + " " + manager.get("lastName") + " has invited to join PunchCard." 
+			  		+ "Please login to your account using " + email + " with the temporary password: " 
+			  		+ password
+			}, {
+				  success: function(httpResponse) {
+				    console.log(httpResponse);
+				    response.success("Email sent!");
+				  },
+				  error: function(httpResponse) {
+				    console.error(httpResponse);
+				    response.error("Uh oh, something went wrong " + httpResponse);
+				  }
+			});
+		},
+	error: function(employee, error) {
+		    // Execute any logic that should take place if the save fails.
+		    // error is a Parse.Error with an error code and message.
+		    alert('Failed to create new object, with error code: ' + error.message);
+		   	response.error("Could not create user: " + error.message);
 		  }
-		});
-	  },
-	  error: function(employee, error) {
-	    // Execute any logic that should take place if the save fails.
+	});
+}
+
+Parse.Cloud.define("add_employee", function(request, response) {
+	var email = request.params.email;
+	var firstName = request.params.firstName;
+	var lastName = request.params.lastName;
+	var managerId = request.params.managerId;
+
+	var User = Parse.Object.extend("User");
+	var query = new Parse.Query(User);
+	query.include("company");
+	query.get(managerId, {
+	  	success: function(manager) {
+	  		createEmployeeHelper(firstName, lastName, email, manager, response);
+	    },
+	    error: function(object, error) {
+	    // The object was not retrieved successfully.
 	    // error is a Parse.Error with an error code and message.
-	    alert('Failed to create new object, with error code: ' + error.message);
-	   	response.error("Could not create user: " + error.message);
+	    response.error("Manager not found: " + error.message);
 	  }
 	});
 });

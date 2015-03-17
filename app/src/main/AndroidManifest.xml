@@ -70,6 +70,10 @@
             android:name=".CreateNewShiftActivity"
             android:label="@string/title_activity_create_new_shift" >
         </activity>
+        <activity
+            android:name=".activities.EmployeesActivity"
+            android:label="@string/title_activity_invite_employee" >
+        </activity>
     </application>
 
 </manifest>

@@ -77,15 +77,14 @@
         android:id="@+id/btnSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign up"
+        android:text="Manager sign up"
         android:onClick="onSignUp"
         android:background="@color/darkblue"
         android:layout_margin="20dp"
         bootstrap:bb_icon_right="fa-android"
         bootstrap:bb_type="success"
         android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/rlLogin"
         android:layout_alignRight="@+id/rlLogin"
-        android:layout_alignEnd="@+id/rlLogin"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignEnd="@+id/rlLogin" />
 </RelativeLayout>

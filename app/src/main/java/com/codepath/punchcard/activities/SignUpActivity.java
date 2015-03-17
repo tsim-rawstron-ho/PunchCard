@@ -8,11 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import com.codepath.punchcard.MainActivity;
 import com.codepath.punchcard.R;
+import com.codepath.punchcard.models.Company;
 import com.codepath.punchcard.models.User;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 public class SignUpActivity extends ActionBarActivity {
@@ -36,8 +35,10 @@ public class SignUpActivity extends ActionBarActivity {
         EditText etLastName = (EditText) findViewById(R.id.etLastName);
         EditText etEmail = (EditText) findViewById(R.id.etEmail);
         EditText etPassword = (EditText) findViewById(R.id.etPassword);
+        EditText etCompanyName = (EditText) findViewById(R.id.etCompanyName);
+        EditText etCompanyAddress = (EditText) findViewById(R.id.etCompanyAddress);
 
-        User user = new User();
+        final User user = new User();
         user.setUsername(etEmail.getText().toString());
         user.setPassword(etPassword.getText().toString());
         user.setEmail(etEmail.getText().toString());
@@ -45,14 +46,23 @@ public class SignUpActivity extends ActionBarActivity {
         user.put("lastName", etLastName.getText().toString());
         user.put("role", "manager");
 
-        user.signUpInBackground(new SignUpCallback() {
-            public void done(ParseException e) {
-                if (e == null) {
-                    startActivity(new Intent(SignUpActivity.this, MainActivity.class));
-                } else {
+        final Company company = new Company();
+        company.setName(etCompanyName.getText().toString());
+        company.setAddress(etCompanyAddress.getText().toString());
+        try {
+            company.save();
+            user.setCompany(company);
+            user.signUpInBackground(new SignUpCallback() {
+                public void done(ParseException e) {
+                    if (e == null) {
+                        startActivity(new Intent(SignUpActivity.this, EmployeesActivity.class));
+                    } else {
+                    }
                 }
-            }
-        });
+            });
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 

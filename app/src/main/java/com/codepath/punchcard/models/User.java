@@ -21,6 +21,8 @@ public class User extends ParseUser implements Serializable {
     shifts = new ArrayList<Shift>();
   }
 
+  public void setCompany(Company company) { put("company", company); }
+
   public String getName() {
     return getString("name");
   }

@@ -50,4 +50,9 @@
         <item>employee</item>
     </string-array>
 
+    <string name="title_activity_invite_employee">Employees</string>
+    <string name="invite">invite</string>
+    <string name="action_invite">Add Employee</string>
+    <string name="action_finish">Finish</string>
+
 </resources>
