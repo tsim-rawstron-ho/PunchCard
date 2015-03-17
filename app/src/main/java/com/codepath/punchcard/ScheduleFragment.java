@@ -50,7 +50,7 @@ public class ScheduleFragment extends Fragment {
     AsyncHttpClient client = new AsyncHttpClient();
     try {
       client.get(String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&APPID=e7e8c692f8e98d6069f3742c0de25a6c",
-          URLEncoder.encode("New York", "UTF8")), new JsonHttpResponseHandler(){
+          URLEncoder.encode("San Francisco, us", "UTF8")), new JsonHttpResponseHandler(){
         @Override public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
           weather = Weather.fromJSON(response, getActivity());
           weatherIcon.setText(weather.getIcon() + "  " + (weather.getTemp()));
