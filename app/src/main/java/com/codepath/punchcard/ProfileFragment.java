@@ -137,7 +137,7 @@ public class ProfileFragment extends Fragment implements UpdateProfileFragment.O
 
             ParseFile file = new ParseFile("profile.png", inputData);
             final ParseUser currentUser = ParseUser.getCurrentUser();
-            currentUser.put(PROFILE_IMAGE, file);
+            currentUser.put(User.PROFILE_IMAGE, file);
             try {
                 currentUser.save();
             } catch (com.parse.ParseException e) {
