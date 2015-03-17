@@ -6,9 +6,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 import com.codepath.punchcard.R;
+import com.codepath.punchcard.adapters.PlacesAutoCompleteAdapter;
 import com.codepath.punchcard.models.Company;
 import com.codepath.punchcard.models.User;
 import com.parse.ParseException;
@@ -20,6 +22,8 @@ public class SignUpActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        AutoCompleteTextView autoCompView = (AutoCompleteTextView) findViewById(R.id.actvCompanyAddress);
+        autoCompView.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.list_item));
     }
 
 
@@ -36,7 +40,7 @@ public class SignUpActivity extends ActionBarActivity {
         EditText etEmail = (EditText) findViewById(R.id.etEmail);
         EditText etPassword = (EditText) findViewById(R.id.etPassword);
         EditText etCompanyName = (EditText) findViewById(R.id.etCompanyName);
-        EditText etCompanyAddress = (EditText) findViewById(R.id.etCompanyAddress);
+        AutoCompleteTextView actvCompanyAddress = (AutoCompleteTextView) findViewById(R.id.actvCompanyAddress);
 
         final User user = new User();
         user.setUsername(etEmail.getText().toString());
@@ -48,7 +52,7 @@ public class SignUpActivity extends ActionBarActivity {
 
         final Company company = new Company();
         company.setName(etCompanyName.getText().toString());
-        company.setAddress(etCompanyAddress.getText().toString());
+        company.setAddress(actvCompanyAddress.getText().toString());
         try {
             company.save();
             user.setCompany(company);
