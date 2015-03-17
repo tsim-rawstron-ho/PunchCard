@@ -53,7 +53,7 @@ public class SettingsAdapter<T> extends ArrayAdapter<Pair<String, Object>> {
         StringBuffer sb = new StringBuffer();
         if (i.hasNext()) {
           for (; ; ) {
-            sb.append(i.next());
+            sb.append(((User)i.next()).getName());
             if (!i.hasNext()) break;
             sb.append(", ");
           }

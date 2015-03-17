@@ -32,10 +32,6 @@ public class User extends ParseUser implements Serializable {
     this.picked = picked;
   }
 
-  public String getName() {
-    return getString("name");
-  }
-
   public String getFirstName() {
       return getString("firstName");
   }
@@ -70,7 +66,7 @@ public class User extends ParseUser implements Serializable {
     });
   }
 
-  public void setName(String name) {
-    put("name", name);
+  public String getName() {
+    return getFirstName() + " " + getLastName();
   }
 }
