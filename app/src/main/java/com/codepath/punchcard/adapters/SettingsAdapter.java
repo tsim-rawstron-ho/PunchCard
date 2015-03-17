@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.codepath.punchcard.R;
 import com.codepath.punchcard.helpers.DateHelper;
 import com.codepath.punchcard.models.Shift;
+import com.codepath.punchcard.models.User;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -46,8 +48,19 @@ public class SettingsAdapter<T> extends ArrayAdapter<Pair<String, Object>> {
 
     switch (position) {
       case 0:
-        List<String> employeeNames = (List<String>) item.second;
-        value.setText(employeeNames.toString());
+        List<User> users = (List<User>) item.second;
+        Iterator i = users.iterator();
+        StringBuffer sb = new StringBuffer();
+        if (i.hasNext()) {
+          for (; ; ) {
+            sb.append(((User)i.next()).getName());
+            if (!i.hasNext()) break;
+            sb.append(", ");
+          }
+        } else {
+          sb.append("No Employees Selected");
+        }
+        value.setText(sb.toString());
         break;
       case 1:
         Date shiftDate = (Date) item.second;

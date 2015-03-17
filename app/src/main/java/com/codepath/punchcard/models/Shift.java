@@ -46,4 +46,11 @@ public class Shift extends ParseObject {
     public void setEndTime(Date endTime) {
         put("endTime", endTime);
     }
+
+    public void addUser(User user) {
+        UsersShift usersShift = new UsersShift();
+        usersShift.setShift(this);
+        usersShift.setUser(user);
+        usersShift.saveInBackground();
+    }
 }

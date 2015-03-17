@@ -44,6 +44,7 @@
     <string name="email">Email</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="close">New Button</string>
 
     <string-array name="roles">
         <item>manager</item>

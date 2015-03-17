@@ -15,7 +15,9 @@ import java.util.List;
  * Created by harris on 3/8/15.
  */
 public class User extends ParseUser implements Serializable {
+  public static final String PROFILE_IMAGE = "profileImage";
   private final List<Shift> shifts;
+  private boolean picked = false;
   public User() {
     super();
     shifts = new ArrayList<Shift>();
@@ -23,8 +25,12 @@ public class User extends ParseUser implements Serializable {
 
   public void setCompany(Company company) { put("company", company); }
 
-  public String getName() {
-    return getString("name");
+  public boolean isPicked() {
+    return picked;
+  }
+
+  public void setPicked(boolean picked) {
+    this.picked = picked;
   }
 
   public String getFirstName() {
@@ -61,7 +67,7 @@ public class User extends ParseUser implements Serializable {
     });
   }
 
-  public void setName(String name) {
-    put("name", name);
+  public String getName() {
+    return getFirstName() + " " + getLastName();
   }
 }

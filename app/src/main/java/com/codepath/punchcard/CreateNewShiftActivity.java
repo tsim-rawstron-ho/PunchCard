@@ -14,8 +14,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.codepath.punchcard.adapters.SettingsAdapter;
+import com.codepath.punchcard.fragments.EmployeePickerFragment;
 import com.codepath.punchcard.helpers.DateHelper;
 import com.codepath.punchcard.models.Shift;
+import com.codepath.punchcard.models.User;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
 import com.parse.ParseException;
@@ -25,7 +27,8 @@ import java.util.Date;
 import java.util.List;
 import org.joda.time.DateTime;
 
-public class CreateNewShiftActivity extends ActionBarActivity implements CalendarDatePickerDialog.OnDateSetListener, RadialTimePickerDialog.OnTimeSetListener {
+public class CreateNewShiftActivity extends ActionBarActivity implements CalendarDatePickerDialog.OnDateSetListener, RadialTimePickerDialog.OnTimeSetListener,
+    EmployeePickerFragment.UserChosenListener {
   private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
   private ListView settingsList;
   private List<Pair<String, Object>> settings;
@@ -33,6 +36,8 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
   private Shift shift;
   private static final String FRAG_TAG_START_TIME_PICKER = "startTimePickerDialogFragment";
   private static final String FRAG_TAG_END_TIME_PICKER = "endTimePickerDialogFragment";
+  public static final String FRAG_TAG_EMPLOYEE_PICKER = "employDialogFragment";
+  private List<User> pickedUsers;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -42,22 +47,25 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
     settingsList = (ListView) findViewById(R.id.setting_list);
     createSettings();
     settingsAdapter = new SettingsAdapter<Pair<String, Object>>(this, android.R.layout.simple_list_item_1, settings);
+    pickedUsers = new ArrayList<User>();
     reloadData();
     settingsList.setAdapter(settingsAdapter);
     settingsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
       @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         DateTime now = DateTime.now();
 
         switch (position) {
           case 0:
-            // not implemented yet
+            EmployeePickerFragment employeePickerFragment = EmployeePickerFragment.newInstance();
+            employeePickerFragment.setListener(CreateNewShiftActivity.this);
+            employeePickerFragment.show(getSupportFragmentManager(), FRAG_TAG_EMPLOYEE_PICKER);
             break;
           case 1:
-            FragmentManager fm = getSupportFragmentManager();
             CalendarDatePickerDialog calendarDatePickerDialog =
                 CalendarDatePickerDialog.newInstance(CreateNewShiftActivity.this, now.getYear(),
                     now.getMonthOfYear() - 1, now.getDayOfMonth());
-            calendarDatePickerDialog.show(fm, FRAG_TAG_DATE_PICKER);
+            calendarDatePickerDialog.show(getSupportFragmentManager(), FRAG_TAG_DATE_PICKER);
             break;
           case 2:
           case 3:
@@ -84,15 +92,15 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
   }
 
   private void reloadData() {
-    List<String> employeeNames = new ArrayList<>();
-    employeeNames.add("Harris");
-    employeeNames.add("Ash");
-    employeeNames.add("Alvin");
     settingsAdapter.clear();
-    settingsAdapter.add(new Pair<String, Object>(null, (Object) employeeNames));
+    settingsAdapter.add(new Pair<String, Object>(null, (Object) pickedUsers));
     settingsAdapter.add(new Pair<String, Object>(null, (Object)shift.getStartTime()));
     settingsAdapter.add(new Pair<String, Object>("Start Shift", (Object)shift.getStartTime()));
     settingsAdapter.add(new Pair<String, Object>("End Shift", (Object)shift.getEndTime()));
+  }
+
+  public List<User> getPickedUsers() {
+    return pickedUsers;
   }
 
   @Override
@@ -130,6 +138,9 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
       @Override public void done(ParseException e) {
         Toast.makeText(CreateNewShiftActivity.this, "Shift Created", Toast.LENGTH_LONG).show();
         reloadData();
+        for (User pickedUser : pickedUsers) {
+          shift.addUser(pickedUser);
+        }
       }
     });
   }
@@ -147,6 +158,11 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
       endTime.setMinutes(minute);
       shift.setEndTime(endTime);
     }
+    reloadData();
+  }
+
+  @Override public void userChosen(List<User> users) {
+    pickedUsers = users;
     reloadData();
   }
 }
