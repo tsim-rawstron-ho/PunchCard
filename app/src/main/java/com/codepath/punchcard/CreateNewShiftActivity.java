@@ -138,6 +138,9 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
       @Override public void done(ParseException e) {
         Toast.makeText(CreateNewShiftActivity.this, "Shift Created", Toast.LENGTH_LONG).show();
         reloadData();
+        for (User pickedUser : pickedUsers) {
+          shift.addUser(pickedUser);
+        }
       }
     });
   }
