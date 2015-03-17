@@ -8,15 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/btn_close"
+        android:layout_above="@+id/btn_choose"
         android:id="@+id/employee_list"
         >
     </ListView>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Close"
-        android:id="@+id/btn_close"
+        android:text="Save"
+        android:id="@+id/btn_choose"
         android:layout_alignParentBottom="true"
 
         />

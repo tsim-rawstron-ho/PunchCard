@@ -22,6 +22,16 @@ public class User extends ParseUser implements Serializable {
     shifts = new ArrayList<Shift>();
   }
 
+  private boolean picked = false;
+
+  public boolean isPicked() {
+    return picked;
+  }
+
+  public void setPicked(boolean picked) {
+    this.picked = picked;
+  }
+
   public String getName() {
     return getString("name");
   }

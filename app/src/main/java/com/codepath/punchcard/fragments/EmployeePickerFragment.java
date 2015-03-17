@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
+import com.codepath.punchcard.CreateNewShiftActivity;
 import com.codepath.punchcard.R;
 import com.codepath.punchcard.adapters.SettingsAdapter;
 import com.codepath.punchcard.adapters.UsersAdapter;
@@ -28,17 +29,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeePickerFragment extends DialogFragment {
-
+    public interface UserChosenListener {
+      public void userChosen(List<User> users);
+    }
     private ListView employList;
     private ArrayList<User> users;
     private UsersAdapter<User> usersAdapter;
+    private UserChosenListener listener;
 
-    public static EmployeePickerFragment newInstance() {
+  public static EmployeePickerFragment newInstance() {
         EmployeePickerFragment fragment = new EmployeePickerFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
+
+
 
     public EmployeePickerFragment() {
     }
@@ -63,12 +69,18 @@ public class EmployeePickerFragment extends DialogFragment {
         getDialog().setTitle("Pick Employee for the shift");
 
         employList = (ListView) view.findViewById(R.id.employee_list);
-        final Button btnClose = (Button) view.findViewById(R.id.btn_close);
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                Toast.makeText(getActivity(), "Cool", Toast.LENGTH_LONG).show();
-                dismiss();
+        final Button btnChhose = (Button) view.findViewById(R.id.btn_choose);
+        btnChhose.setOnClickListener(new View.OnClickListener() {
+          @Override public void onClick(View v) {
+            List<User> chosen = new ArrayList<User>();
+            for (User user : users) {
+              if (user.isPicked()) {
+                chosen.add(user);
+              }
             }
+            listener.userChosen(chosen);
+            dismiss();
+          }
         });
         users = new ArrayList<>();
         usersAdapter = new UsersAdapter<User>(getActivity(), android.R.layout.simple_list_item_1,
@@ -88,4 +100,7 @@ public class EmployeePickerFragment extends DialogFragment {
         super.onDetach();
     }
 
+  public void setListener(UserChosenListener listener) {
+    this.listener = listener;
+  }
 }

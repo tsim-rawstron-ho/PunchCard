@@ -17,6 +17,7 @@ import com.codepath.punchcard.adapters.SettingsAdapter;
 import com.codepath.punchcard.fragments.EmployeePickerFragment;
 import com.codepath.punchcard.helpers.DateHelper;
 import com.codepath.punchcard.models.Shift;
+import com.codepath.punchcard.models.User;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
 import com.parse.ParseException;
@@ -26,7 +27,8 @@ import java.util.Date;
 import java.util.List;
 import org.joda.time.DateTime;
 
-public class CreateNewShiftActivity extends ActionBarActivity implements CalendarDatePickerDialog.OnDateSetListener, RadialTimePickerDialog.OnTimeSetListener {
+public class CreateNewShiftActivity extends ActionBarActivity implements CalendarDatePickerDialog.OnDateSetListener, RadialTimePickerDialog.OnTimeSetListener,
+    EmployeePickerFragment.UserChosenListener {
   private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
   private ListView settingsList;
   private List<Pair<String, Object>> settings;
@@ -35,6 +37,7 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
   private static final String FRAG_TAG_START_TIME_PICKER = "startTimePickerDialogFragment";
   private static final String FRAG_TAG_END_TIME_PICKER = "endTimePickerDialogFragment";
   public static final String FRAG_TAG_EMPLOYEE_PICKER = "employDialogFragment";
+  private List<User> pickedUsers;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,7 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
         switch (position) {
           case 0:
             EmployeePickerFragment employeePickerFragment = EmployeePickerFragment.newInstance();
+            employeePickerFragment.setListener(CreateNewShiftActivity.this);
             employeePickerFragment.show(getSupportFragmentManager(), FRAG_TAG_EMPLOYEE_PICKER);
             break;
           case 1:
@@ -87,12 +91,9 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
   }
 
   private void reloadData() {
-    List<String> employeeNames = new ArrayList<>();
-    employeeNames.add("Harris");
-    employeeNames.add("Ash");
-    employeeNames.add("Alvin");
+    pickedUsers = new ArrayList<User>();
     settingsAdapter.clear();
-    settingsAdapter.add(new Pair<String, Object>(null, (Object) employeeNames));
+    settingsAdapter.add(new Pair<String, Object>(null, (Object) pickedUsers));
     settingsAdapter.add(new Pair<String, Object>(null, (Object)shift.getStartTime()));
     settingsAdapter.add(new Pair<String, Object>("Start Shift", (Object)shift.getStartTime()));
     settingsAdapter.add(new Pair<String, Object>("End Shift", (Object)shift.getEndTime()));
@@ -151,5 +152,12 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
       shift.setEndTime(endTime);
     }
     reloadData();
+  }
+
+  @Override public void userChosen(List<User> users) {
+    Pair<String, Object> employeesItem = settingsAdapter.getItem(0);
+    settingsAdapter.insert(new Pair<String, Object>(null, (Object) users), 0);
+    settingsAdapter.remove(employeesItem);
+    settingsAdapter.notifyDataSetChanged();
   }
 }

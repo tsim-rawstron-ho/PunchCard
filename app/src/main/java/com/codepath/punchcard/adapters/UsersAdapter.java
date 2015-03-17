@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,19 +29,25 @@ public class UsersAdapter<T> extends ArrayAdapter<User> {
   }
 
   @Override public View getView(int position, View convertView, ViewGroup parent) {
-    User user = getItem(position);
+    final User user = getItem(position);
     if (convertView == null) {
       convertView = LayoutInflater.from(getContext()).inflate(R.layout.user_list_cell, parent, false);
     }
     ImageView profilePic = (ImageView) convertView.findViewById(R.id.employee_pic);
-    final ParseFile profileImageFile = user.getParseFile(User.PROFILE_IMAGE);
+    CheckBox checkbox = (CheckBox) convertView.findViewById(R.id.employee_checked);
+    TextView name = (TextView) convertView.findViewById(R.id.employ_name);
 
+    final ParseFile profileImageFile = user.getParseFile(User.PROFILE_IMAGE);
     if (profileImageFile != null) {
       Picasso.with(getContext()).load(profileImageFile.getUrl()).into(profilePic);
     }
-    TextView name = (TextView) convertView.findViewById(R.id.employ_name);
     name.setText(user.getFirstName() + " " + user.getLastName());
-
+    checkbox.setTextIsSelectable(user.isPicked());
+    checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        user.setPicked(isChecked);
+      }
+    });
     return convertView;
   }
 
