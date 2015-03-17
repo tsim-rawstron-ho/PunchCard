@@ -18,6 +18,8 @@ public class User extends ParseUser implements Serializable {
   public static final String PROFILE_IMAGE = "profileImage";
   private final List<Shift> shifts;
   private boolean picked = false;
+  private static final String MANAGER = "manager";
+  private static final String EMPLOYEE = "employee";
   public User() {
     super();
     shifts = new ArrayList<Shift>();
@@ -46,7 +48,7 @@ public class User extends ParseUser implements Serializable {
   }
   
   public boolean canCreateShift() { 
-    return getRole().equals("manager");
+    return isManager();
   }
 
   public void getShifts() {
@@ -70,4 +72,6 @@ public class User extends ParseUser implements Serializable {
   public String getName() {
     return getFirstName() + " " + getLastName();
   }
+
+  public boolean isManager() { return getRole().equals(MANAGER); }
 }

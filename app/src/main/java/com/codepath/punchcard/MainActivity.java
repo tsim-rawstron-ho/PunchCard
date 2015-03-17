@@ -10,8 +10,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.codepath.punchcard.activities.EmployeesActivity;
 import com.codepath.punchcard.activities.LoginActivity;
 import com.codepath.punchcard.fragments.UpdateProfileFragment;
+import com.codepath.punchcard.models.User;
 import com.parse.ParseUser;
 
 public class MainActivity extends ActionBarActivity
@@ -102,6 +104,15 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (!((User)ParseUser.getCurrentUser()).isManager()) {
+            menu.findItem(R.id.action_create_shift).setVisible(false);
+            menu.findItem(R.id.action_employees).setVisible(false);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -117,6 +128,9 @@ public class MainActivity extends ActionBarActivity
         } else if (id == R.id.action_create_shift) {
           Intent intent = new Intent(this, CreateNewShiftActivity.class);
           startActivity(intent);
+        } else if (id == R.id.action_employees) {
+            Intent intent = new Intent(this, EmployeesActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
