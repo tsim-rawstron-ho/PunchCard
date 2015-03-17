@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -20,12 +22,12 @@ import com.codepath.punchcard.fragments.HistoryShiftListFragment;
 import com.codepath.punchcard.fragments.UpcomingShiftListFragment;
 import com.codepath.punchcard.fragments.UpdateProfileFragment;
 import com.codepath.punchcard.models.User;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -37,6 +39,7 @@ public class ProfileFragment extends Fragment implements UpdateProfileFragment.O
     private TextView tvName;
     private TextView tvEmail;
     private ImageView ivProfileImage;
+    private Uri uriSavedImage;
 
     public static ProfileFragment newInstance(int sectionNumber) {
         ProfileFragment fragment = new ProfileFragment();
@@ -79,10 +82,16 @@ public class ProfileFragment extends Fragment implements UpdateProfileFragment.O
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Profile Picture"), SELECT_IMAGE_REQUEST_CODE);
+
+                Intent imageIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                File imagesFolder = new File(Environment.getExternalStorageDirectory(), "MyImages");
+                final boolean dir = imagesFolder.mkdirs();// <----
+                File image = new File(imagesFolder, "image_001.jpg");
+                uriSavedImage = Uri.fromFile(image);
+
+                imageIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
+                startActivityForResult(imageIntent, SELECT_IMAGE_REQUEST_CODE);
             }
         });
 
@@ -110,16 +119,15 @@ public class ProfileFragment extends Fragment implements UpdateProfileFragment.O
     }
     
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        
+
         if (requestCode == SELECT_IMAGE_REQUEST_CODE) {
-            Uri selectedImageUri = data.getData();
-            ivProfileImage.setImageURI(selectedImageUri);
+            ivProfileImage.setImageURI(uriSavedImage);
 
             final String msg = "Unable to upload profile image.";
             InputStream iStream;
             byte[] inputData = new byte[0];
             try {
-                iStream = getActivity().getContentResolver().openInputStream(selectedImageUri);
+                iStream = getActivity().getContentResolver().openInputStream(uriSavedImage);
                 inputData = getBytes(iStream);
             } catch (IOException e) {
                 showToast(msg);
@@ -128,10 +136,10 @@ public class ProfileFragment extends Fragment implements UpdateProfileFragment.O
 
             ParseFile file = new ParseFile("profile.png", inputData);
             final ParseUser currentUser = ParseUser.getCurrentUser();
-            currentUser.put("profileImage", file);
+            currentUser.put(PROFILE_IMAGE, file);
             try {
                 currentUser.save();
-            } catch (ParseException e) {
+            } catch (com.parse.ParseException e) {
                 showToast(msg);
                 e.printStackTrace();
             }
