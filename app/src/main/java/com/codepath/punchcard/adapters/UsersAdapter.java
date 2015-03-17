@@ -42,7 +42,7 @@ public class UsersAdapter<T> extends ArrayAdapter<User> {
       Picasso.with(getContext()).load(profileImageFile.getUrl()).into(profilePic);
     }
     name.setText(user.getFirstName() + " " + user.getLastName());
-    checkbox.setTextIsSelectable(user.isPicked());
+    checkbox.setChecked(user.isPicked());
     checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         user.setPicked(isChecked);

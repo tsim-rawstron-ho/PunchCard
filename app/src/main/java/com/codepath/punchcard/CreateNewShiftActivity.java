@@ -47,6 +47,7 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
     settingsList = (ListView) findViewById(R.id.setting_list);
     createSettings();
     settingsAdapter = new SettingsAdapter<Pair<String, Object>>(this, android.R.layout.simple_list_item_1, settings);
+    pickedUsers = new ArrayList<User>();
     reloadData();
     settingsList.setAdapter(settingsAdapter);
     settingsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -91,12 +92,15 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
   }
 
   private void reloadData() {
-    pickedUsers = new ArrayList<User>();
     settingsAdapter.clear();
     settingsAdapter.add(new Pair<String, Object>(null, (Object) pickedUsers));
     settingsAdapter.add(new Pair<String, Object>(null, (Object)shift.getStartTime()));
     settingsAdapter.add(new Pair<String, Object>("Start Shift", (Object)shift.getStartTime()));
     settingsAdapter.add(new Pair<String, Object>("End Shift", (Object)shift.getEndTime()));
+  }
+
+  public List<User> getPickedUsers() {
+    return pickedUsers;
   }
 
   @Override
@@ -155,9 +159,7 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
   }
 
   @Override public void userChosen(List<User> users) {
-    Pair<String, Object> employeesItem = settingsAdapter.getItem(0);
-    settingsAdapter.insert(new Pair<String, Object>(null, (Object) users), 0);
-    settingsAdapter.remove(employeesItem);
-    settingsAdapter.notifyDataSetChanged();
+    pickedUsers = users;
+    reloadData();
   }
 }

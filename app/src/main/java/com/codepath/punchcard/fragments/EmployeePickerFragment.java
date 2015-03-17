@@ -29,11 +29,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeePickerFragment extends DialogFragment {
-    public interface UserChosenListener {
+  private List<User> pickedUsers;
+
+  public interface UserChosenListener {
       public void userChosen(List<User> users);
     }
     private ListView employList;
-    private ArrayList<User> users;
+    private List<User> users;
     private UsersAdapter<User> usersAdapter;
     private UserChosenListener listener;
 
@@ -43,8 +45,6 @@ public class EmployeePickerFragment extends DialogFragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-
 
     public EmployeePickerFragment() {
     }
@@ -56,6 +56,11 @@ public class EmployeePickerFragment extends DialogFragment {
       query.addAscendingOrder("firstName");
       query.findInBackground(new FindCallback<User>() {
         @Override public void done(List<User> list, ParseException e) {
+          for (User user : list) {
+            if (pickedUsers.contains(user)) {
+              user.setPicked(true);
+            }
+          }
           usersAdapter.addAll(list);
         }
       });
@@ -82,7 +87,8 @@ public class EmployeePickerFragment extends DialogFragment {
             dismiss();
           }
         });
-        users = new ArrayList<>();
+        users = new ArrayList<User>();
+        pickedUsers = ((CreateNewShiftActivity)getActivity()).getPickedUsers();
         usersAdapter = new UsersAdapter<User>(getActivity(), android.R.layout.simple_list_item_1,
             users);
         employList.setAdapter(usersAdapter);
