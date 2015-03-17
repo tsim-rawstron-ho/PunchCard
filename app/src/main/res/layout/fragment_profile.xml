@@ -18,6 +18,16 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="10dp"/>
+
+        <ImageView android:id="@+id/ivEditImage"
+            android:contentDescription="@string/image"
+            android:src="@drawable/ic_edit"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignTop="@+id/ivProfileImage"
+            android:layout_alignEnd="@+id/ivProfileImage"
+            android:alpha="0.6"
+            android:background="#ffffffff" />
         
         <TextView android:id="@+id/tvName"
             android:layout_width="wrap_content"
@@ -29,6 +39,7 @@
             android:layout_toEndOf="@+id/ivProfileImage" />
         
         <ImageView android:id="@+id/ivEdit"
+            android:contentDescription="@string/image"
             android:src="@drawable/ic_edit"
             android:layout_width="30dp"
             android:layout_height="30dp"
