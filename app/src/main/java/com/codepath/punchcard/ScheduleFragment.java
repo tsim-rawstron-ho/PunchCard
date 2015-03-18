@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -111,6 +112,17 @@ public class ScheduleFragment extends Fragment {
         }
       }
     });
+  }
+
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    MenuItem item = menu.findItem(R.id.action_create_shift);
+    if (((User)ParseUser.getCurrentUser()).isManager()) {
+      item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    } else {
+      item.setVisible(false);
+    }
+    super.onCreateContextMenu(menu, v, menuInfo);
   }
 
   private void loadShiftsFor(Date selectedDate) {
