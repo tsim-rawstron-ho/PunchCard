@@ -8,6 +8,9 @@ large companies produce, however we want to produce a more simplistic user-inter
 ## Rough Walk Through 1 ##
 ![Wireframe](https://raw.githubusercontent.com/tsim-rawstron-ho/PunchCard/master/walkthrough1.gif)
 
+## Refinement ##
+![Refinement](https://cloud.githubusercontent.com/assets/4535/6704834/849cd752-cd0b-11e4-8f3e-7b9d77d707bc.gif)
+
 ## User Stories ##
 ### User ###
 
