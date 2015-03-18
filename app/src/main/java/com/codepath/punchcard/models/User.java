@@ -46,10 +46,6 @@ public class User extends ParseUser implements Serializable {
   public String getRole() {
     return getString("role");
   }
-  
-  public boolean canCreateShift() { 
-    return isManager();
-  }
 
   public void getShifts() {
     ParseQuery<UsersShift> query = ParseQuery.getQuery(UsersShift.class);

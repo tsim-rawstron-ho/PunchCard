@@ -105,9 +105,18 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (!((User)ParseUser.getCurrentUser()).isManager()) {
-            menu.findItem(R.id.action_create_shift).setVisible(false);
-            menu.findItem(R.id.action_employees).setVisible(false);
+        MenuItem item = menu.findItem(R.id.action_create_shift);
+        MenuItem viewEmployee = menu.findItem(R.id.action_employees);
+        if (((User)ParseUser.getCurrentUser()).isManager()) {
+          if (item != null) {
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+          }
+          if (viewEmployee != null) {
+            viewEmployee.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+          }
+        } else {
+          item.setVisible(false);
+          viewEmployee.setVisible(false);
         }
         return super.onPrepareOptionsMenu(menu);
     }

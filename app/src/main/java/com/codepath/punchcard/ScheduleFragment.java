@@ -74,7 +74,7 @@ public class ScheduleFragment extends Fragment {
   @Override public void onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
     User currentUser = (User) ParseUser.getCurrentUser();
-    if (currentUser.canCreateShift()) {
+    if (currentUser.isManager()) {
       menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
   }
