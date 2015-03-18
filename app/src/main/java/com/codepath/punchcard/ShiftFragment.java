@@ -13,8 +13,11 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.codepath.punchcard.helpers.DateHelper;
@@ -32,6 +35,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,6 +58,11 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
     private long shiftStartTime;
     private long pauseTime;
     private boolean shiftInProgress = false;
+    private View rlInShiftControls;
+    private ArrayList<ShiftSession> sessions;
+
+    private ListView lvSession;
+    private SessionsAdapter sessionsAdapter;
 
     public static ShiftFragment newInstance(int sectionNumber) {
         ShiftFragment fragment = new ShiftFragment();
@@ -66,21 +75,66 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
     public ShiftFragment() {
     }
 
+    private static class SessionsAdapter extends ArrayAdapter<ShiftSession> {
+
+        public SessionsAdapter(Context context, int resource) {
+            super(context, resource);
+        }
+
+        public SessionsAdapter(Context context, int resource, int textViewResourceId) {
+            super(context, resource, textViewResourceId);
+        }
+
+        public SessionsAdapter(Context context, int resource, ShiftSession[] objects) {
+            super(context, resource, objects);
+        }
+
+        public SessionsAdapter(Context context, int resource, int textViewResourceId, ShiftSession[] objects) {
+            super(context, resource, textViewResourceId, objects);
+        }
+
+        public SessionsAdapter(Context context, int resource, List<ShiftSession> objects) {
+            super(context, resource, objects);
+        }
+
+        public SessionsAdapter(Context context, int resource, int textViewResourceId, List<ShiftSession> objects) {
+            super(context, resource, textViewResourceId, objects);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ShiftSession session = getItem(position);
+
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.shift_session_cell, parent, false);
+            }
+
+            ((TextView) convertView.findViewById(R.id.tvSession)).setText(session.getType().toString());
+
+            return convertView;
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_shift, container, false);
         FragmentActivity activity = getActivity();
+        sessions = new ArrayList<>();
 
         chronometer = (Chronometer) rootView.findViewById(R.id.chronometer);
         chronometer.stop();
         chronometer.setBase(SystemClock.elapsedRealtime());
 
+        lvSession = (ListView) rootView.findViewById(R.id.lvSession);
+        rlInShiftControls = rootView.findViewById(R.id.rlInShiftControls);
         tglPause = (ToggleButton) rootView.findViewById(R.id.btnPause);
         slideToUnlock = (SlideToUnlock) rootView.findViewById(R.id.slidetounlock);
-        btnEnd = (Button) rootView.findViewById(R.id.btnEnd);
         rlStartShift = rootView.findViewById(R.id.rlNextShift);
         rlInProgres = rootView.findViewById(R.id.rlInProgress);
+
+        sessionsAdapter = new SessionsAdapter(activity, R.layout.shift_session_cell, sessions);
+        lvSession.setAdapter(sessionsAdapter);
 
         mapView = (MapView) rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
@@ -88,17 +142,6 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
 
         // Event listeners:
         slideToUnlock.setOnUnlockListener(this);
-        btnEnd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                endShift();
-                showNextShift();
-                if (!shiftInProgress) {
-                    startShift();
-                }
-            }
-        });
-        
         tglPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +155,7 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
 
         // Initialize map at current location:
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-        googleMap. setMyLocationEnabled(true);
+        googleMap.setMyLocationEnabled(true);
         MapsInitializer.initialize(activity);
         LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -169,6 +212,8 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
         chronometer.start();
         workSession = createNewWorkShift();
         saveSession(workSession);
+
+        addSession(workSession);
     }
 
     private void pauseShift() {
@@ -182,6 +227,8 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
         workSession.setEndTime(timeToUTC);
         saveSession(workSession);
         saveSession(breakSession);
+
+        addSession(breakSession);
     }
 
     private void resumeShift() {
@@ -191,6 +238,13 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
         breakSession.setEndTime(getUtcNowDate());
         saveSession(workSession);
         saveSession(breakSession);
+
+        addSession(workSession);
+    }
+
+    private void addSession(ShiftSession session) {
+        sessions.add(0, session);
+        sessionsAdapter.notifyDataSetChanged();
     }
 
     private void endShift() {
@@ -229,6 +283,7 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
         slideToUnlock.reset();
         rlStartShift.setVisibility(View.VISIBLE);
         rlInProgres.setVisibility(View.GONE);
+        rlInShiftControls.setVisibility(View.GONE);
     }
 
     private void showCurrentShift() {
@@ -236,6 +291,7 @@ public class ShiftFragment extends Fragment implements LocationListener, SlideTo
         slideToUnlock.reset();
         rlStartShift.setVisibility(View.GONE);
         rlInProgres.setVisibility(View.VISIBLE);
+        rlInShiftControls.setVisibility(View.VISIBLE);
     }
 
     @Override
