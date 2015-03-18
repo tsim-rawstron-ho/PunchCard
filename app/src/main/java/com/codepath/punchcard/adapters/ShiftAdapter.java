@@ -42,11 +42,8 @@ public class ShiftAdapter<T> extends ArrayAdapter<Shift> implements Shift.ShiftL
     }
 
     ImageView employImageView = (ImageView) convertView.findViewById(R.id.imageView);
-    shift.getUsers(this);
     if (shiftUsersMap.containsKey(shift.getObjectId())) {
-      long seed = System.nanoTime();
       List<User> users = shiftUsersMap.get(shift.getObjectId());
-      Collections.shuffle(users, new Random(seed));
       for (User user : users) {
         final ParseFile profileImageFile = user.getParseFile(User.PROFILE_IMAGE);
         if (profileImageFile != null) {
@@ -56,6 +53,8 @@ public class ShiftAdapter<T> extends ArrayAdapter<Shift> implements Shift.ShiftL
       }
       TextView employeeNames = (TextView ) convertView.findViewById(R.id.shift_employees);
       employeeNames.setText(User.getEmployeeNames(users));
+    } else {
+      shift.getUsers(this);
     }
 
     TextClock startTime = (TextClock) convertView.findViewById(R.id.start_time);

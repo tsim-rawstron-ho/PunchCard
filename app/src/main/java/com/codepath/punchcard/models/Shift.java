@@ -10,8 +10,10 @@ import com.parse.ParseObject;
 
 import com.parse.ParseQuery;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Callable;
 
 /**
@@ -77,6 +79,8 @@ public class Shift extends ParseObject {
                     for (UsersShift userShift : usersShifts) {
                         users.add(userShift.getUser());
                     }
+                    long seed = System.nanoTime();
+                    Collections.shuffle(users, new Random(seed));
                     listener.usersFetched(shift, users);
                 } else {
                     Log.d("message", "Error: " + e.getMessage());
