@@ -1,10 +1,8 @@
 package com.codepath.punchcard;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +19,7 @@ import com.codepath.punchcard.models.User;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,7 +44,7 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
     setContentView(R.layout.activity_create_new_shift);
     setTitle("Create New Shift");
     settingsList = (ListView) findViewById(R.id.setting_list);
-    createSettings();
+    createNewShift();
     settingsAdapter = new SettingsAdapter<Pair<String, Object>>(this, android.R.layout.simple_list_item_1, settings);
     pickedUsers = new ArrayList<User>();
     reloadData();
@@ -84,10 +83,11 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
 
   }
 
-  private void createSettings() {
+  private void createNewShift() {
     shift = new Shift();
     shift.setStartTime(new Date());
     shift.setEndTime(new Date());
+    shift.setCompany(((User)ParseUser.getCurrentUser()).getCompany());
     settings = new ArrayList<>();
   }
 

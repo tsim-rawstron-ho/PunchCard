@@ -54,6 +54,7 @@ public class EmployeePickerFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
       ParseQuery<User> query = ParseQuery.getQuery("_User");
       query.addAscendingOrder("firstName");
+      query.whereEqualTo("company", ((User)ParseUser.getCurrentUser()).getCompany());
       query.findInBackground(new FindCallback<User>() {
         @Override public void done(List<User> list, ParseException e) {
           for (User user : list) {
