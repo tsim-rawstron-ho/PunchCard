@@ -9,6 +9,7 @@ import com.parse.ParseUser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,12 +21,32 @@ public class User extends ParseUser implements Serializable {
   private boolean picked = false;
   private static final String MANAGER = "manager";
   private static final String EMPLOYEE = "employee";
+
+  public static String getEmployeeNames(List<User> users) {
+    Iterator i = users.iterator();
+    StringBuffer sb = new StringBuffer();
+    if (i.hasNext()) {
+      for (; ; ) {
+        sb.append(((User)i.next()).getName());
+        if (!i.hasNext()) break;
+        sb.append(", ");
+      }
+    } else {
+      sb.append("No Employees Selected");
+    }
+    return sb.toString();
+  }
+
   public User() {
     super();
     shifts = new ArrayList<Shift>();
   }
 
   public void setCompany(Company company) { put("company", company); }
+
+  public Company getCompany() {
+    return (Company) get("company");
+  }
 
   public boolean isPicked() {
     return picked;

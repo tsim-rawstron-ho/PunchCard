@@ -7,8 +7,8 @@
     android:padding="10dp"
     >
   <ImageView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
       android:id="@+id/imageView"
       android:src="@mipmap/ic_launcher"
       />
@@ -16,7 +16,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Harris, Alvin, Ash"
-      android:id="@+id/textView"
+      android:id="@+id/shift_employees"
       android:layout_alignParentTop="true"
       android:layout_toRightOf="@+id/imageView"
       android:layout_margin="5dp"
@@ -25,9 +25,9 @@
   <TextClock
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:id="@+id/textClock"
-      android:layout_below="@+id/textView"
-      android:layout_alignLeft="@+id/textView"
+      android:id="@+id/start_time"
+      android:layout_below="@+id/shift_employees"
+      android:layout_alignLeft="@+id/shift_employees"
       />
   <TextView
       android:layout_width="wrap_content"
@@ -36,14 +36,14 @@
       android:id="@+id/hypen"
       android:layout_marginLeft="15dp"
       android:layout_marginRight="15dp"
-      android:layout_alignBottom="@+id/textClock"
-      android:layout_toRightOf="@+id/textClock"
+      android:layout_alignBottom="@+id/start_time"
+      android:layout_toRightOf="@+id/start_time"
       />
   <TextClock
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:id="@+id/textClock2"
-      android:layout_alignBottom="@+id/textClock"
+      android:id="@+id/end_time"
+      android:layout_alignBottom="@+id/start_time"
       android:layout_toRightOf="@+id/hypen"
       />
 </RelativeLayout>

@@ -32,8 +32,12 @@ public class DateHelper {
       return d;
     }
 
+    public static Date getSelectedDate(int year, int month, int day) {
+      return parseDate((month + 1) + "/" + day + "/" + year);
+    }
+
     public static String getSelectedDateString(int year, int month, int day) {
-      Date selectedDate = parseDate((month + 1) + "/" + day + "/" + year);
+      Date selectedDate = getSelectedDate(year, month, day);
       Date date = new Date();
       if (year % 100 == date.getYear() % 100 && month == date.getMonth() && day == date.getDay() + 1) {
         return "Today";

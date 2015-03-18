@@ -48,19 +48,7 @@ public class SettingsAdapter<T> extends ArrayAdapter<Pair<String, Object>> {
 
     switch (position) {
       case 0:
-        List<User> users = (List<User>) item.second;
-        Iterator i = users.iterator();
-        StringBuffer sb = new StringBuffer();
-        if (i.hasNext()) {
-          for (; ; ) {
-            sb.append(((User)i.next()).getName());
-            if (!i.hasNext()) break;
-            sb.append(", ");
-          }
-        } else {
-          sb.append("No Employees Selected");
-        }
-        value.setText(sb.toString());
+        value.setText(User.getEmployeeNames((List<User>) item.second));
         break;
       case 1:
         Date shiftDate = (Date) item.second;

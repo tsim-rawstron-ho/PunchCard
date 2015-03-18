@@ -1,11 +1,13 @@
 package com.codepath.punchcard.helpers;
 
+import com.codepath.punchcard.models.Company;
 import com.codepath.punchcard.models.Shift;
 import com.codepath.punchcard.models.User;
 import com.codepath.punchcard.models.UsersShift;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import java.util.Date;
 import java.util.List;
 
@@ -20,14 +22,14 @@ public class FixtureHelper {
           ParseQuery<UsersShift> query = ParseQuery.getQuery("UsersShift");
           query.findInBackground(new FindCallback<UsersShift>() {
             public void done(final List<UsersShift> allUserShifts, ParseException e) {
-              try {
+              //try {
                 //deleteAllShiftsAndSignups(allUserShifts, allShifts);
-                createNewShiftsAndSignups("speed.mating@gmail.com");
+                //createNewShiftsAndSignups("speed.mating@gmail.com");
                 //createNewShiftsAndSignups("alvinzho@gmail.com");
                 //createNewShiftsAndSignups("ash@edmodo.com");
-              } catch (ParseException e1) {
-                e1.printStackTrace();
-              }
+              //} catch (ParseException e1) {
+              //  e1.printStackTrace();
+              //}
             }
           });
         }
@@ -36,6 +38,7 @@ public class FixtureHelper {
   
 
   private static void createNewShiftsAndSignups(String name) throws ParseException {
+    final Company company = ((User) ParseUser.getCurrentUser()).getCompany();
     ParseQuery<User> query = ParseQuery.getQuery("_User");
     query.whereEqualTo("username", name);
     query.findInBackground(new FindCallback<User>() {
@@ -43,7 +46,8 @@ public class FixtureHelper {
         for (User user : allUsers) {
           Shift shift = new Shift();
           shift.setStartTime(new Date());
-          shift.setEndTime(new Date());          
+          shift.setEndTime(new Date());
+          shift.setCompany(company);
           try {
             shift.save();
           } catch (ParseException e1) {

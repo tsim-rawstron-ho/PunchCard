@@ -21,7 +21,10 @@ public class UsersShift extends ParseObject implements Serializable {
     return (Shift) get("shift");
   }
 
-    public void setComplete(boolean v) {
+  public void setComplete(boolean v) {
         put("complete", v);
     }
+  public User getUser() {
+    return (User) get("user");
+  }
 }

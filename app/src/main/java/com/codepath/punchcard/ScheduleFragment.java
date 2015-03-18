@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.codepath.punchcard.adapters.ShiftAdapter;
 import com.codepath.punchcard.helpers.DateHelper;
+import com.codepath.punchcard.models.Company;
 import com.codepath.punchcard.models.Shift;
 import com.codepath.punchcard.models.User;
 import com.codepath.punchcard.models.Weather;
@@ -23,6 +24,7 @@ import com.parse.ParseUser;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.apache.http.Header;
 import org.json.JSONObject;
@@ -34,6 +36,8 @@ public class ScheduleFragment extends Fragment {
   private Weather weather;
   private ListView shiftListView;
   private ShiftAdapter shiftAdapter;
+  private List<Shift> shifts;
+  private CalendarView calendar;
 
   public static ScheduleFragment newInstance(int sectionNumber) {
       ScheduleFragment fragment = new ScheduleFragment();
@@ -68,6 +72,7 @@ public class ScheduleFragment extends Fragment {
     weatherIcon = (TextView)rootView.findViewById(R.id.weather_icon);
     weatherIcon.setTypeface(weatherFont);
     setupShiftList(rootView);
+
     return rootView;
   }
 
@@ -80,32 +85,39 @@ public class ScheduleFragment extends Fragment {
   }
 
   private void setupShiftList(View rootView) {
-    Shift shift1 = new Shift();
-    Shift shift2 = new Shift();
-    List<Shift> shifts = new ArrayList<Shift>();
-    shifts.add(shift1);
-    shifts.add(shift2);
-
+    shifts = new ArrayList<Shift>();
     shiftListView = (ListView) rootView.findViewById(R.id.shifts_list);
-    shiftAdapter = new ShiftAdapter<>(getActivity(), android.R.layout.simple_list_item_1, shifts);
+    shiftAdapter = new ShiftAdapter<Shift>(getActivity(), android.R.layout.simple_list_item_1, shifts);
     shiftListView.setAdapter(shiftAdapter);
   }
 
   private void setupCalendar(View rootView) {
-    CalendarView calendar = (CalendarView)rootView.findViewById(R.id.calendarView);
+    calendar = (CalendarView)rootView.findViewById(R.id.calendarView);
     calendar.setSelectedWeekBackgroundColor(getResources().getColor(R.color.blue));
     calendar.setUnfocusedMonthDateColor(getResources().getColor(R.color.transparent));
     calendar.setWeekSeparatorLineColor(getResources().getColor(R.color.transparent));
     calendar.setSelectedDateVerticalBar(R.color.darkblue);
     calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-      @Override
-      public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
+      @Override public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
+        loadShiftsFor(DateHelper.getSelectedDate(year, month, day));
         if (weather == null) {
           weatherIcon.setText(DateHelper.getSelectedDateString(year, month, day));
         } else {
-          weatherIcon.setText(weather.getIcon() + "  " + (weather.getTemp()) + "   " + DateHelper.getSelectedDateString(
-              year, month, day));
+          weatherIcon.setText(weather.getIcon()
+              + "  "
+              + (weather.getTemp())
+              + "   "
+              + DateHelper.getSelectedDateString(year, month, day));
         }
+      }
+    });
+  }
+
+  private void loadShiftsFor(Date selectedDate) {
+    ((User)ParseUser.getCurrentUser()).getCompany().getShifts(new Company.CompanyListener() {
+      @Override public void shiftsFetched(List<Shift> shifts) {
+        shiftAdapter.clear();
+        shiftAdapter.addAll(shifts);
       }
     });
   }
