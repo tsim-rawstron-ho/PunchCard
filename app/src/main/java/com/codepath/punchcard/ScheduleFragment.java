@@ -134,10 +134,10 @@ public class ScheduleFragment extends Fragment {
     });
   }
 
-  @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(
-                getArguments().getInt(ARG_SECTION_NUMBER));
-    }
+  //@Override
+  //  public void onAttach(Activity activity) {
+  //      super.onAttach(activity);
+  //      ((MainActivity) activity).onSectionAttached(
+  //              getArguments().getInt(ARG_SECTION_NUMBER));
+  //  }
 }

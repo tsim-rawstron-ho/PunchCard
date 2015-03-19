@@ -1,6 +1,9 @@
 package com.codepath.punchcard;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,102 +13,107 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
+import android.widget.CalendarView;
+import android.widget.ListView;
+import android.widget.TextView;
 import com.codepath.punchcard.activities.EmployeesActivity;
 import com.codepath.punchcard.activities.LoginActivity;
+import com.codepath.punchcard.adapters.ShiftAdapter;
 import com.codepath.punchcard.fragments.UpdateProfileFragment;
+import com.codepath.punchcard.helpers.DateHelper;
+import com.codepath.punchcard.models.Company;
+import com.codepath.punchcard.models.Shift;
 import com.codepath.punchcard.models.User;
+import com.codepath.punchcard.models.Weather;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.parse.ParseUser;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.zip.Inflater;
+import org.apache.http.Header;
+import org.json.JSONObject;
 
-public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, UpdateProfileFragment.OnFragmentInteractionListener {
+public class MainActivity extends ActionBarActivity implements  UpdateProfileFragment.OnFragmentInteractionListener {
+  private static final String ARG_SECTION_NUMBER = "section_number";
+  private TextView weatherIcon;
+  private Typeface weatherFont;
+  private Weather weather;
+  private ListView shiftListView;
+  private ShiftAdapter shiftAdapter;
+  private List<Shift> shifts;
+  private CalendarView calendar;
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    weatherFont = Typeface.createFromAsset(this.getAssets(), "fonts/weather.ttf");
 
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private CharSequence mTitle;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
-
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+    AsyncHttpClient client = new AsyncHttpClient();
+    try {
+      client.get(String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&APPID=e7e8c692f8e98d6069f3742c0de25a6c",
+          URLEncoder.encode("San Francisco, us", "UTF8")), new JsonHttpResponseHandler(){
+        @Override public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+          weather = Weather.fromJSON(response, MainActivity.this);
+          weatherIcon.setText(weather.getIcon() + "  " + (weather.getTemp()));
+        }
+      });
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
     }
 
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
-      Fragment f;
-      switch (position) {
-        case 0:
-          f = ProfileFragment.newInstance(0);
-          break;
-        case 1:
-          f = ScheduleFragment.newInstance(1);
-          break;
-        case 2:
-          f = ShiftFragment.newInstance(2);
-          break;
-        default: 
-          f = ProfileFragment.newInstance(42);
+    setContentView(R.layout.activity_main);
+    setupCalendar((Activity)this);
+    weatherIcon = (TextView)findViewById(R.id.weather_icon);
+    weatherIcon.setTypeface(weatherFont);
+    setupShiftList((Activity)this);
+  }
+
+
+  private void setupCalendar(Activity rootView) {
+    calendar = (CalendarView)rootView.findViewById(R.id.calendarView);
+    calendar.setSelectedWeekBackgroundColor(getResources().getColor(R.color.blue));
+    calendar.setUnfocusedMonthDateColor(getResources().getColor(R.color.transparent));
+    calendar.setWeekSeparatorLineColor(getResources().getColor(R.color.transparent));
+    calendar.setSelectedDateVerticalBar(R.color.darkblue);
+    calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+      @Override public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
+        loadShiftsFor(DateHelper.getSelectedDate(year, month, day));
+        if (weather == null) {
+          weatherIcon.setText(DateHelper.getSelectedDateString(year, month, day));
+        } else {
+          weatherIcon.setText(weather.getIcon()
+              + "  "
+              + (weather.getTemp())
+              + "   "
+              + DateHelper.getSelectedDateString(year, month, day));
+        }
       }
+    });
+  }
+  private void loadShiftsFor(Date selectedDate) {
+    ((User)ParseUser.getCurrentUser()).getCompany().getShifts(new Company.CompanyListener() {
+      @Override public void shiftsFetched(List<Shift> shifts) {
+        shiftAdapter.clear();
+        shiftAdapter.addAll(shifts);
+      }
+    });
+  }
 
-      // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, f)
-                .commit();
-    }
-
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 0:
-                mTitle = "Profile";
-                break;
-            case 1:
-                mTitle = "Schedule";
-                break;
-            case 2:
-                mTitle = "Shift";
-                break;
-        }
-    }
-
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
-            restoreActionBar();
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
+  private void setupShiftList(Activity rootView) {
+    shifts = new ArrayList<Shift>();
+    shiftListView = (ListView) rootView.findViewById(R.id.shifts_list);
+    shiftAdapter = new ShiftAdapter<Shift>(this, android.R.layout.simple_list_item_1, shifts);
+    shiftListView.setAdapter(shiftAdapter);
+  }
+  
+  @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem viewEmployee = menu.findItem(R.id.action_employees);
+
+    MenuItem viewEmployee = menu.findItem(R.id.action_employees);
         if (((User)ParseUser.getCurrentUser()).isManager()) {
           if (viewEmployee != null) {
             viewEmployee.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
