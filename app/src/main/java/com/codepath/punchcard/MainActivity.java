@@ -72,6 +72,26 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
     setupShiftList((Activity)this);
   }
 
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // Inflate the menu; this adds items to the action bar if it is present.
+    getMenuInflater().inflate(R.menu.main, menu);
+    return true;
+  }
+
+  @Override public boolean onPrepareOptionsMenu(Menu menu) {
+    MenuItem viewEmployee = menu.findItem(R.id.action_employees);
+    MenuItem createShift = menu.findItem(R.id.action_create_shift);
+    User currentUser = (User) ParseUser.getCurrentUser();
+    if (currentUser.isManager()) {
+      if (createShift != null)
+        createShift.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+      if (viewEmployee != null)
+        viewEmployee.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
+    return  super.onPrepareOptionsMenu(menu);
+  }
+
 
   private void setupCalendar(Activity rootView) {
     calendar = (CalendarView)rootView.findViewById(R.id.calendarView);
@@ -109,20 +129,6 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
     shiftAdapter = new ShiftAdapter<Shift>(this, android.R.layout.simple_list_item_1, shifts);
     shiftListView.setAdapter(shiftAdapter);
   }
-  
-  @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-    MenuItem viewEmployee = menu.findItem(R.id.action_employees);
-        if (((User)ParseUser.getCurrentUser()).isManager()) {
-          if (viewEmployee != null) {
-            viewEmployee.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-          }
-        } else {
-          viewEmployee.setVisible(false);
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -139,6 +145,9 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
             startActivity(new Intent(this, LoginActivity.class));
         } else if (id == R.id.action_create_shift) {
           Intent intent = new Intent(this, CreateNewShiftActivity.class);
+          startActivity(intent);
+        } else if (id == R.id.action_profile) {
+          Intent intent = new Intent(this, ProfileActivity.class);
           startActivity(intent);
         } else if (id == R.id.action_employees) {
             Intent intent = new Intent(this, EmployeesActivity.class);

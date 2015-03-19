@@ -55,5 +55,6 @@
     <string name="invite">invite</string>
     <string name="action_invite">Add Employee</string>
     <string name="action_finish">Finish</string>
+  <string name="title_activity_profile">ProfileActivity</string>
 
 </resources>

@@ -4,5 +4,6 @@
     tools:context="com.codepath.punchcard.MainActivity">
   <item android:id="@+id/action_create_shift" android:title="Create Shift" app:showAsAction="never" />
   <item android:id="@+id/action_logout" android:title="Logout" app:showAsAction="always" />
+  <item android:id="@+id/action_profile" android:title="Profile" app:showAsAction="always" />
   <item android:id="@+id/action_employees" android:title="Employees" app:showAsAction="never" />
 </menu>

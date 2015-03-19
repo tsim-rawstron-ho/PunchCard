@@ -6,7 +6,9 @@
         android:minSdkVersion="17"
         android:targetSdkVersion="19" />
 
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -71,6 +73,10 @@
         <activity
             android:name=".activities.EmployeesActivity"
             android:label="@string/title_activity_invite_employee" >
+        </activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/title_activity_profile" >
         </activity>
     </application>
 
