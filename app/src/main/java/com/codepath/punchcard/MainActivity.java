@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import com.codepath.punchcard.activities.CreateNewShiftActivity;
 import com.codepath.punchcard.activities.EmployeesActivity;
 import com.codepath.punchcard.activities.LoginActivity;
 import com.codepath.punchcard.activities.ProfileActivity;
+import com.codepath.punchcard.activities.ShiftActivity;
 import com.codepath.punchcard.adapters.ShiftAdapter;
 import com.codepath.punchcard.fragments.UpdateProfileFragment;
 import com.codepath.punchcard.helpers.DateHelper;
@@ -123,6 +126,12 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
     shiftListView = (ListView) rootView.findViewById(R.id.shifts_list);
     shiftAdapter = new ShiftAdapter<Shift>(this, android.R.layout.simple_list_item_1, shifts);
     shiftListView.setAdapter(shiftAdapter);
+    shiftListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent i = new Intent(MainActivity.this, ShiftActivity.class);
+        startActivity(i);
+      }
+    });
   }
 
     @Override
