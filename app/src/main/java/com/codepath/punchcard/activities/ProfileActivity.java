@@ -1,4 +1,4 @@
-package com.codepath.punchcard;
+package com.codepath.punchcard.activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.astuetz.PagerSlidingTabStrip;
+import com.codepath.punchcard.R;
 import com.codepath.punchcard.fragments.HistoryShiftListFragment;
 import com.codepath.punchcard.fragments.UpcomingShiftListFragment;
 import com.codepath.punchcard.fragments.UpdateProfileFragment;
@@ -172,7 +173,7 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_profile, menu);
+    getMenuInflater().inflate(R.menu.main, menu);
     return true;
   }
 

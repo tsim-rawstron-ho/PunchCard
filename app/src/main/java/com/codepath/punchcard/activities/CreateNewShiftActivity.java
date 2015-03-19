@@ -1,4 +1,4 @@
-package com.codepath.punchcard;
+package com.codepath.punchcard.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.codepath.punchcard.R;
 import com.codepath.punchcard.adapters.SettingsAdapter;
 import com.codepath.punchcard.fragments.EmployeePickerFragment;
 import com.codepath.punchcard.helpers.DateHelper;

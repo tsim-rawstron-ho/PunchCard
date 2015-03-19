@@ -1,24 +1,20 @@
 package com.codepath.punchcard;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import android.view.View;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.codepath.punchcard.activities.CreateNewShiftActivity;
 import com.codepath.punchcard.activities.EmployeesActivity;
 import com.codepath.punchcard.activities.LoginActivity;
+import com.codepath.punchcard.activities.ProfileActivity;
 import com.codepath.punchcard.adapters.ShiftAdapter;
 import com.codepath.punchcard.fragments.UpdateProfileFragment;
 import com.codepath.punchcard.helpers.DateHelper;
@@ -34,7 +30,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.zip.Inflater;
 import org.apache.http.Header;
 import org.json.JSONObject;
 

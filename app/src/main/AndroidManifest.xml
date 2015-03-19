@@ -67,7 +67,7 @@
             android:value="AIzaSyCqf3sorq5tU7oLqkFiiVRWo9yBbkP3xbs" />
 
         <activity
-            android:name=".CreateNewShiftActivity"
+            android:name=".activities.CreateNewShiftActivity"
             android:label="@string/title_activity_create_new_shift" >
         </activity>
         <activity
@@ -75,7 +75,7 @@
             android:label="@string/title_activity_invite_employee" >
         </activity>
         <activity
-            android:name=".ProfileActivity"
+            android:name=".activities.ProfileActivity"
             android:label="@string/title_activity_profile" >
         </activity>
     </application>
