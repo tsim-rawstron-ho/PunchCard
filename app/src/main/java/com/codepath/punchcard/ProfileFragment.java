@@ -156,12 +156,12 @@ public class ProfileFragment extends Fragment implements UpdateProfileFragment.O
         tvEmail.setText(username);
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(
-                getArguments().getInt(ARG_SECTION_NUMBER));
-    }
+    //@Override
+    //public void onAttach(Activity activity) {
+    //    super.onAttach(activity);
+    //    ((MainActivity) activity).onSectionAttached(
+    //            getArguments().getInt(ARG_SECTION_NUMBER));
+    //}
 
     @Override
     public void onProfileUpdated(String firstName, String lastName, String username) {
