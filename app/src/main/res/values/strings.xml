@@ -62,5 +62,10 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="manager_sign_up">Manager Sign Up</string>
+    <string name="employees">Employees</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="take_photo">Take Photo</string>
 
 </resources>
