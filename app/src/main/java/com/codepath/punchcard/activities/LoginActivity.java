@@ -19,6 +19,7 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().hide();
         if (ParseUser.getCurrentUser() != null) {
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
