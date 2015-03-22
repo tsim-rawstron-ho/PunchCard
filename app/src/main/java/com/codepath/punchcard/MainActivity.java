@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.codepath.punchcard.activities.CreateNewShiftActivity;
@@ -28,9 +27,12 @@ import com.codepath.punchcard.models.Weather;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.parse.ParseUser;
+import com.roomorama.caldroid.CaldroidFragment;
+import com.roomorama.caldroid.CaldroidListener;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.apache.http.Header;
@@ -44,7 +46,8 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
   private ListView shiftListView;
   private ShiftAdapter shiftAdapter;
   private List<Shift> shifts;
-  private CalendarView calendar;
+  private CaldroidFragment caldroidFragment;
+  private Date selectedDate = null;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -64,10 +67,62 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
     }
 
     setContentView(R.layout.activity_main);
-    setupCalendar((Activity)this);
     weatherIcon = (TextView)findViewById(R.id.weather_icon);
     weatherIcon.setTypeface(weatherFont);
-    setupShiftList((Activity)this);
+    setupShiftList((Activity) this);
+    setupCalendar(savedInstanceState);
+  }
+
+  private void setupCalendar(Bundle savedInstanceState) {
+    caldroidFragment = new CaldroidFragment();
+    if (savedInstanceState != null) {
+      caldroidFragment.restoreStatesFromKey(savedInstanceState,
+          "CALDROID_SAVED_STATE");
+    } else {
+      Bundle args = new Bundle();
+      Calendar cal = Calendar.getInstance();
+      args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
+      args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
+      args.putBoolean(CaldroidFragment.ENABLE_SWIPE, true);
+      args.putBoolean(CaldroidFragment.SIX_WEEKS_IN_CALENDAR, true);
+      args.putBoolean(CaldroidFragment.SQUARE_TEXT_VIEW_CELL, false);
+
+      caldroidFragment.setArguments(args);
+    }
+    FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+    t.replace(R.id.calendar, caldroidFragment);
+    t.commit();
+    final CaldroidListener listener = new CaldroidListener() {
+      @Override
+      public void onSelectDate(Date date, View view) {
+        selectDate(date);
+      }
+    };
+    caldroidFragment.setCaldroidListener(listener);
+    selectDate(new Date());
+  }
+
+  private void selectDate(Date date) {
+    if (selectedDate != null) {
+      caldroidFragment.setBackgroundResourceForDate(R.color.white, selectedDate);
+      caldroidFragment.setTextColorForDate(R.color.caldroid_black, selectedDate);
+    }
+
+    selectedDate = date;
+    loadShiftsFor(selectedDate);
+    caldroidFragment.setBackgroundResourceForDate(R.color.blue, selectedDate);
+    caldroidFragment.setTextColorForDate(R.color.white, selectedDate);
+    caldroidFragment.refreshView();
+
+    if (weather == null) {
+      weatherIcon.setText(DateHelper.formateDate(selectedDate));
+    } else {
+      weatherIcon.setText(weather.getIcon()
+          + "  "
+          + (weather.getTemp())
+          + "   "
+          + DateHelper.formateDate(selectedDate));
+    }
   }
 
   @Override
@@ -90,28 +145,6 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
     return  super.onPrepareOptionsMenu(menu);
   }
 
-
-  private void setupCalendar(Activity rootView) {
-    calendar = (CalendarView)rootView.findViewById(R.id.calendarView);
-    calendar.setSelectedWeekBackgroundColor(getResources().getColor(R.color.blue));
-    calendar.setUnfocusedMonthDateColor(getResources().getColor(R.color.transparent));
-    calendar.setWeekSeparatorLineColor(getResources().getColor(R.color.transparent));
-    calendar.setSelectedDateVerticalBar(R.color.darkblue);
-    calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-      @Override public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
-        loadShiftsFor(DateHelper.getSelectedDate(year, month, day));
-        if (weather == null) {
-          weatherIcon.setText(DateHelper.getSelectedDateString(year, month, day));
-        } else {
-          weatherIcon.setText(weather.getIcon()
-              + "  "
-              + (weather.getTemp())
-              + "   "
-              + DateHelper.getSelectedDateString(year, month, day));
-        }
-      }
-    });
-  }
   private void loadShiftsFor(Date selectedDate) {
     ((User)ParseUser.getCurrentUser()).getCompany().getShifts(new Company.CompanyListener() {
       @Override public void shiftsFetched(List<Shift> shifts) {
