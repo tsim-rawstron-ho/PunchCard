@@ -2,7 +2,54 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+
+        <item name="android:dialogTheme">@style/DialogTheme</item>
+
+        <item name="android:textViewStyle">@style/Widget.TextView</item>
+        <item name="android:buttonStyle">@style/Widget.Button</item>
+        <item name="android:buttonStyleToggle">@style/Widget.ToggleButton</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:buttonStyle">@style/Widget.Button</item>
+        <item name="android:textColorHint">@color/green</item>
+    </style>
+
+    <style name="Widget">
+        <!--<item name="android:textColor">@color/red</item>-->
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">@dimen/text_large_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="Widget.TextView"></style>
+
+    <style name="Widget.ToggleButton">
+        <item name="android:background">@drawable/button_toggle_bg</item>
+    </style>
+
+    <style name="Widget.Button">
+        <item name="android:background">@drawable/button_bg</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+    </style>
+
+    <style name="textViewStyle">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+
+        <!--<item name="android:textAppearance">?android:attr/textAppearanceSmall</item>-->
+        <!--<item name="android:textSelectHandleLeft">?android:attr/textSelectHandleLeft</item>-->
+        <!--<item name="android:textSelectHandleRight">?android:attr/textSelectHandleRight</item>-->
+        <!--<item name="android:textSelectHandle">?android:attr/textSelectHandle</item>-->
+        <!--<item name="android:textEditPasteWindowLayout">?android:attr/textEditPasteWindowLayout</item>-->
+        <!--<item name="android:textEditNoPasteWindowLayout">?android:attr/textEditNoPasteWindowLayout</item>-->
+        <!--<item name="android:textEditSidePasteWindowLayout">?android:attr/textEditSidePasteWindowLayout</item>-->
+        <!--<item name="android:textEditSideNoPasteWindowLayout">?android:attr/textEditSideNoPasteWindowLayout</item>-->
+        <!--<item name="android:textEditSuggestionItemLayout">?android:attr/textEditSuggestionItemLayout</item>-->
+        <!--<item name="android:textCursorDrawable">?android:attr/textCursorDrawable</item>-->
     </style>
 
 </resources>

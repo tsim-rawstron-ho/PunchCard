@@ -65,7 +65,8 @@ public class User extends ParseUser implements Serializable {
   }
   
   public String getRole() {
-    return getString("role");
+      String role = getString("role");
+      return (role == null) ? "" : role;
   }
 
   public void getShifts() {

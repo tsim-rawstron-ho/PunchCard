@@ -53,19 +53,6 @@
             android:name=".activities.SignUpActivity"
             android:label="@string/title_activity_sign_up" >
         </activity>
-
-        <!-- Ash's Windows Key -->
-        <!--
-             <meta-data android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBHpY2T6kevNOMJPodbsNaeRcm55IfsYMM" />
-        -->
-
-
-        <!-- Ash's Ubuntu Key -->
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCqf3sorq5tU7oLqkFiiVRWo9yBbkP3xbs" />
-
         <activity
             android:name=".activities.CreateNewShiftActivity"
             android:label="@string/title_activity_create_new_shift" >
@@ -82,6 +69,17 @@
             android:name=".activities.ShiftActivity"
             android:label="@string/title_activity_shift" >
         </activity>
+
+        <!-- Ash's Windows Key -->
+        <!--
+             <meta-data android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBHpY2T6kevNOMJPodbsNaeRcm55IfsYMM" />
+        -->
+
+        <!-- Ash's Ubuntu Key -->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyCqf3sorq5tU7oLqkFiiVRWo9yBbkP3xbs" />
     </application>
 
 </manifest>
