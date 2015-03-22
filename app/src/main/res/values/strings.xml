@@ -25,7 +25,7 @@
     <string name="place_not_found">Sorry, no weather data found.</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="title_activity_sign_up">Manager sign up</string>
     <string name="slide_to">Slide to</string>
     <string name="pause_shift">Pause Shift</string>
     <string name="shift_details">Shift Details</string>

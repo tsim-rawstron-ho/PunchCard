@@ -83,7 +83,7 @@
         android:layout_alignRight="@+id/actvCompanyAddress"
         android:layout_alignEnd="@+id/actvCompanyAddress" />
 
-    <Button
+    <com.gc.materialdesign.views.ButtonRectangle
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign up"

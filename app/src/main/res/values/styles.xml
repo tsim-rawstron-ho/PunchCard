@@ -6,8 +6,8 @@
         <item name="android:dialogTheme">@style/DialogTheme</item>
 
         <item name="android:textViewStyle">@style/Widget.TextView</item>
-        <item name="android:buttonStyle">@style/Widget.Button</item>
-        <item name="android:buttonStyleToggle">@style/Widget.ToggleButton</item>
+        <!--<item name="android:buttonStyle">@style/Widget.Button</item>-->
+        <!--<item name="android:buttonStyleToggle">@style/Widget.ToggleButton</item>-->
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
@@ -33,6 +33,10 @@
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
+    </style>
+
+    <style name="Raised.Button" parent="android:style/Widget.Material.Button">
+        <item name="android:background">@drawable/raised_button_background</item>
     </style>
 
     <style name="textViewStyle">
