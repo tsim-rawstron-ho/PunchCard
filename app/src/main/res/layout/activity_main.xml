@@ -1,8 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    >
 
     <LinearLayout
         android:id="@+id/calendar"
@@ -22,6 +24,19 @@ tools:context=".MainActivity">
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textSize="20sp"
         />
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/plus"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="-10dp"
+        android:layout_below="@+id/calendar"
+        fab:fab_colorNormal="@color/pink"
+        fab:fab_colorPressed="@color/light_grey"
+        fab:fab_colorRipple="@color/divider_color" />
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
