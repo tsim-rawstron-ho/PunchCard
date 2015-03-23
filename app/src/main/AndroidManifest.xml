@@ -18,12 +18,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.myapp.android.locationapi.maps.permission.MAPS_RECEIVE" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -62,11 +59,11 @@
         </activity>
         <activity
             android:name=".activities.ProfileActivity"
-            android:label="@string/title_activity_profile" >
+            android:label="@string/profile" >
         </activity>
         <activity
             android:name=".activities.ShiftActivity"
-            android:label="@string/title_activity_shift" >
+            android:label="@string/shift" >
         </activity>
 
         <!-- Ash's Windows Key -->

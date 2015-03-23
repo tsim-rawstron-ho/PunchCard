@@ -15,7 +15,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Chronometer;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
+
+import com.gc.materialdesign.views.ButtonRectangle;
+
 import com.codepath.punchcard.R;
 import com.codepath.punchcard.SlideToUnlock;
 import com.codepath.punchcard.helpers.DateHelper;
@@ -32,9 +34,12 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ShiftActivity extends ActionBarActivity implements LocationListener, SlideToUnlock.OnUnlockListener{
 
@@ -72,7 +77,22 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
         convertView = LayoutInflater.from(getContext()).inflate(R.layout.shift_session_cell, parent, false);
       }
 
-      ((TextView) convertView.findViewById(R.id.tvSession)).setText(session.getType().toString());
+        SimpleDateFormat sf = new SimpleDateFormat("MMM dd HH:mm", Locale.ENGLISH);
+        String formattedStartTime = sf.format(session.getStartTime());
+
+        ShiftSession.SessionType type = session.getType();
+        String sessionType = "On Shift";
+        switch (type) {
+            case WORK:
+                sessionType = "On Shift";
+                break;
+            case BREAK:
+                sessionType = "On Break";
+                break;
+            default:break;
+        }
+        ((TextView) convertView.findViewById(R.id.tvSessionLabel)).setText(sessionType);
+        ((TextView) convertView.findViewById(R.id.tvSessionTimes)).setText(formattedStartTime);
 
       return convertView;
     }
@@ -82,7 +102,7 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
   private MapView mapView;
   private View rlStartShift;
   private View rlInProgres;
-  private ToggleButton tglPause;
+  private ButtonRectangle tglPause;
   private List<UsersShift> shifts;
   private UsersShift currentShift;
   private ShiftSession workSession;
@@ -92,6 +112,7 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
   private long elaspedShiftTime;
   private long shiftStartTime;
   private boolean shiftInProgress = false;
+  private boolean shiftPaused = false;
   private View rlInShiftControls;
   private ArrayList<ShiftSession> sessions;
 
@@ -108,8 +129,8 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
     chronometer.setBase(SystemClock.elapsedRealtime());
 
     lvSession = (ListView) findViewById(R.id.lvSession);
-    rlInShiftControls = findViewById(R.id.rlInShiftControls);
-    tglPause = (ToggleButton) findViewById(R.id.btnPause);
+//    rlInShiftControls = findViewById(R.id.rlInShiftControls);
+    tglPause = (ButtonRectangle) findViewById(R.id.btnPause);
     slideToUnlock = (SlideToUnlock) findViewById(R.id.slidetounlock);
     rlStartShift = findViewById(R.id.rlNextShift);
     rlInProgres = findViewById(R.id.rlInProgress);
@@ -123,16 +144,18 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
 
     // Event listeners:
     slideToUnlock.setOnUnlockListener(this);
-    tglPause.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if (tglPause.isChecked()) {
-          pauseShift();
-        } else {
-          resumeShift();
-        }
-      }
-    });
+      tglPause.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              if (shiftPaused) {
+                  tglPause.setText(getString(R.string.pause_shift));
+                  resumeShift();
+              } else {
+                  tglPause.setText(getString(R.string.resume_shift));
+                  pauseShift();
+              }
+          }
+      });
 
     // Initialize map at current location:
     googleMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -198,6 +221,7 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
   }
 
   private void pauseShift() {
+      shiftPaused = true;
     elaspedShiftTime = SystemClock.elapsedRealtime() - chronometer.getBase();
     chronometer.stop();
     final Date timeToUTC = getUtcNowDate();
@@ -213,6 +237,7 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
   }
 
   private void resumeShift() {
+      shiftPaused = false;
     chronometer.setBase(SystemClock.elapsedRealtime() - elaspedShiftTime);
     chronometer.start();
     workSession = createNewWorkShift();
@@ -233,6 +258,8 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
     slideToUnlock.setLabelText(getString(R.string.start_shift));
     workSession.setEndTime(getUtcNowDate());
     saveSession(workSession);
+      sessions.clear();
+      sessionsAdapter.notifyDataSetChanged();
   }
 
   private ShiftSession createNewWorkShift() {
@@ -264,7 +291,7 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
     slideToUnlock.reset();
     rlStartShift.setVisibility(View.VISIBLE);
     rlInProgres.setVisibility(View.GONE);
-    rlInShiftControls.setVisibility(View.GONE);
+//    rlInShiftControls.setVisibility(View.GONE);
   }
 
   private void showCurrentShift() {
@@ -272,7 +299,7 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
     slideToUnlock.reset();
     rlStartShift.setVisibility(View.GONE);
     rlInProgres.setVisibility(View.VISIBLE);
-    rlInShiftControls.setVisibility(View.VISIBLE);
+//    rlInShiftControls.setVisibility(View.VISIBLE);
   }
 
   @Override

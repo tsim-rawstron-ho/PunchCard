@@ -67,5 +67,7 @@
     <string name="profile">Profile</string>
     <string name="logout">Logout</string>
     <string name="take_photo">Take Photo</string>
+    <string name="shift">Shift</string>
+    <string name="on_the_clock">On the clock</string>
 
 </resources>
