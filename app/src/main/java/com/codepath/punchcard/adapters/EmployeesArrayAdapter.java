@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.codepath.punchcard.R;
 import com.codepath.punchcard.models.User;
+import com.parse.ParseFile;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -43,6 +45,11 @@ public class EmployeesArrayAdapter extends ArrayAdapter<User> {
         }
         viewHolder.name.setText(user.getFirstName() + " " + user.getLastName());
         viewHolder.email.setText(user.getUsername());
+        viewHolder.profileImage.setImageResource(0);
+        final ParseFile profileImageFile = user.getParseFile(User.PROFILE_IMAGE);
+        if (profileImageFile != null) {
+            Picasso.with(getContext()).load(profileImageFile.getUrl()).placeholder(R.drawable.person_placeholder).into( viewHolder.profileImage);
+        }
         return convertView;
     }
 }

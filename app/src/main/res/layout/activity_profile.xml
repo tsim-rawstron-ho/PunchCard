@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:id="@+id/rlProfileInfo"
-        android:background="@color/light_grey">
+        android:background="@color/white">
 
         <ImageView android:id="@+id/ivProfileImage"
             android:contentDescription="@string/image"
@@ -64,7 +64,7 @@
         android:layout_below="@+id/rlProfileInfo"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:background="@color/punch_card_blue">
+        android:background="@color/white">
 
         <com.astuetz.PagerSlidingTabStrip android:id="@+id/tabs"
             app:pstsShouldExpand="true"
