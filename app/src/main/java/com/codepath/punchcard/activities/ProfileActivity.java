@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.punchcard.R;
+import com.codepath.punchcard.RoundedImageView;
 import com.codepath.punchcard.fragments.HistoryShiftListFragment;
 import com.codepath.punchcard.fragments.UpcomingShiftListFragment;
 import com.codepath.punchcard.fragments.UpdateProfileFragment;
@@ -37,7 +38,7 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
     public static final int SELECT_IMAGE_REQUEST_CODE = 200;
     private TextView tvName;
     private TextView tvEmail;
-    private ImageView ivProfileImage;
+    private RoundedImageView ivProfileImage;
     private Uri uriSavedImage;
     private FloatingActionButton fabPhotoButton;
 
@@ -75,8 +76,7 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
-        fabPhotoButton = (FloatingActionButton) findViewById(R.id.fab_edit_photo);
+        ivProfileImage = (RoundedImageView) findViewById(R.id.ivProfileImage);
         FloatingActionButton fabProfileButton = (FloatingActionButton) findViewById(R.id.fab_edit_profile);
         tvName = (TextView) findViewById(R.id.tvName);
         tvEmail = (TextView) findViewById(R.id.tvEmail);
@@ -97,13 +97,6 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
         ViewPager pager = (ViewPager) findViewById(R.id.viewpager);
         pager.setAdapter(profilePagerAdapter);
         tabStrip.setViewPager(pager);
-
-        fabPhotoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchCamera();
-            }
-        });
 
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override

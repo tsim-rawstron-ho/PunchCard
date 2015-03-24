@@ -19,6 +19,8 @@
       android:layout_height="wrap_content"
       android:text="Harris, Alvin, Ash"
       android:id="@+id/shift_employees"
+      android:textSize="15sp"
+      android:textStyle="bold"
       android:layout_alignParentTop="true"
       android:layout_toRightOf="@+id/imageView"
       />
