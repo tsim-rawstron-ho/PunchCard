@@ -60,10 +60,16 @@
         <activity
             android:name=".activities.ProfileActivity"
             android:label="@string/profile" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".activities.ShiftActivity"
             android:label="@string/shift" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
         <!-- Ash's Windows Key -->
