@@ -1,22 +1,17 @@
 package com.codepath.punchcard.activities;
 
 import android.content.Context;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Chronometer;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.gc.materialdesign.views.ButtonRectangle;
 
 import com.codepath.punchcard.R;
 import com.codepath.punchcard.SlideToUnlock;
@@ -24,12 +19,15 @@ import com.codepath.punchcard.helpers.DateHelper;
 import com.codepath.punchcard.models.Shift;
 import com.codepath.punchcard.models.ShiftSession;
 import com.codepath.punchcard.models.UsersShift;
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -41,7 +39,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ShiftActivity extends ActionBarActivity implements LocationListener, SlideToUnlock.OnUnlockListener{
+public class ShiftActivity extends ActionBarActivity implements SlideToUnlock.OnUnlockListener{
 
   private static class SessionsAdapter extends ArrayAdapter<ShiftSession> {
 
@@ -97,9 +95,6 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
       return convertView;
     }
   }
-
-  private GoogleMap googleMap;
-  private MapView mapView;
   private View rlStartShift;
   private View rlInProgres;
   private ButtonRectangle tglPause;
@@ -115,6 +110,7 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
   private boolean shiftPaused = false;
   private View rlInShiftControls;
   private ArrayList<ShiftSession> sessions;
+  private SupportMapFragment mapFragment;
 
   private ListView lvSession;
   private SessionsAdapter sessionsAdapter;
@@ -137,10 +133,7 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
 
     sessionsAdapter = new SessionsAdapter(this, R.layout.shift_session_cell, sessions);
     lvSession.setAdapter(sessionsAdapter);
-
-    mapView = (MapView) findViewById(R.id.map);
-    mapView.onCreate(savedInstanceState);
-    googleMap = mapView.getMap();
+    setUpMapIfNeeded();
 
     // Event listeners:
     slideToUnlock.setOnUnlockListener(this);
@@ -156,20 +149,6 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
               }
           }
       });
-
-    // Initialize map at current location:
-    googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-    googleMap.setMyLocationEnabled(true);
-    MapsInitializer.initialize(this);
-    LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-    Criteria criteria = new Criteria();
-    String provider = locationManager.getBestProvider(criteria, true);
-    Location location = locationManager.getLastKnownLocation(provider);
-
-    if (location != null) {
-      onLocationChanged(location);
-    }
-    locationManager.requestLocationUpdates(provider, 20000, 0, this);
 
     // Get User Shifts Info:
     final ParseUser currentUser = ParseUser.getCurrentUser();
@@ -191,6 +170,67 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
 
   }
 
+    protected void setUpMapIfNeeded() {
+        // Do a null check to confirm that we have not already instantiated the map.
+        if (mapFragment == null) {
+            mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+            // Check if we were successful in obtaining the map.
+            if (mapFragment != null) {
+                mapFragment.getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onMapReady(GoogleMap map) {
+                        loadMap(map);
+                    }
+                });
+            }
+        }
+    }
+
+    // The Map is verified. It is now safe to manipulate the map.
+    protected void loadMap(GoogleMap googleMap) {
+        if (googleMap != null) {
+            double lat = 37.770344;
+            double lng = -122.4038054;
+            LatLng latLng = new LatLng(lat, lng);
+            googleMap.addMarker(new MarkerOptions().position(latLng).title("Zynga"));
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+            googleMap.animateCamera(cameraUpdate);
+//            dropPinEffect(marker);
+            // ... use map here
+        }
+    }
+
+    private void dropPinEffect(final Marker marker) {
+        // Handler allows us to repeat a code block after a specified delay
+        final android.os.Handler handler = new android.os.Handler();
+        final long start = SystemClock.uptimeMillis();
+        final long duration = 1500;
+
+        // Use the bounce interpolator
+        final android.view.animation.Interpolator interpolator =
+                new BounceInterpolator();
+
+        // Animate marker with a bounce updating its position every 15ms
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                long elapsed = SystemClock.uptimeMillis() - start;
+                // Calculate t for bounce based on elapsed time
+                float t = Math.max(
+                        1 - interpolator.getInterpolation((float) elapsed
+                                / duration), 0);
+                // Set the anchor
+                marker.setAnchor(0.5f, 1.0f + 14 * t);
+
+                if (t > 0.0) {
+                    // Post this event again 15ms from now.
+                    handler.postDelayed(this, 15);
+                } else { // done elapsing, show window
+                    marker.showInfoWindow();
+                }
+            }
+        });
+    }
   @Override
   public void onUnlock() {
     if (!shiftInProgress) {
@@ -302,27 +342,27 @@ public class ShiftActivity extends ActionBarActivity implements LocationListener
 //    rlInShiftControls.setVisibility(View.VISIBLE);
   }
 
-  @Override
-  public void onLocationChanged(Location location) {
-    double latitude = location.getLatitude();
-    double longitude = location.getLongitude();
-    LatLng latLng = new LatLng(latitude, longitude);
+//  @Override
+//  public void onLocationChanged(Location location) {
+//    double latitude = location.getLatitude();
+//    double longitude = location.getLongitude();
+//    LatLng latLng = new LatLng(latitude, longitude);
+//
+//    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+//    googleMap.animateCamera(cameraUpdate);
+//  }
 
-    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
-    googleMap.animateCamera(cameraUpdate);
-  }
-
-  @Override public void onStatusChanged(String provider, int status, Bundle extras) {
-
-  }
-
-  @Override public void onProviderEnabled(String provider) {
-
-  }
-
-  @Override public void onProviderDisabled(String provider) {
-
-  }
+//  @Override public void onStatusChanged(String provider, int status, Bundle extras) {
+//
+//  }
+//
+//  @Override public void onProviderEnabled(String provider) {
+//
+//  }
+//
+//  @Override public void onProviderDisabled(String provider) {
+//
+//  }
 
 //  @Override public boolean onCreateOptionsMenu(Menu menu) {
 //    // Inflate the menu; this adds items to the action bar if it is present.

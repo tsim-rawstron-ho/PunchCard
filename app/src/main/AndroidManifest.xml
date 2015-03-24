@@ -81,7 +81,7 @@
         <!-- Ash's Ubuntu Key -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCqf3sorq5tU7oLqkFiiVRWo9yBbkP3xbs" />
+            android:value="AIzaSyB8ulOpOnRGclMvl4V78IMNFqCd9C9Sfsk" />
     </application>
 
 </manifest>
