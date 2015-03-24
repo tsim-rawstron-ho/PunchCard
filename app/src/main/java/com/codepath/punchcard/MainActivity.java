@@ -30,6 +30,8 @@ import com.melnykov.fab.FloatingActionButton;
 import com.parse.ParseUser;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ import org.json.JSONObject;
 
 public class MainActivity extends ActionBarActivity implements  UpdateProfileFragment.OnFragmentInteractionListener {
   private static final String ARG_SECTION_NUMBER = "section_number";
+  private static final int CREATE_SHIFT = 53;
   private TextView weatherIcon;
   private Typeface weatherFont;
   private Weather weather;
@@ -78,9 +81,16 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
     fab.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, CreateNewShiftActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, CREATE_SHIFT);
       }
     });
+  }
+
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (resultCode == RESULT_OK) {
+      Crouton.makeText(this, "Shift Created", Style.CONFIRM).show();
+    }
   }
 
   private void setupCalendar(Bundle savedInstanceState) {

@@ -52,6 +52,9 @@
         <activity
             android:name=".activities.CreateNewShiftActivity"
             android:label="@string/title_activity_create_new_shift" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".activities.EmployeesActivity"

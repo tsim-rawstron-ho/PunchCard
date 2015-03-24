@@ -2,5 +2,4 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.codepath.punchcard.activities.CreateNewShiftActivity">
-    <item android:id="@+id/action_create" android:title="Create" app:showAsAction="always" />
 </menu>
