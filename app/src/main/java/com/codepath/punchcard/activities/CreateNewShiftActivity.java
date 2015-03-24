@@ -148,9 +148,7 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
           shift.addUser(pickedUser);
         }
         setResult(RESULT_OK);
-        finish();
-        overridePendingTransition(R.transition.enter_from_right,
-            R.transition.exit_from_right);
+        supportFinishAfterTransition();
       }
     });
   }
