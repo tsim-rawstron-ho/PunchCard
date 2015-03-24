@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.codepath.punchcard.R;
 import com.codepath.punchcard.models.User;
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
@@ -62,6 +63,10 @@ public class UpdateProfileFragment extends DialogFragment implements AdapterView
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_update_profile, container, false);
         getDialog().setTitle("Update Profile Info");
+        getDialog().getWindow().getAttributes().windowAnimations = R.transition.bounce;
+        getDialog().getWindow().setWindowAnimations(R.transition.bounce);
+
+
         user = (User) ParseUser.getCurrentUser();
         changingPassword = false;
 
@@ -72,9 +77,9 @@ public class UpdateProfileFragment extends DialogFragment implements AdapterView
         etFirstName = (EditText) view.findViewById(R.id.etFirstName);
         etLastName = (EditText) view.findViewById(R.id.etLastName);
         spRole = (Spinner) view.findViewById(R.id.spRole);
-        final Button btnSave = (Button) view.findViewById(R.id.btnSave);
-        final Button btnChangePw = (Button) view.findViewById(R.id.btnChangePw);
-        final Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
+        final ButtonRectangle btnSave = (ButtonRectangle) view.findViewById(R.id.btnSave);
+        final ButtonRectangle btnChangePw = (ButtonRectangle) view.findViewById(R.id.btnChangePw);
+        final ButtonRectangle btnCancel = (ButtonRectangle) view.findViewById(R.id.btnCancel);
 
         etUsername.setText(user.getUsername());
         etFirstName.setText(user.getFirstName());

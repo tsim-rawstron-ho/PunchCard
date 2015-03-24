@@ -86,6 +86,7 @@
     <com.gc.materialdesign.views.ButtonRectangle
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/accent_color"
         android:text="Sign up"
         android:id="@+id/btnSignUp"
         android:onClick="onSignUp"
