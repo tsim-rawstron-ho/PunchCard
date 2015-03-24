@@ -15,9 +15,10 @@
         android:layout_above="@+id/btn_create"
         >
     </ListView>
-    <Button
+    <com.gc.materialdesign.views.ButtonRectangle
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/accent_color"
         android:text="Create"
         android:transitionName="add_shift"
         android:id="@+id/btn_create"

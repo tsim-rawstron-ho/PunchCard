@@ -20,6 +20,7 @@ import com.codepath.punchcard.models.Shift;
 import com.codepath.punchcard.models.User;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -53,7 +54,7 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
     pickedUsers = new ArrayList<User>();
     reloadData();
 
-    Button createShift = (Button)findViewById(R.id.btn_create);
+    ButtonRectangle createShift = (ButtonRectangle)findViewById(R.id.btn_create);
     createShift.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         saveAndReload();

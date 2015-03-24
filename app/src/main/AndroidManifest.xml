@@ -59,6 +59,9 @@
         <activity
             android:name=".activities.EmployeesActivity"
             android:label="@string/title_activity_invite_employee" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.ProfileActivity" />
         </activity>
         <activity
             android:name=".activities.ProfileActivity"

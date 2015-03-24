@@ -5,9 +5,9 @@
 
         <item name="android:dialogTheme">@style/DialogTheme</item>
 
-        <item name="android:textViewStyle">@style/Widget.TextView</item>
-        <item name="android:buttonStyle">@style/Widget.Button</item>
-        <item name="android:buttonStyleToggle">@style/Widget.ToggleButton</item>
+        <!--<item name="android:textViewStyle">@style/Widget.TextView</item>-->
+        <!--<item name="android:buttonStyle">@style/Widget.Button</item>-->
+        <!--<item name="android:buttonStyleToggle">@style/Widget.ToggleButton</item>-->
 
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/MyActionBar</item>
@@ -26,7 +26,7 @@
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:buttonStyle">@style/Widget.Button</item>
+        <!--<item name="android:buttonStyle">@style/Widget.Button</item>-->
         <item name="android:textColorHint">@color/secondary_text</item>
     </style>
 
@@ -36,22 +36,20 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="Widget.TextView"></style>
-
     <style name="Widget.ToggleButton">
         <item name="android:background">@drawable/button_toggle_bg</item>
     </style>
 
-    <style name="Widget.Button">
-        <item name="android:background">@drawable/button_bg</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
-        <item name="android:gravity">center_vertical|center_horizontal</item>
-    </style>
+    <!--<style name="Widget.Button">-->
+        <!--<item name="android:background">@drawable/button_bg</item>-->
+        <!--<item name="android:focusable">true</item>-->
+        <!--<item name="android:clickable">true</item>-->
+        <!--<item name="android:gravity">center_vertical|center_horizontal</item>-->
+    <!--</style>-->
 
-    <style name="Raised.Button" parent="android:style/Widget.Material.Button">
-        <item name="android:background">@drawable/raised_button_background</item>
-    </style>
+    <!--<style name="Raised.Button" parent="android:style/Widget.Material.Button">-->
+        <!--<item name="android:background">@drawable/raised_button_background</item>-->
+    <!--</style>-->
 
     <style name="textViewStyle">
         <item name="android:textColor">@color/primary_text</item>
