@@ -7,6 +7,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @ParseClassName("Company")
@@ -30,9 +31,14 @@ public class Company extends ParseObject {
 
     public String getAddress() { return getString(ADDRESS); }
 
-    public void getShifts(final CompanyListener listener) {
+    public void getShifts(Date selectedDate, final CompanyListener listener) {
         ParseQuery<Shift> query = ParseQuery.getQuery(Shift.class);
         query.orderByDescending("startTime");
+        query.whereGreaterThanOrEqualTo("startTime", selectedDate);
+        Date endOfDate = (Date) selectedDate.clone();
+        endOfDate.setHours(23);
+        endOfDate.setMinutes(55);
+        query.whereLessThan("startTime", endOfDate);
         query.whereEqualTo("company", this);
         query.findInBackground(new FindCallback<Shift>() {
             public void done(List<Shift> shifts, ParseException e) {

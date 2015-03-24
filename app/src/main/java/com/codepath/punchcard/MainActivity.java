@@ -169,7 +169,7 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
   }
 
   private void loadShiftsFor(Date selectedDate) {
-    ((User)ParseUser.getCurrentUser()).getCompany().getShifts(new Company.CompanyListener() {
+    ((User)ParseUser.getCurrentUser()).getCompany().getShifts(selectedDate, new Company.CompanyListener() {
       @Override public void shiftsFetched(List<Shift> shifts) {
         shiftAdapter.clear();
         shiftAdapter.addAll(shifts);
