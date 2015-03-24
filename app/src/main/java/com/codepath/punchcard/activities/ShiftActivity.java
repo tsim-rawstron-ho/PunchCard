@@ -7,26 +7,24 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.BounceInterpolator;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.codepath.punchcard.R;
-import com.codepath.punchcard.SlideToUnlock;
 import com.codepath.punchcard.helpers.DateHelper;
 import com.codepath.punchcard.models.Shift;
 import com.codepath.punchcard.models.ShiftSession;
 import com.codepath.punchcard.models.UsersShift;
-import com.gc.materialdesign.views.ButtonRectangle;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -39,9 +37,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ShiftActivity extends ActionBarActivity implements SlideToUnlock.OnUnlockListener{
+public class ShiftActivity extends ActionBarActivity {
 
-  private static class SessionsAdapter extends ArrayAdapter<ShiftSession> {
+    private static class SessionsAdapter extends ArrayAdapter<ShiftSession> {
 
     public SessionsAdapter(Context context, int resource) {
       super(context, resource);
@@ -95,22 +93,24 @@ public class ShiftActivity extends ActionBarActivity implements SlideToUnlock.On
       return convertView;
     }
   }
-  private View rlStartShift;
-  private View rlInProgres;
-  private ButtonRectangle tglPause;
   private List<UsersShift> shifts;
-  private UsersShift currentShift;
+  private UsersShift currentUserShift;
   private ShiftSession workSession;
   private ShiftSession breakSession;
   private Chronometer chronometer;
-  private SlideToUnlock slideToUnlock;
+    private LinearLayout llPauseStop;
   private long elaspedShiftTime;
   private long shiftStartTime;
   private boolean shiftInProgress = false;
   private boolean shiftPaused = false;
-  private View rlInShiftControls;
   private ArrayList<ShiftSession> sessions;
   private SupportMapFragment mapFragment;
+    private Button btnPauseResume;
+    private Button btnStart;
+    private String shiftId;
+    private Shift shift;
+    private TextView tvShiftTime;
+    private TextView tvShiftAddress;
 
   private ListView lvSession;
   private SessionsAdapter sessionsAdapter;
@@ -119,56 +119,50 @@ public class ShiftActivity extends ActionBarActivity implements SlideToUnlock.On
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_shift);
     sessions = new ArrayList<>();
-
+      btnStart = (Button) findViewById(R.id.btnStart);
+      btnPauseResume = (Button) findViewById(R.id.btnPauseResume);
+      llPauseStop = (LinearLayout) findViewById(R.id.llPauseStop);
     chronometer = (Chronometer) findViewById(R.id.chronometer);
+      tvShiftAddress = (TextView) findViewById(R.id.tvShiftAddress);
+      tvShiftTime = (TextView) findViewById(R.id.tvShiftTime);
     chronometer.stop();
     chronometer.setBase(SystemClock.elapsedRealtime());
 
     lvSession = (ListView) findViewById(R.id.lvSession);
-//    rlInShiftControls = findViewById(R.id.rlInShiftControls);
-    tglPause = (ButtonRectangle) findViewById(R.id.btnPause);
-    slideToUnlock = (SlideToUnlock) findViewById(R.id.slidetounlock);
-    rlStartShift = findViewById(R.id.rlNextShift);
-    rlInProgres = findViewById(R.id.rlInProgress);
-
+      shiftId = getIntent().getStringExtra("shiftId");
     sessionsAdapter = new SessionsAdapter(this, R.layout.shift_session_cell, sessions);
     lvSession.setAdapter(sessionsAdapter);
     setUpMapIfNeeded();
 
-    // Event listeners:
-    slideToUnlock.setOnUnlockListener(this);
-      tglPause.setOnClickListener(new View.OnClickListener() {
+      ParseQuery<Shift> query = ParseQuery.getQuery(Shift.class);
+      query.whereEqualTo("objectId", shiftId);
+      query.include("company");
+      query.findInBackground(new FindCallback<Shift>() {
           @Override
-          public void onClick(View v) {
-              if (shiftPaused) {
-                  tglPause.setText(getString(R.string.pause_shift));
-                  resumeShift();
-              } else {
-                  tglPause.setText(getString(R.string.resume_shift));
-                  pauseShift();
-              }
+          public void done(List<Shift> shifts, ParseException e) {
+              shift = shifts.get(0);
+              final ParseUser currentUser = ParseUser.getCurrentUser();
+              getShifts(currentUser, new FindCallback<UsersShift>() {
+                  @Override
+                  public void done(List<UsersShift> usersShifts, ParseException e) {
+                      if (usersShifts.size() > 0) {
+                          currentUserShift = usersShifts.get(0);
+                      }
+                      init();
+                  }
+              });
           }
       });
 
-    // Get User Shifts Info:
-    final ParseUser currentUser = ParseUser.getCurrentUser();
-    getShifts(currentUser, new FindCallback<UsersShift>() {
-      @Override
-      public void done(List<UsersShift> usersShifts, ParseException e) {
-        shifts = usersShifts;
-        currentShift = shifts.get(0);
 
-        final Shift shift = currentShift.getShift();
-        //                final Date startTime = shift.getStartTime();
-        //                final long shiftDiff = currentShift.getShift().getEndTime().getTime() - currentShift.getShift().getStartTime().getTime();
-        //                final long shiftSeconds = shiftDiff / 1000;
-        //                final long shiftMinutes = shiftSeconds / 60;
-
-        showNextShift(currentShift);
-      }
-    });
 
   }
+
+    private void init() {
+        tvShiftTime.setText(DateHelper.formateShortDate(shift.getStartTime()) + ": " +
+                shift.getStartTimeString() + " - " + shift.getEndTimeString());
+        tvShiftAddress.setText(shift.getCompany().getAddress());
+    }
 
     protected void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
@@ -195,68 +189,43 @@ public class ShiftActivity extends ActionBarActivity implements SlideToUnlock.On
             googleMap.addMarker(new MarkerOptions().position(latLng).title("Zynga"));
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
             googleMap.animateCamera(cameraUpdate);
-//            dropPinEffect(marker);
-            // ... use map here
         }
     }
 
-    private void dropPinEffect(final Marker marker) {
-        // Handler allows us to repeat a code block after a specified delay
-        final android.os.Handler handler = new android.os.Handler();
-        final long start = SystemClock.uptimeMillis();
-        final long duration = 1500;
-
-        // Use the bounce interpolator
-        final android.view.animation.Interpolator interpolator =
-                new BounceInterpolator();
-
-        // Animate marker with a bounce updating its position every 15ms
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                long elapsed = SystemClock.uptimeMillis() - start;
-                // Calculate t for bounce based on elapsed time
-                float t = Math.max(
-                        1 - interpolator.getInterpolation((float) elapsed
-                                / duration), 0);
-                // Set the anchor
-                marker.setAnchor(0.5f, 1.0f + 14 * t);
-
-                if (t > 0.0) {
-                    // Post this event again 15ms from now.
-                    handler.postDelayed(this, 15);
-                } else { // done elapsing, show window
-                    marker.showInfoWindow();
-                }
-            }
-        });
+    public void onStart(View view) {
+        startShift();
     }
-  @Override
-  public void onUnlock() {
-    if (!shiftInProgress) {
-      startShift();
-      showCurrentShift();
-    } else {
-      endShift();
-      showNextShift();
+
+
+    public void onEnd(View view) {
+        endShift();
     }
-  }
+
+
+    public void onPause(View view) {
+        if (shiftPaused) {
+            resumeShift();
+        } else {
+            pauseShift();
+        }
+    }
 
   public void getShifts(ParseUser user, FindCallback<UsersShift> callback) {
     ParseQuery<UsersShift> query = ParseQuery.getQuery(UsersShift.class);
-    query.orderByAscending("startTime");
     query.whereEqualTo("user", user);
+//      query.whereEqualTo("shift", shift);
     query.findInBackground(callback);
   }
 
   private void startShift() {
+      llPauseStop.setVisibility(View.VISIBLE);
+      btnStart.setVisibility(View.GONE);
     shiftInProgress = true;
     shiftStartTime = SystemClock.elapsedRealtime();
     chronometer.setBase(shiftStartTime);
     chronometer.start();
     workSession = createNewWorkShift();
     saveSession(workSession);
-
     addSession(workSession);
   }
 
@@ -267,13 +236,13 @@ public class ShiftActivity extends ActionBarActivity implements SlideToUnlock.On
     final Date timeToUTC = getUtcNowDate();
     breakSession = new ShiftSession();
     breakSession.setType(ShiftSession.SessionType.BREAK);
-    breakSession.setUserShift(currentShift);
+    breakSession.setUserShift(currentUserShift);
     breakSession.setStartTime(timeToUTC);
     workSession.setEndTime(timeToUTC);
     saveSession(workSession);
     saveSession(breakSession);
-
     addSession(breakSession);
+      btnPauseResume.setText("Resume");
   }
 
   private void resumeShift() {
@@ -284,7 +253,7 @@ public class ShiftActivity extends ActionBarActivity implements SlideToUnlock.On
     breakSession.setEndTime(getUtcNowDate());
     saveSession(workSession);
     saveSession(breakSession);
-
+      btnPauseResume.setText("Pause");
     addSession(workSession);
   }
 
@@ -295,10 +264,12 @@ public class ShiftActivity extends ActionBarActivity implements SlideToUnlock.On
 
   private void endShift() {
     shiftInProgress = false;
-    slideToUnlock.setLabelText(getString(R.string.start_shift));
     workSession.setEndTime(getUtcNowDate());
+      llPauseStop.setVisibility(View.GONE);
+      LinearLayout llEnded = (LinearLayout) findViewById(R.id.llEnded);
+      llEnded.setVisibility(View.VISIBLE);
     saveSession(workSession);
-      sessions.clear();
+      chronometer.stop();
       sessionsAdapter.notifyDataSetChanged();
   }
 
@@ -306,7 +277,7 @@ public class ShiftActivity extends ActionBarActivity implements SlideToUnlock.On
     final ShiftSession s = new ShiftSession();
     s.setStartTime(getUtcNowDate());
     s.setType(ShiftSession.SessionType.WORK);
-    s.setUserShift(currentShift);
+    s.setUserShift(currentUserShift);
     return s;
   }
 
@@ -323,64 +294,7 @@ public class ShiftActivity extends ActionBarActivity implements SlideToUnlock.On
   }
 
   private void showNextShift(UsersShift usersShift) {
-    showNextShift();
+//    showNextShift();
   }
 
-  private void showNextShift() {
-    slideToUnlock.setLabelText(getString(R.string.start_shift));
-    slideToUnlock.reset();
-    rlStartShift.setVisibility(View.VISIBLE);
-    rlInProgres.setVisibility(View.GONE);
-//    rlInShiftControls.setVisibility(View.GONE);
-  }
-
-  private void showCurrentShift() {
-    slideToUnlock.setLabelText(getString(R.string.end_shift));
-    slideToUnlock.reset();
-    rlStartShift.setVisibility(View.GONE);
-    rlInProgres.setVisibility(View.VISIBLE);
-//    rlInShiftControls.setVisibility(View.VISIBLE);
-  }
-
-//  @Override
-//  public void onLocationChanged(Location location) {
-//    double latitude = location.getLatitude();
-//    double longitude = location.getLongitude();
-//    LatLng latLng = new LatLng(latitude, longitude);
-//
-//    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
-//    googleMap.animateCamera(cameraUpdate);
-//  }
-
-//  @Override public void onStatusChanged(String provider, int status, Bundle extras) {
-//
-//  }
-//
-//  @Override public void onProviderEnabled(String provider) {
-//
-//  }
-//
-//  @Override public void onProviderDisabled(String provider) {
-//
-//  }
-
-//  @Override public boolean onCreateOptionsMenu(Menu menu) {
-//    // Inflate the menu; this adds items to the action bar if it is present.
-//    getMenuInflater().inflate(R.menu.menu_shift, menu);
-//    return true;
-//  }
-//
-//  @Override public boolean onOptionsItemSelected(MenuItem item) {
-//    // Handle action bar item clicks here. The action bar will
-//    // automatically handle clicks on the Home/Up button, so long
-//    // as you specify a parent activity in AndroidManifest.xml.
-//    int id = item.getItemId();
-//
-//    //noinspection SimplifiableIfStatement
-//    if (id == R.id.action_settings) {
-//      return true;
-//    }
-//
-//    return super.onOptionsItemSelected(item);
-//  }
 }

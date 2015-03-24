@@ -14,9 +14,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.codepath.punchcard.activities.CreateNewShiftActivity;
-import com.codepath.punchcard.activities.EmployeesActivity;
-import com.codepath.punchcard.activities.LoginActivity;
 import com.codepath.punchcard.activities.ProfileActivity;
 import com.codepath.punchcard.activities.ShiftActivity;
 import com.codepath.punchcard.adapters.ShiftAdapter;
@@ -32,16 +31,19 @@ import com.melnykov.fab.FloatingActionButton;
 import com.parse.ParseUser;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
+
+import org.apache.http.Header;
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import org.apache.http.Header;
-import org.json.JSONObject;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class MainActivity extends ActionBarActivity implements  UpdateProfileFragment.OnFragmentInteractionListener {
   private static final String ARG_SECTION_NUMBER = "section_number";
@@ -185,6 +187,8 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
     shiftListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent i = new Intent(MainActivity.this, ShiftActivity.class);
+          Shift shift = (Shift) parent.getItemAtPosition(position);
+          i.putExtra("shiftId", shift.getObjectId());
         startActivity(i);
       }
     });

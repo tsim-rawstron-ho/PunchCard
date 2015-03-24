@@ -1,83 +1,131 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:su="http://schemas.android.com/apk/res-auto"
+    tools:context="com.codepath.punchcard.activities.ShiftActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.codepath.punchcard.activities.ShiftActivity" >
-
+    android:layout_height="match_parent">
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="120dp"
         class="com.google.android.gms.maps.SupportMapFragment"/>
-
     <RelativeLayout android:id="@+id/rlHeader"
+        android:layout_below="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
-
-        <RelativeLayout android:id="@+id/rlNextShift"
-            android:visibility="gone"
+        android:background="#D9D9D9"
+        android:gravity="center"
+        android:layout_height="50dp">
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView android:id="@+id/tvStartsIn"
-                android:text="Shift starts in 16 minutes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="19dp"
-                android:padding="10dp" />
-
-            <TextView android:id="@+id/tvWeather"
-                android:text="Weather: Sunny"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvStartsIn"
-                android:padding="10dp" />
-
-            <TextView android:id="@+id/tvNote"
-                android:text="Please bring sunscreen"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvWeather"
-                android:padding="10dp" />
-        </RelativeLayout>
-
-        <RelativeLayout android:id="@+id/rlInProgress"
-            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvShiftAddress"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:layout_margin="5dp"
+            android:textColor="@color/dark_grey"/>
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Chronometer android:id="@+id/chronometer"
-                android:textSize="@dimen/h1"
-                android:text="@string/time_place_holder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true" />
-
-            <com.gc.materialdesign.views.ButtonRectangle android:id="@+id/btnPause"
-                android:visibility="visible"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pause_shift"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp" />
-
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:id="@+id/tvShiftTime"
+            android:layout_below="@id/tvShiftAddress"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/dark_grey"/>
     </RelativeLayout>
 
-    <com.codepath.punchcard.SlideToUnlock android:id="@+id/slidetounlock"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:id="@+id/rlTimer"
+        android:layout_below="@+id/rlHeader"
+        android:background="@color/white">
+
+        <Chronometer android:id="@+id/chronometer"
+            android:textSize="@dimen/h1"
+            android:text="@string/time_place_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="10dp"
+            android:layout_below="@+id/chronometer"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            android:text="Start"
+            android:textAllCaps="false"
+            android:onClick="onStart"
+            android:textColor="@color/white"
+            android:background="@color/shift_green"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_below="@+id/chronometer"
+            android:layout_margin="10dp"
+            android:layout_height="60dp"
+            android:visibility="gone"
+            android:id="@+id/llPauseStop">
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="match_parent"
+                android:textSize="30sp"
+                android:id="@+id/btnPauseResume"
+                android:text="Pause"
+                android:textAllCaps="false"
+                android:onClick="onPause"
+                android:textColor="@color/white"
+                android:background="@color/shift_orange"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="10dp"
+                android:textSize="30sp"
+                android:text="End"
+                android:textAllCaps="false"
+                android:onClick="onEnd"
+                android:textColor="@color/white"
+                android:background="@color/shift_red"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/chronometer"
+            android:visibility="gone"
+            android:id="@+id/llEnded"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/light_grey"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="Shift has ended."/>
+            </LinearLayout>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/light_grey"
+        android:id="@+id/llTodaySessions"
+        android:padding="10dp"
+        android:layout_below="@+id/rlTimer">
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        su:text="Slide to Start"
-        android:layout_below="@+id/rlHeader" />
-
+        android:text="Sessions"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/dark_grey"/>
+    </LinearLayout>
     <ListView android:id="@+id/lvSession"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/slidetounlock" />
-
-
+        android:layout_below="@+id/llTodaySessions" />
 </RelativeLayout>
