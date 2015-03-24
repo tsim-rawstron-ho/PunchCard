@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.codepath.punchcard.R;
 import com.codepath.punchcard.adapters.EmployeeShiftAdapter;
+import com.codepath.punchcard.adapters.ShiftAdapter;
 import com.codepath.punchcard.models.Shift;
 import com.codepath.punchcard.models.User;
 import com.codepath.punchcard.models.UsersShift;
@@ -24,12 +25,12 @@ import java.util.Comparator;
 import java.util.List;
 
 public abstract class BaseShiftListFragment extends Fragment {
-    protected EmployeeShiftAdapter aShifts;
+    protected ShiftAdapter<Shift> aShifts;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        aShifts = new EmployeeShiftAdapter(getActivity(), new ArrayList<Shift>());
+        aShifts = new ShiftAdapter<Shift>(getActivity(), android.R.layout.simple_list_item_1, new ArrayList<Shift>());
     }
 
     @Override

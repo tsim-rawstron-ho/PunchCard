@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 import com.codepath.punchcard.R;
+import com.codepath.punchcard.helpers.DateHelper;
 import com.codepath.punchcard.models.Shift;
 
 import com.codepath.punchcard.models.User;
@@ -56,6 +57,9 @@ public class ShiftAdapter<T> extends ArrayAdapter<Shift> implements Shift.ShiftL
     } else {
       shift.getUsers(this);
     }
+
+    TextView date = (TextView) convertView.findViewById(R.id.datetv);
+    date.setText(DateHelper.formateShortDate(shift.getStartTime()));
 
     TextClock startTime = (TextClock) convertView.findViewById(R.id.start_time);
     TextClock endTime= (TextClock) convertView.findViewById(R.id.end_time);
