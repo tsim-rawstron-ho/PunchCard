@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     tools:context="com.codepath.punchcard.activities.EmployeesActivity">
 
@@ -14,14 +14,18 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentLeft="true"/>
     
-    <com.gc.materialdesign.views.ButtonFloat
-        android:id="@+id/btnFltAdd"
+    <com.melnykov.fab.FloatingActionButton android:id="@+id/btnFltAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/plus"
+        android:transitionName="add_shift"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="24dp"
-        android:background="@color/light_blue"
-        materialdesign:animate="true"
-        materialdesign:iconDrawable="@drawable/ic_action_new" />
+        android:layout_marginBottom="24dp"
+        fab:fab_colorNormal="@color/accent_color"
+        fab:fab_colorPressed="@color/light_grey"
+        fab:fab_colorRipple="@color/divider_color" />
+
 </RelativeLayout>

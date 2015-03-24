@@ -200,15 +200,9 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        } else if (id == R.id.action_logout) {
-            ParseUser.getCurrentUser().logOut();
-            startActivity(new Intent(this, LoginActivity.class));
         } else if (id == R.id.action_profile) {
           Intent intent = new Intent(this, ProfileActivity.class);
           startActivity(intent);
-        } else if (id == R.id.action_employees) {
-            Intent intent = new Intent(this, EmployeesActivity.class);
-            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

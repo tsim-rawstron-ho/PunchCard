@@ -214,6 +214,10 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
                 ParseUser.getCurrentUser().logOut();
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
+            case R.id.action_employees:
+                Intent intent = new Intent(this, EmployeesActivity.class);
+                startActivity(intent);
+                break;
             default:break;
         }
         return super.onOptionsItemSelected(item);

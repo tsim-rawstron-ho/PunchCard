@@ -17,6 +17,7 @@ import com.codepath.punchcard.R;
 import com.codepath.punchcard.adapters.EmployeesArrayAdapter;
 import com.codepath.punchcard.models.User;
 import com.gc.materialdesign.views.ButtonFloat;
+import com.melnykov.fab.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
@@ -37,7 +38,7 @@ public class EmployeesActivity extends ActionBarActivity implements InviteEmploy
     private ListView lvEmployees;
     private ArrayList<User> employees;
     private EmployeesArrayAdapter aEmployees;
-    private ButtonFloat btnAddEmp;
+    private FloatingActionButton btnAddEmp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class EmployeesActivity extends ActionBarActivity implements InviteEmploy
         populateEmployees();
 
 
-        btnAddEmp = (ButtonFloat) findViewById(R.id.btnFltAdd);
+        btnAddEmp = (FloatingActionButton) findViewById(R.id.btnFltAdd);
         btnAddEmp.setOnClickListener(new ButtonFloat.OnClickListener() {
             @Override
             public void onClick(View view) {
