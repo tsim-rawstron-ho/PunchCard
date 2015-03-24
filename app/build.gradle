@@ -28,7 +28,6 @@ dependencies {
     compile 'com.roomorama:caldroid:1.1.8'
     compile 'com.squareup.picasso:picasso:2.5.0'
     compile 'com.loopj.android:android-async-http:1.4.6'
-    compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.melnykov:floatingactionbutton:1.2.0'
     compile 'com.github.navasmdc:MaterialDesign:1.+@aar'
