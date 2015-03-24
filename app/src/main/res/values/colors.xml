@@ -14,9 +14,15 @@
     <color name="light_red">#F44336</color>
     <color name="pink">#ffe7276b</color>
     <color name="green_accent">#8BC34A</color>
+    <color name="light_blue">#1E88E5</color>
     <!--<color name="customTextColor">#8BC34A</color>-->
+
+    <color name="primary_color">#3F51B5</color>
+    <color name="dark_primary_color">#303F9F</color>
+    <color name="light_primary_color">#C5CAE9</color>
+    <color name="accent_color">#FF9800</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
+    <color name="text_and_icons">#FFFFFF</color>
     <color name="divider_color">#B6B6B6</color>
-    <color name="light_blue">#1E88E5</color>
 </resources>

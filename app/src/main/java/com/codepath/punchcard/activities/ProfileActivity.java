@@ -23,6 +23,7 @@ import com.codepath.punchcard.fragments.HistoryShiftListFragment;
 import com.codepath.punchcard.fragments.UpcomingShiftListFragment;
 import com.codepath.punchcard.fragments.UpdateProfileFragment;
 import com.codepath.punchcard.models.User;
+import com.melnykov.fab.FloatingActionButton;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
@@ -38,6 +39,7 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
     private TextView tvEmail;
     private ImageView ivProfileImage;
     private Uri uriSavedImage;
+    private FloatingActionButton fabPhotoButton;
 
     public class ProfilePagerAdapter extends FragmentPagerAdapter {
         private String[] tabTitles = {"Upcoming", "History"};
@@ -74,6 +76,8 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
         setContentView(R.layout.activity_profile);
 
         ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
+        fabPhotoButton = (FloatingActionButton) findViewById(R.id.fab_edit_photo);
+        FloatingActionButton fabProfileButton = (FloatingActionButton) findViewById(R.id.fab_edit_profile);
         tvName = (TextView) findViewById(R.id.tvName);
         tvEmail = (TextView) findViewById(R.id.tvEmail);
         View ivEdit = findViewById(R.id.ivEdit);
@@ -95,6 +99,13 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
         pager.setAdapter(profilePagerAdapter);
         tabStrip.setViewPager(pager);
 
+        fabPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchCamera();
+            }
+        });
+        
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,12 +113,19 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
             }
         });
 
-        ivEdit.setOnClickListener(new View.OnClickListener() {
+        fabProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launchUpdateDialog();
             }
         });
+        
+//        ivEdit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                launchUpdateDialog();
+//            }
+//        });
     }
 
     private void launchCamera() {
@@ -195,12 +213,6 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
             case R.id.action_logout:
                 ParseUser.getCurrentUser().logOut();
                 startActivity(new Intent(this, LoginActivity.class));
-                break;
-            case R.id.action_edit_profile:
-                launchUpdateDialog();
-                break;
-            case R.id.action_take_photo:
-                launchCamera();
                 break;
             default:break;
         }

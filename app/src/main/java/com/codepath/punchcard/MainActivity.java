@@ -136,7 +136,7 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
 
     selectedDate = date;
     loadShiftsFor(selectedDate);
-    caldroidFragment.setBackgroundResourceForDate(R.color.pink, selectedDate);
+    caldroidFragment.setBackgroundResourceForDate(R.color.accent_color, selectedDate);
     caldroidFragment.setTextColorForDate(R.color.white, selectedDate);
     caldroidFragment.refreshView();
 

@@ -33,7 +33,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="-15dp"
         android:layout_below="@+id/calendar"
-        fab:fab_colorNormal="@color/pink"
+        fab:fab_colorNormal="@color/accent_color"
         fab:fab_colorPressed="@color/light_grey"
         fab:fab_colorRipple="@color/divider_color" />
 

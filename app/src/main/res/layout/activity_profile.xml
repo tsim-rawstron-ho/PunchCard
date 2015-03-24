@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.codepath.punchcard.activities.ProfileActivity"
-    >
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    tools:context="com.codepath.punchcard.activities.ProfileActivity" >
 
     <RelativeLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,15 +21,28 @@
             android:layout_height="80dp"
             android:layout_margin="10dp"/>
 
-        <ImageView android:id="@+id/ivEditImage"
-            android:contentDescription="@string/image"
+        <com.melnykov.fab.FloatingActionButton android:id="@+id/fab_edit_photo"
+            app:fab_type="mini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/ic_edit"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignTop="@+id/ivProfileImage"
-            android:layout_alignEnd="@+id/ivProfileImage"
-            android:alpha="0.6"
-            android:background="#ffffffff" />
+            android:alpha=".5"
+            android:layout_marginRight="10dp"
+            fab:fab_colorNormal="@color/accent_color"
+            fab:fab_colorPressed="@color/dark_primary_color"
+            fab:fab_colorRipple="@color/light_primary_color"
+            android:layout_above="@+id/tvEmail"
+            android:layout_toStartOf="@+id/tvName" />
+
+        <!--<ImageView android:id="@+id/ivEditImage"-->
+            <!--android:contentDescription="@string/image"-->
+            <!--android:src="@drawable/ic_edit"-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:layout_alignTop="@+id/ivProfileImage"-->
+            <!--android:layout_alignEnd="@+id/ivProfileImage"-->
+            <!--android:alpha="0.6"-->
+            <!--android:background="#ffffffff" />-->
 
         <TextView android:id="@+id/tvName"
             android:layout_width="wrap_content"
@@ -39,6 +52,17 @@
             android:layout_margin="10dp"
             android:layout_alignTop="@+id/ivProfileImage"
             android:layout_toEndOf="@+id/ivProfileImage" />
+
+        <com.melnykov.fab.FloatingActionButton android:id="@+id/fab_edit_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+
+            fab:fab_colorNormal="@color/accent_color"
+            fab:fab_colorPressed="@color/dark_primary_color"
+            fab:fab_colorRipple="@color/light_primary_color"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
 
         <ImageView android:id="@+id/ivEdit"
             android:contentDescription="@string/image"
