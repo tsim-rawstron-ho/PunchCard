@@ -51,7 +51,12 @@ public class DateHelper {
         return df.format(date);
     }
 
-    public static String formateTime(Date startTime) {
+  public static String formateShortDate(Date date) {
+    DateFormat df = new SimpleDateFormat("MM/dd", Locale.US);
+    return df.format(date);
+  }
+
+  public static String formateTime(Date startTime) {
         DateFormat df = new SimpleDateFormat("KK:mm a", Locale.US);
         return df.format(startTime);
     }

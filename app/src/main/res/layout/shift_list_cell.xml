@@ -50,4 +50,14 @@
       android:layout_alignBottom="@+id/start_time"
       android:layout_toRightOf="@+id/hypen"
       />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="3/14"
+        android:textColor="@color/secondary_text"
+        android:id="@+id/datetv"
+        android:layout_alignBottom="@+id/end_time"
+        android:layout_alignParentEnd="true"
+        />
 </RelativeLayout>
