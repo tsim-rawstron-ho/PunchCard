@@ -83,7 +83,7 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
     fab.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, CreateNewShiftActivity.class);
-        Pair<View, String> p1 = Pair.create((View)fab, "profile");
+        Pair<View, String> p1 = Pair.create((View)fab, "add_shift");
         ActivityOptionsCompat options = ActivityOptionsCompat.
             makeSceneTransitionAnimation(MainActivity.this, p1);
         startActivityForResult(intent, CREATE_SHIFT, options.toBundle());
