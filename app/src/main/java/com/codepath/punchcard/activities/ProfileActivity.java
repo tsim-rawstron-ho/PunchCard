@@ -29,6 +29,8 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -146,6 +148,7 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
     @Override
     public void onProfileUpdated(String firstName, String lastName, String username) {
         updateProfileInfoViews(username, firstName, lastName);
+        Crouton.makeText(this, "Success", Style.CONFIRM).show();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -169,6 +172,7 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
             currentUser.put(User.PROFILE_IMAGE, file);
             try {
                 currentUser.save();
+                Crouton.makeText(this, "Success", Style.CONFIRM).show();
             } catch (com.parse.ParseException e) {
                 showToast(msg);
                 e.printStackTrace();
@@ -177,7 +181,7 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
     }
 
     private void showToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        Crouton.makeText(this, msg, Style.CONFIRM).show();
     }
 
     private void updateProfileInfoViews(String username, String firstName, String lastName) {

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.codepath.punchcard.R;
+import com.gc.materialdesign.views.ButtonRectangle;
 
 /**
  * Created by alvin on 3/17/15.
@@ -54,7 +55,7 @@ public class InviteEmployeeDialog extends DialogFragment {
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
-        Button btnInvite = (Button) view.findViewById(R.id.btnInvite);
+        ButtonRectangle btnInvite = (ButtonRectangle) view.findViewById(R.id.btnInvite);
         btnInvite.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +66,7 @@ public class InviteEmployeeDialog extends DialogFragment {
             }
         });
 
-        Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
+        ButtonRectangle btnCancel = (ButtonRectangle) view.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
