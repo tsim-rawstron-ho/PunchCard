@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.util.Pair;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -76,12 +78,16 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
     setupShiftList((Activity) this);
     setupCalendar(savedInstanceState);
 
-    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.attachToListView(shiftListView);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, CreateNewShiftActivity.class);
-        startActivityForResult(intent, CREATE_SHIFT);
+        Pair<View, String> p1 = Pair.create((View)fab, "profile");
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+            makeSceneTransitionAnimation(MainActivity.this, p1);
+        startActivityForResult(intent, CREATE_SHIFT, options.toBundle());
+        overridePendingTransition(R.transition.enter_from_left, R.transition.exit_from_left);
       }
     });
   }

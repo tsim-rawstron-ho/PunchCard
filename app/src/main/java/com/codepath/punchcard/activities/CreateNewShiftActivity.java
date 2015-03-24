@@ -94,6 +94,18 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
 
   }
 
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      // Respond to the action bar's Up/Home button
+      case android.R.id.home:
+        supportFinishAfterTransition();
+        return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
   private void createNewShift() {
     shift = new Shift();
     shift.setStartTime(new Date());
@@ -137,6 +149,8 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
         }
         setResult(RESULT_OK);
         finish();
+        overridePendingTransition(R.transition.enter_from_right,
+            R.transition.exit_from_right);
       }
     });
   }
