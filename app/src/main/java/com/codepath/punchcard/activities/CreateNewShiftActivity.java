@@ -121,7 +121,6 @@ public class CreateNewShiftActivity extends ActionBarActivity implements Calenda
     return true;
   }
 
-
   @Override
   public void onDateSet(CalendarDatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
       shift.setStartTime(DateHelper.parseDate((monthOfYear + 1) + "/" + dayOfMonth + "/" + year));

@@ -6,7 +6,7 @@
     tools:context=".MainActivity"
     android:padding="10dp"
     >
-    <ImageView
+    <com.codepath.punchcard.RoundedImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/employee_pic"

@@ -1,6 +1,9 @@
 package com.codepath.punchcard.fragments;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Dialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -62,10 +65,14 @@ public class EmployeePickerFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_employee_picker, container, false);
-        getDialog().setTitle("Pick Employee for the shift");
+      View view = inflater.inflate(R.layout.fragment_employee_picker, container, false);
+      Dialog dialog = getDialog();
+      dialog.setTitle("Pick Employee for the shift");
+      dialog.getWindow().setBackgroundDrawable(
+          new ColorDrawable(android.graphics.Color.TRANSPARENT));
+      dialog.getWindow().setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
 
-        employList = (ListView) view.findViewById(R.id.employee_list);
+      employList = (ListView) view.findViewById(R.id.employee_list);
         final Button btnChhose = (Button) view.findViewById(R.id.btn_choose);
         btnChhose.setOnClickListener(new View.OnClickListener() {
           @Override public void onClick(View v) {
