@@ -1,48 +1,65 @@
 <ScrollView xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context="com.codepath.punchcard.dialogs.InviteEmployeeDialog"
+    android:padding="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="@dimen/dialog_width"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <EditText android:id="@+id/etEmail"
-            android:hint="email"
-            android:layout_margin="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
         <EditText android:id="@+id/etFirstName"
             android:inputType="textPersonName"
+            android:layout_weight="1"
             android:hint="first name"
             android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText android:id="@+id/etLastName"
             android:inputType="textPersonName"
+            android:layout_weight="1"
             android:hint="last name"
             android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <RelativeLayout
+    </LinearLayout>
+        <EditText android:id="@+id/etEmail"
+            android:hint="email"
+            android:layout_margin="5dp"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
             android:layout_height="wrap_content">
-            <Button android:id="@+id/btnCancel"
+
+            <com.gc.materialdesign.views.ButtonRectangle android:id="@+id/btnCancel"
+                android:background="@color/secondary_text"
                 android:text="@string/cancel"
                 android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_gravity="start" />
 
-            <Button android:id="@+id/btnInvite"
-                android:text="@string/invite"
+            <com.gc.materialdesign.views.ButtonRectangle android:id="@+id/btnInvite"
+                android:background="@color/accent_color"
+                android:text="@string/save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+                android:layout_weight="1"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true" />
-        </RelativeLayout>
+        </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

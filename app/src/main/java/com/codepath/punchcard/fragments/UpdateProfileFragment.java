@@ -20,6 +20,8 @@ import com.codepath.punchcard.models.User;
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -158,7 +160,7 @@ public class UpdateProfileFragment extends DialogFragment implements AdapterView
     }
 
     private void showToast(String msg) {
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+        Crouton.makeText(getActivity(), msg, Style.ALERT).show();
     }
 
     @Override

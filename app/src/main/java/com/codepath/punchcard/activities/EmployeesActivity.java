@@ -10,8 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
-
 import com.codepath.punchcard.MainActivity;
 import com.codepath.punchcard.R;
 import com.codepath.punchcard.adapters.EmployeesArrayAdapter;
@@ -24,12 +22,12 @@ import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+import dialogs.InviteEmployeeDialog;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import dialogs.InviteEmployeeDialog;
 
 public class EmployeesActivity extends ActionBarActivity implements InviteEmployeeDialog.OnInviteEmployee {
     private EditText etFirstName;
@@ -98,7 +96,7 @@ public class EmployeesActivity extends ActionBarActivity implements InviteEmploy
         ParseCloud.callFunctionInBackground("add_employee", params, new FunctionCallback<String>() {
             public void done(String result, ParseException e) {
                 if (e == null) {
-                    Toast.makeText(EmployeesActivity.this, result, Toast.LENGTH_SHORT).show();
+                    Crouton.makeText(EmployeesActivity.this, result, Style.CONFIRM).show();
                     populateEmployees();
                 }
             }
