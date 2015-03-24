@@ -196,12 +196,6 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
                 ParseUser.getCurrentUser().logOut();
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
-            case R.id.action_edit_profile:
-                launchUpdateDialog();
-                break;
-            case R.id.action_take_photo:
-                launchCamera();
-                break;
             default:break;
         }
         return super.onOptionsItemSelected(item);

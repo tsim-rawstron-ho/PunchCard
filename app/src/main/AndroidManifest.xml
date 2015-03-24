@@ -28,7 +28,7 @@
     <application
         android:name=".PunchCardApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/punch_card_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity

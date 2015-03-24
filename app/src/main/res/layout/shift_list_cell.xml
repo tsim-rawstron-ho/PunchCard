@@ -2,30 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".MainActivity"
     android:padding="10dp"
     >
-  <ImageView
+  <ImageView android:id="@+id/imageView"
+      android:layout_margin="10dp"
       android:layout_width="50dp"
       android:layout_height="50dp"
-      android:id="@+id/imageView"
       android:src="@mipmap/ic_launcher"
       />
-  <TextView
+  <TextView android:id="@+id/shift_employees"
+      android:textSize="15dp"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Harris, Alvin, Ash"
-      android:id="@+id/shift_employees"
       android:layout_alignParentTop="true"
-      android:layout_toRightOf="@+id/imageView"
+      android:layout_toEndOf="@id/imageView"
+      android:layout_alignTop="@id/imageView"
       android:layout_margin="5dp"
       />
 
-  <TextClock
+  <TextClock android:id="@+id/start_time"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:id="@+id/start_time"
       android:layout_below="@+id/shift_employees"
       android:layout_alignLeft="@+id/shift_employees"
       />

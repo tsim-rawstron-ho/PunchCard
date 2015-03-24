@@ -3,14 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.codepath.punchcard.MainActivity">
     <item
-        android:id="@+id/action_edit_profile"
-        android:title="@string/edit_profile"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_take_photo"
-        android:title="@string/take_photo"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/action_logout"
         android:title="@string/logout"
         app:showAsAction="ifRoom" />
