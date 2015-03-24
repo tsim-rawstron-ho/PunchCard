@@ -80,7 +80,6 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
         FloatingActionButton fabProfileButton = (FloatingActionButton) findViewById(R.id.fab_edit_profile);
         tvName = (TextView) findViewById(R.id.tvName);
         tvEmail = (TextView) findViewById(R.id.tvEmail);
-        View ivEdit = findViewById(R.id.ivEdit);
 
         final ParseUser parseUser = ParseUser.getCurrentUser();
         final ParseFile profileImageFile = parseUser.getParseFile(User.PROFILE_IMAGE);
@@ -105,7 +104,7 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
                 launchCamera();
             }
         });
-        
+
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,13 +118,6 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
                 launchUpdateDialog();
             }
         });
-        
-//        ivEdit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                launchUpdateDialog();
-//            }
-//        });
     }
 
     private void launchCamera() {
