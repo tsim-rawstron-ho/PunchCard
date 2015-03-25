@@ -1,6 +1,10 @@
 package com.codepath.punchcard.activities;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -31,6 +35,7 @@ import com.squareup.picasso.Picasso;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -156,12 +161,19 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
         if (requestCode == SELECT_IMAGE_REQUEST_CODE) {
             ivProfileImage.setImageURI(uriSavedImage);
 
+            ivProfileImage.buildDrawingCache();
+            Bitmap bmap = ivProfileImage.getDrawingCache();
+
+            Bitmap croppedBitmap =
+                RoundedImageView.getCroppedBitmap(bmap, ivProfileImage.getWidth());
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            croppedBitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+            InputStream is = new ByteArrayInputStream(stream.toByteArray());
+
             final String msg = "Unable to upload profile image.";
-            InputStream iStream;
             byte[] inputData = new byte[0];
             try {
-                iStream = this.getContentResolver().openInputStream(uriSavedImage);
-                inputData = getBytes(iStream);
+                inputData = getBytes(is);
             } catch (IOException e) {
                 showToast(msg);
                 e.printStackTrace();
