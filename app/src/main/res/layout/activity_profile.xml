@@ -18,22 +18,9 @@
             android:contentDescription="@string/image"
             android:layout_alignParentStart="true"
             android:src="@drawable/person_placeholder"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
             android:layout_margin="10dp"/>
-
-        <!--<com.melnykov.fab.FloatingActionButton android:id="@+id/fab_edit_photo"-->
-            <!--app:fab_type="mini"-->
-            <!--android:layout_width="5dp"-->
-            <!--android:layout_height="5dp"-->
-            <!--android:src="@drawable/ic_edit"-->
-            <!--android:alpha=".5"-->
-            <!--android:layout_alignRight="@+id/ivProfileImage"-->
-            <!--fab:fab_colorNormal="@color/accent_color"-->
-            <!--fab:fab_colorPressed="@color/dark_primary_color"-->
-            <!--fab:fab_colorRipple="@color/light_primary_color"-->
-            <!--android:layout_above="@+id/tvEmail"-->
-            <!--android:layout_toStartOf="@+id/tvName" />-->
 
         <TextView android:id="@+id/tvName"
             android:layout_width="wrap_content"

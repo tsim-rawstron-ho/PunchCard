@@ -48,7 +48,9 @@ public class EmployeesArrayAdapter extends ArrayAdapter<User> {
         viewHolder.profileImage.setImageResource(0);
         final ParseFile profileImageFile = user.getParseFile(User.PROFILE_IMAGE);
         if (profileImageFile != null) {
-            Picasso.with(getContext()).load(profileImageFile.getUrl()).placeholder(R.drawable.person_placeholder).into( viewHolder.profileImage);
+            Picasso.with(getContext()).load(profileImageFile.getUrl())
+                .resize(50, 50).centerCrop()
+            .placeholder(R.drawable.person_placeholder).into( viewHolder.profileImage);
         }
         return convertView;
     }

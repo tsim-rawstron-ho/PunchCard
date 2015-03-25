@@ -90,7 +90,8 @@
         android:text="Sign up"
         android:id="@+id/btnSignUp"
         android:onClick="onSignUp"
-        android:layout_below="@+id/etPassword"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/etPassword"
+        android:layout_alignParentStart="true"
+        />
 </RelativeLayout>
