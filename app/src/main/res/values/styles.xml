@@ -19,10 +19,10 @@
         <item name="background">@color/dark_primary_color</item>
         <item name="android:background">@color/dark_primary_color</item>
 
-        <item name="icon">@drawable/action_bar_icon</item>
-        <item name="displayOptions">useLogo|showHome</item>
-        <item name="android:icon">@drawable/action_bar_icon</item>
-        <item name="android:displayOptions">useLogo|showHome</item>
+        <!--<item name="icon">@drawable/action_bar_icon</item>-->
+        <!--<item name="displayOptions">useLogo|showHome</item>-->
+        <!--<item name="android:icon">@drawable/action_bar_icon</item>-->
+        <!--<item name="android:displayOptions">useLogo|showHome</item>-->
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
@@ -67,5 +67,21 @@
         <!--<item name="android:textEditSuggestionItemLayout">?android:attr/textEditSuggestionItemLayout</item>-->
         <!--<item name="android:textCursorDrawable">?android:attr/textCursorDrawable</item>-->
     </style>
+
+    <style name="login_edit_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:background">@drawable/login_dialog_bg</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textColorHint">@color/transparent_white</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 
 </resources>
