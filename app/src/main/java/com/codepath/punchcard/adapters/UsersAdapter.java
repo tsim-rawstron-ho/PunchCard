@@ -15,6 +15,7 @@ import com.codepath.punchcard.R;
 import com.codepath.punchcard.helpers.DateHelper;
 import com.codepath.punchcard.models.User;
 import com.parse.ParseFile;
+import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +34,7 @@ public class UsersAdapter<T> extends ArrayAdapter<User> {
     if (convertView == null) {
       convertView = LayoutInflater.from(getContext()).inflate(R.layout.user_list_cell, parent, false);
     }
-    ImageView profilePic = (ImageView) convertView.findViewById(R.id.employee_pic);
+    ImageView profilePic = (CircularImageView) convertView.findViewById(R.id.employee_pic);
     CheckBox checkbox = (CheckBox) convertView.findViewById(R.id.employee_checked);
     TextView name = (TextView) convertView.findViewById(R.id.employ_name);
 

@@ -27,6 +27,7 @@ import com.codepath.punchcard.models.User;
 import com.melnykov.fab.FloatingActionButton;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -40,7 +41,7 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
     public static final int SELECT_IMAGE_REQUEST_CODE = 200;
     private TextView tvName;
     private TextView tvEmail;
-    private RoundedImageView ivProfileImage;
+    private CircularImageView ivProfileImage;
     private Uri uriSavedImage;
     private FloatingActionButton fabPhotoButton;
 
@@ -78,7 +79,7 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        ivProfileImage = (RoundedImageView) findViewById(R.id.ivProfileImage);
+        ivProfileImage = (CircularImageView) findViewById(R.id.ivProfileImage);
         FloatingActionButton fabProfileButton = (FloatingActionButton) findViewById(R.id.fab_edit_profile);
         tvName = (TextView) findViewById(R.id.tvName);
         tvEmail = (TextView) findViewById(R.id.tvEmail);

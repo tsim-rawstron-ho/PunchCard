@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:padding="10dp"
     >
-    <com.codepath.punchcard.RoundedImageView
+    <com.pkmmte.view.CircularImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/employee_pic"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/person_placeholder"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_alignParentStart="true"
+        app:border="true"
+        app:border_color="#EEEEEE"
+        app:border_width="2dp"
+        app:shadow="true"
         />
   <TextView
       android:layout_width="wrap_content"

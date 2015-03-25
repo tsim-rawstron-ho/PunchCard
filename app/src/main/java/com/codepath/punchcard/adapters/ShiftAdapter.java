@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.codepath.punchcard.helpers.DateHelper;
 import com.codepath.punchcard.models.Shift;
 import com.codepath.punchcard.models.User;
 import com.parse.ParseFile;
+import com.pkmmte.view.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -40,8 +42,7 @@ public class ShiftAdapter<T> extends ArrayAdapter<Shift> implements Shift.ShiftL
       convertView = LayoutInflater.from(getContext()).inflate(R.layout.shift_list_cell, parent, false);
     }
 
-      RoundedImageView employImageView = (RoundedImageView) convertView.findViewById(R.id.imageView);
-      employImageView.setImageResource(0);
+    ImageView employImageView = (CircularImageView) convertView.findViewById(R.id.shiftimageView);
     if (shiftUsersMap.containsKey(shift.getObjectId())) {
       List<User> users = shiftUsersMap.get(shift.getObjectId());
       TextView employeeNames = (TextView ) convertView.findViewById(R.id.shift_employees);
@@ -50,11 +51,15 @@ public class ShiftAdapter<T> extends ArrayAdapter<Shift> implements Shift.ShiftL
       boolean found = false;
       for (User user : users) {
         final ParseFile profileImageFile = user.getParseFile(User.PROFILE_IMAGE);
-        if (profileImageFile != null) {
-          Picasso.with(getContext()).load(profileImageFile.getUrl())
-              .resize(200, 200)
-              .centerCrop().
-          into(employImageView);
+        if (profileImageFile != null && profileImageFile.getUrl() != null) {
+          try {
+            Picasso.with(getContext())
+                .load(profileImageFile.getUrl())
+                .resize(200, 200)
+                .centerCrop()
+                .into(employImageView);
+          } catch (Exception e) {
+          }
           found = true;
           break;
         }

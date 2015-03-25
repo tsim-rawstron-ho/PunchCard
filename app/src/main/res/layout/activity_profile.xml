@@ -13,14 +13,18 @@
         android:id="@+id/rlProfileInfo"
         android:background="@color/white">
 
-        <com.codepath.punchcard.RoundedImageView
+        <com.pkmmte.view.CircularImageView
             android:id="@+id/ivProfileImage"
             android:contentDescription="@string/image"
             android:layout_alignParentStart="true"
             android:src="@drawable/person_placeholder"
             android:layout_width="78dp"
             android:layout_height="78dp"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            app:border="true"
+            app:border_color="#EEEEEE"
+            app:border_width="4dp"
+            app:shadow="true"/>
 
         <TextView android:id="@+id/tvName"
             android:layout_width="wrap_content"
