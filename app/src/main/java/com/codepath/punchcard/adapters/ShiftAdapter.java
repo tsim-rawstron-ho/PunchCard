@@ -48,7 +48,10 @@ public class ShiftAdapter<T> extends ArrayAdapter<Shift> implements Shift.ShiftL
       for (User user : users) {
         final ParseFile profileImageFile = user.getParseFile(User.PROFILE_IMAGE);
         if (profileImageFile != null) {
-          Picasso.with(getContext()).load(profileImageFile.getUrl()).into(employImageView);
+          Picasso.with(getContext()).load(profileImageFile.getUrl())
+              .resize(50, 50)
+              .centerCrop().
+          into(employImageView);
           break;
         }
       }
