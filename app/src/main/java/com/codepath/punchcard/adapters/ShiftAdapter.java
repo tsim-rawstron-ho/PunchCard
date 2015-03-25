@@ -44,6 +44,10 @@ public class ShiftAdapter<T> extends ArrayAdapter<Shift> implements Shift.ShiftL
       employImageView.setImageResource(0);
     if (shiftUsersMap.containsKey(shift.getObjectId())) {
       List<User> users = shiftUsersMap.get(shift.getObjectId());
+      TextView employeeNames = (TextView ) convertView.findViewById(R.id.shift_employees);
+      employeeNames.setText(User.getEmployeeNames(users));
+
+      boolean found = false;
       for (User user : users) {
         final ParseFile profileImageFile = user.getParseFile(User.PROFILE_IMAGE);
         if (profileImageFile != null) {
@@ -51,12 +55,15 @@ public class ShiftAdapter<T> extends ArrayAdapter<Shift> implements Shift.ShiftL
               .resize(200, 200)
               .centerCrop().
           into(employImageView);
+          found = true;
           break;
         }
       }
-      TextView employeeNames = (TextView ) convertView.findViewById(R.id.shift_employees);
-      employeeNames.setText(User.getEmployeeNames(users));
+      if (!found) {
+        employImageView.setImageResource(R.drawable.person_placeholder);
+      }
     } else {
+      employImageView.setImageResource(R.drawable.person_placeholder);
       shift.getUsers(this);
     }
 
