@@ -12,7 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.codepath.punchcard.activities.CreateNewShiftActivity;
 import com.codepath.punchcard.activities.EmployeesActivity;
@@ -83,7 +85,7 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
     fab.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, CreateNewShiftActivity.class);
-        Pair<View, String> p1 = Pair.create((View)fab, "add_shift");
+        Pair<View, String> p1 = Pair.create((View) fab, "add_shift");
         ActivityOptionsCompat options = ActivityOptionsCompat.
             makeSceneTransitionAnimation(MainActivity.this, p1);
         startActivityForResult(intent, CREATE_SHIFT, options.toBundle());
@@ -123,8 +125,17 @@ public class MainActivity extends ActionBarActivity implements  UpdateProfileFra
       public void onSelectDate(Date date, View view) {
         selectDate(date);
       }
+
+      @Override public void onCaldroidViewCreated() {
+        Button leftButton = caldroidFragment.getLeftArrowButton();
+        leftButton.setBackgroundResource(R.drawable.left_arrow);
+
+        Button rightButton = caldroidFragment.getRightArrowButton();
+        rightButton.setBackgroundResource(R.drawable.right_arrow);
+      }
     };
     caldroidFragment.setCaldroidListener(listener);
+
     selectDate(new Date());
   }
 
