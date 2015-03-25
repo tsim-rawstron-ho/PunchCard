@@ -5,22 +5,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-
-import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
+
 import com.codepath.punchcard.R;
+import com.codepath.punchcard.RoundedImageView;
 import com.codepath.punchcard.helpers.DateHelper;
 import com.codepath.punchcard.models.Shift;
-
 import com.codepath.punchcard.models.User;
 import com.parse.ParseFile;
 import com.squareup.picasso.Picasso;
-import java.util.Collections;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * Created by harris on 3/7/15.
