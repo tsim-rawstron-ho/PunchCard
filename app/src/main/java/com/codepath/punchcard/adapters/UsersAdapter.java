@@ -40,7 +40,7 @@ public class UsersAdapter<T> extends ArrayAdapter<User> {
     final ParseFile profileImageFile = user.getParseFile(User.PROFILE_IMAGE);
     if (profileImageFile != null) {
       Picasso.with(getContext()).
-          load(profileImageFile.getUrl()).resize(200, 200).centerCrop().into(profilePic);
+          load(profileImageFile.getUrl()).resize(800, 800).centerCrop().into(profilePic);
     }
     name.setText(user.getFirstName() + " " + user.getLastName());
     checkbox.setChecked(user.isPicked());
