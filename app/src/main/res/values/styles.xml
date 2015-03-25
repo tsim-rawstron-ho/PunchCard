@@ -84,5 +84,9 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="login_edit_text.sign_up">
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
 
 </resources>
