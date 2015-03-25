@@ -47,8 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true" />
 
-        <Button
-            android:id="@+id/btnStart"
+        <com.gc.materialdesign.views.ButtonRectangle android:id="@+id/btnStart"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_margin="10dp"
@@ -56,11 +55,27 @@
             android:textSize="30sp"
             android:textStyle="bold"
             android:visibility="visible"
-            android:text="Start"
+            android:text="@string/start"
             android:textAllCaps="false"
             android:onClick="onStart"
             android:textColor="@color/white"
-            android:background="@color/shift_green"/>
+            android:background="@color/green_accent"
+            />
+
+        <!--<Button-->
+            <!--android:id="@+id/btnStart"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:layout_below="@+id/chronometer"-->
+            <!--android:textSize="30sp"-->
+            <!--android:textStyle="bold"-->
+            <!--android:visibility="visible"-->
+            <!--android:text="@string/start"-->
+            <!--android:textAllCaps="false"-->
+            <!--android:onClick="onStart"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:background="@color/shift_green"/>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,7 +84,8 @@
             android:layout_height="60dp"
             android:visibility="gone"
             android:id="@+id/llPauseStop">
-            <Button
+
+            <com.gc.materialdesign.views.ButtonRectangle
                 android:layout_width="0dp"
                 android:layout_weight="0.5"
                 android:layout_height="match_parent"
@@ -79,8 +95,10 @@
                 android:textAllCaps="false"
                 android:onClick="onPause"
                 android:textColor="@color/white"
-                android:background="@color/shift_orange"/>
-            <Button
+                android:background="@color/shift_orange"
+                />
+
+            <com.gc.materialdesign.views.ButtonRectangle
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
@@ -90,7 +108,32 @@
                 android:textAllCaps="false"
                 android:onClick="onEnd"
                 android:textColor="@color/white"
-                android:background="@color/shift_red"/>
+                android:background="@color/shift_red"
+                />
+
+            <!--<Button-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="0.5"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:textSize="30sp"-->
+                <!--android:id="@+id/btnPauseResume"-->
+                <!--android:text="Pause"-->
+                <!--android:textAllCaps="false"-->
+                <!--android:onClick="onPause"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:background="@color/shift_orange"/>-->
+
+            <!--<Button-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="0.5"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:textSize="30sp"-->
+                <!--android:text="End"-->
+                <!--android:textAllCaps="false"-->
+                <!--android:onClick="onEnd"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:background="@color/shift_red"/>-->
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
