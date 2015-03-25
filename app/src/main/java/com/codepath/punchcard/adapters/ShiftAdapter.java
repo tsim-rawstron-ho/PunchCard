@@ -42,7 +42,8 @@ public class ShiftAdapter<T> extends ArrayAdapter<Shift> implements Shift.ShiftL
       convertView = LayoutInflater.from(getContext()).inflate(R.layout.shift_list_cell, parent, false);
     }
 
-    ImageView employImageView = (ImageView) convertView.findViewById(R.id.imageView);
+      RoundedImageView employImageView = (RoundedImageView) convertView.findViewById(R.id.imageView);
+      employImageView.setImageResource(0);
     if (shiftUsersMap.containsKey(shift.getObjectId())) {
       List<User> users = shiftUsersMap.get(shift.getObjectId());
       for (User user : users) {
