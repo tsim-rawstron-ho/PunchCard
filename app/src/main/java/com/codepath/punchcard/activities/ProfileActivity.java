@@ -174,6 +174,8 @@ public class ProfileActivity extends ActionBarActivity implements UpdateProfileF
             try {
                 currentUser.save();
                 Crouton.makeText(this, "Success", Style.CONFIRM).show();
+                    Picasso.with(this).load(((User) currentUser).getParseFile(User.PROFILE_IMAGE).getUrl())
+                        .into(ivProfileImage);
             } catch (com.parse.ParseException e) {
                 showToast(msg);
                 e.printStackTrace();
